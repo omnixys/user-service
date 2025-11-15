@@ -1,5 +1,3 @@
-// TODO resolve eslint
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 
@@ -12,4 +10,4 @@ import { Module } from '@nestjs/common';
   ],
   exports: [HttpModule],
 })
-export class HttpModule {}
+export class CoreHttpModule {}

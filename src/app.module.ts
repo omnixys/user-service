@@ -1,7 +1,3 @@
-// TODO resolve eslint
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /**
  * @license GPL-3.0-or-later
  * Copyright (C) 2025 Caleb Gyamfi - Omnixys Technologies
@@ -34,6 +30,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { FastifyRequest, FastifyReply } from 'fastify';
+import { PrismaModule } from './prisma/prisma.module.js';
 
 const { SCHEMA_TARGET } = env;
 
@@ -42,6 +39,7 @@ const { SCHEMA_TARGET } = env;
     AdminModule,
     HandlerModule,
     HealthModule,
+    PrismaModule,
     LoggerModule,
     KafkaModule,
     ConfigModule.forRoot({ isGlobal: true }),
