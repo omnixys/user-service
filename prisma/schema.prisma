@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
+}
+
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+/// ------------------------------------------------------------
+/// USER SERVICE SCHEMA
+/// ------------------------------------------------------------
+model User {
+  id              String         @id @default(cuid()) @map("id")
+  username        String         @unique @map("username")
+  firstName       String         @map("first_name")
+  lastName        String         @map("last_name")
+  email           String         @unique @map("email")
+  phoneNumbers    PhoneNumber[]  @relation("UserPhoneNumbers")
+  ticketIds       String[]       @map("ticket_ids")
+  invitationIds   String[]       @map("invitation_ids")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+
+  @@index([username, email])
+  @@map("user")
+}
+
+model PhoneNumber {
+  id        String      @id @default(cuid()) @map("id")
+  number    String      @map("number")
+  type      PhoneType   @map("type")
+  user      User        @relation("UserPhoneNumbers", fields: [userId], references: [id])
+  userId    String      @map("user_id")
+
+  @@map("phone_number")
+}
+
+enum PhoneType {
+  WHATSAPP
+  PRIVATE
+  WORK
+  OTHER
+}
