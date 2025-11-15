@@ -1,6 +1,7 @@
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
 // import { KafkaProducerService } from '../../messaging/kafka-producer.service.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
+import { UserDTO } from '../models/dto/user.dto.js';
 // import { withSpan } from '../../trace/utils/span.utils.js';
 import { User } from '../models/entities/user.entity.js';
 import { CreateUserInput } from '../models/input/create-user.input.js';
@@ -33,17 +34,31 @@ export class UserWriteService {
     this.logger = this.loggerService.getLogger(UserWriteService.name);
   }
 
-  // async create(input: CreateUserInput): Promise<void> {
-  //   return withSpan(this.tracer, this.logger, 'user.signUp', async (span) => {
-  //     void this.logger.debug('input=%o', input);
+  async createWithId(input: UserDTO): Promise<void> {
+    this.logger.debug('Persisting user from Identity Provider: %o', input);
 
-  //     const sc = span.spanContext();
-  //     void this.kafkaProducerService.signUp(input, 'user.write-service', {
-  //       traceId: sc.traceId,
-  //       spanId: sc.spanId,
-  //     });
-  //   });
-  // }
+    await this.prisma.user.create({
+      data: {
+        id: input.id,
+        username: input.username,
+        firstName: input.firstName,
+        lastName: input.lastName,
+        email: input.email,
+        invitationIds: input.invitationId ? [input.invitationId] : [],
+        phoneNumbers: input.phoneNumbers
+          ? {
+              create: input.phoneNumbers.map((p) => ({
+                number: p.number,
+                type: p.type,
+              })),
+            }
+          : undefined,
+      },
+      include: {
+        phoneNumbers: true,
+      },
+    });
+  }
 
   async create(input: CreateUserInput): Promise<User> {
     // return withSpan(this.tracer, this.logger, 'user.signUp', async (span) => {
