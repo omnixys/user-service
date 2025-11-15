@@ -12,7 +12,7 @@ export class PhoneNumberInput {
   @Length(3, 32)
   number!: string;
 
-  @Field(() => PhoneNumberType, { nullable: true })
+  @Field(() => PhoneNumberType)
   @IsEnum(PhoneNumberType)
   type!: PhoneNumberType;
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
  * @license GPL-3.0-or-later
  * Copyright (C) 2025 Caleb Gyamfi - Omnixys Technologies
@@ -25,21 +24,9 @@ const { SERVICE } = env;
  * Dient der Typsicherheit, Übersichtlichkeit und Wiederverwendbarkeit in Publishern und Handlern.
  */
 export const KafkaTopics = {
-  invitation: {
-    addUser: 'invitation.add.user',
-  },
-  user: {
-    sendUserId: `user.sendId.${SERVICE}`,
-  },
-  notification: {
-    sendCredentials: 'notification.notify.user',
-  },
   [SERVICE]: {
-    create: `${SERVICE}.create.user`,
-    delete: `${SERVICE}.delete.user`,
-    addAttribute: `${SERVICE}.add-attribute.user`,
-    setAttribute: `${SERVICE}.set-attribute.user`,
-    signUp: `${SERVICE}.signUp.user`,
+    receiveUserId: `${SERVICE}.sendId.authentication`,
+    receiveUserUpdate: `${SERVICE}.updateUser.authentication`,
   },
   logstream: {
     log: `logstream.log.${SERVICE}`,
@@ -114,4 +101,20 @@ export function getTopic<K extends keyof (typeof KafkaTopics)[typeof SERVICE]>(
     );
   }
   return topic; // 🔹 garantiert string
+}
+
+export function getTopics<K extends keyof (typeof KafkaTopics)[typeof SERVICE]>(
+  ...keys: K[]
+): string[] {
+  const topics = getServiceTopics();
+
+  return keys.map((key) => {
+    const topic = topics[key];
+    if (!topic) {
+      throw new Error(
+        `Kafka topic "${String(key)}" not defined for service "${String(SERVICE)}"`,
+      );
+    }
+    return topic;
+  });
 }

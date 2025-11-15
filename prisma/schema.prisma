@@ -33,7 +33,7 @@ model PhoneNumber {
   id        String      @id @default(cuid()) @map("id")
   number    String      @map("number")
   type      PhoneType   @map("type")
-  user      User        @relation("UserPhoneNumbers", fields: [userId], references: [id])
+  user      User        @relation("UserPhoneNumbers", fields: [userId], references: [id], onDelete: Cascade)
   userId    String      @map("user_id")
 
   @@map("phone_number")

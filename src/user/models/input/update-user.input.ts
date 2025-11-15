@@ -37,3 +37,24 @@ export class UpdateUserInput {
   @Length(1, 64)
   email?: string;
 }
+
+@InputType()
+export class UpdateMeInput {
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  @IsString()
+  @Length(1, 64)
+  firstName?: string;
+
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  @IsString()
+  @Length(1, 64)
+  lastName?: string;
+
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  @IsEmail()
+  @Length(1, 64)
+  email?: string;
+}

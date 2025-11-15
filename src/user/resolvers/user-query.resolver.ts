@@ -1,14 +1,14 @@
-import { Args, ID, Query, Resolver } from '@nestjs/graphql';
-import { UserReadService } from '../services/user-read.service.js';
-import { LoggerPlusService } from '../../logger/logger-plus.service.js';
-import { User } from '../models/entities/user.entity.js';
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
-import { CookieAuthGuard } from '../../auth/guards/cookie-auth.guard.js';
-import { RoleGuard } from '../../auth/guards/role.guard.js';
 import {
   CurrentUser,
   CurrentUserData,
 } from '../../auth/decorators/current-user.decorator.js';
+import { CookieAuthGuard } from '../../auth/guards/cookie-auth.guard.js';
+import { RoleGuard } from '../../auth/guards/role.guard.js';
+import { LoggerPlusService } from '../../logger/logger-plus.service.js';
+import { User } from '../models/entities/user.entity.js';
+import { UserReadService } from '../services/user-read.service.js';
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Args, ID, Query, Resolver } from '@nestjs/graphql';
 
 @Resolver(() => User)
 export class UserQueryResolver {
@@ -26,18 +26,18 @@ export class UserQueryResolver {
     return this.service.findAll();
   }
 
+  @Query(() => User, { name: 'user' })
+  getById(@Args('id', { type: () => ID }) id: string): Promise<User> {
+    this.logger.debug('getById: id=%s', id);
+    return this.service.findOne(id);
+  }
+
   @UseGuards(CookieAuthGuard, RoleGuard)
-  @Query(() => [User], { name: 'users' })
+  @Query(() => User, { name: 'getMe' })
   getMe(@CurrentUser() currentUser: CurrentUserData): Promise<User> {
     if (!currentUser?.id) {
       throw new UnauthorizedException('Not authenticated');
     }
     return this.service.findOne(currentUser.id);
-  }
-
-  @Query(() => User, { name: 'user' })
-  getById(@Args('id', { type: () => ID }) id: string): Promise<User> {
-    this.logger.debug('getById: id=%s', id);
-    return this.service.findOne(id);
   }
 }

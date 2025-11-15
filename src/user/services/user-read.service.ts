@@ -1,6 +1,11 @@
+// TODO resolve eslint
+
+import { LoggerPlus } from '../../logger/logger-plus.js';
+import { LoggerPlusService } from '../../logger/logger-plus.service.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
-import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from '../models/entities/user.entity.js';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PhoneNumberType } from '../models/enums/phone-number-type.enum.js';
 
 /**
  * userReadService
@@ -10,7 +15,14 @@ import { User } from '../models/entities/user.entity.js';
  */
 @Injectable()
 export class UserReadService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly logger: LoggerPlus;
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly loggerService: LoggerPlusService,
+  ) {
+    this.logger = this.loggerService.getLogger(UserReadService.name);
+  }
 
   // Returns all users, ordered by start date
   async findAll(): Promise<User[]> {
@@ -19,14 +31,28 @@ export class UserReadService {
 
   // Returns a single user by its ID or throws if not found
   async findOne(id: string): Promise<User> {
+    this.logger.debug('findOne: looking up user id=%s', id);
+
     const found = await this.prisma.user.findUnique({
       where: { id },
+      include: {
+        phoneNumbers: true,
+      },
     });
 
     if (!found) {
-      throw new NotFoundException(`user with ID "${id}" not found`);
+      throw new NotFoundException(`User with ID "${id}" not found`);
     }
 
-    return found;
+    // map Prisma PhoneType → GraphQL PhoneNumberType
+    const mapped: User = {
+      ...found,
+      phoneNumbers: found.phoneNumbers.map((p) => ({
+        ...p,
+        type: p.type as unknown as PhoneNumberType,
+      })),
+    };
+
+    return mapped;
   }
 }

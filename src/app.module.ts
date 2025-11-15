@@ -30,7 +30,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { PrismaModule } from './prisma/prisma.module.js';
+import { UserModule } from './user/user.module.js';
 
 const { SCHEMA_TARGET } = env;
 
@@ -39,7 +39,7 @@ const { SCHEMA_TARGET } = env;
     AdminModule,
     HandlerModule,
     HealthModule,
-    PrismaModule,
+    UserModule,
     LoggerModule,
     KafkaModule,
     ConfigModule.forRoot({ isGlobal: true }),
