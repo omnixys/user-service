@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { CurrentUserData } from '../decorators/current-user.decorator.js';
 import { KeycloakRawOutput } from '../dto/kc-rwa.dto.js';
 import { extractUserRoles } from '../utils/extract-roles.util.js';

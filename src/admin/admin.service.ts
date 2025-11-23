@@ -15,7 +15,6 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-/* eslint-disable no-process-exit */
 import { LoggerPlusService } from '../logger/logger-plus.service.js';
 import { Injectable } from '@nestjs/common';
 
@@ -46,7 +45,7 @@ export class AdminService {
    *
    * @returns A Promise that resolves once the shutdown has been triggered.
    */
-  async shutdown(): Promise<void> {
+  shutdown(): void {
     this.logger.warn('Shutdown signal received — initiating graceful exit...');
     setTimeout(() => process.exit(0), 1000);
   }
@@ -80,7 +79,7 @@ export class AdminService {
    *
    * @returns A Promise that resolves once the restart has been initiated.
    */
-  async restart(): Promise<void> {
+  restart(): void {
     this.logger.warn(
       'Restart requested — exiting process so container supervisor restarts it...',
     );
@@ -101,7 +100,7 @@ export class AdminService {
    *
    * @returns An object with the service status and uptime in seconds.
    */
-  async getHealth(): Promise<{ status: string; uptime: number }> {
+  getHealth(): { status: string; uptime: number } {
     const health = { status: 'ok', uptime: process.uptime() };
     this.logger.debug(`Health check: ${JSON.stringify(health)}`);
     return health;

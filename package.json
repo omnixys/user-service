@@ -22,6 +22,9 @@
     "node": ">=24.10.0",
     "pnpm": ">=10.19.0"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "scripts": {
     "clean": "rm -rf dist tsconfig.build.tsbuildinfo",
     "build": "pnpm run clean && nest build",
@@ -131,6 +134,7 @@
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.20.6",
     "typedoc": "^0.28.14",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"

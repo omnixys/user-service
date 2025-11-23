@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "PhoneType" AS ENUM ('WHATSAPP', 'PRIVATE', 'WORK', 'OTHER');
+CREATE TYPE "PhoneNumberType" AS ENUM ('WHATSAPP', 'MOBILE', 'PRIVATE', 'WORK', 'HOME', 'OTHER');
 
 -- CreateTable
 CREATE TABLE "user" (
@@ -20,8 +20,10 @@ CREATE TABLE "user" (
 CREATE TABLE "phone_number" (
     "id" TEXT NOT NULL,
     "number" TEXT NOT NULL,
-    "type" "PhoneType" NOT NULL,
+    "type" "PhoneNumberType" NOT NULL,
     "user_id" TEXT NOT NULL,
+    "label" TEXT,
+    "is_primary" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "phone_number_pkey" PRIMARY KEY ("id")
 );
@@ -36,4 +38,4 @@ CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 CREATE INDEX "user_username_email_idx" ON "user"("username", "email");
 
 -- AddForeignKey
-ALTER TABLE "phone_number" ADD CONSTRAINT "phone_number_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "phone_number" ADD CONSTRAINT "phone_number_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;

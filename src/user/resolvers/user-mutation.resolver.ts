@@ -30,7 +30,7 @@ export class UserMutationResolver {
 
   @Mutation(() => Boolean, { name: 'deleteUser' })
   delete(@Args('id', { type: () => ID }) id: string): Promise<boolean> {
-    return this.service.remove(id);
+    return this.service.delete(id);
   }
 
   @Mutation(() => String, { name: 'addPhoneNumber' })

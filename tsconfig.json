@@ -58,7 +58,7 @@
     "noErrorTruncation": true
   },
 
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "prisma/**/*.ts"],
   "exclude": ["node_modules", "dist", "coverage", "__tests__/"],
   "types": ["node", "fastify", "@types/node"],
   "typeRoots": ["./src/types", "./node_modules/@types"],

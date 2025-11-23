@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { PhoneNumberType } from '../enums/phone-number-type.enum.js';
+import { IsOptional, IsString } from 'class-validator';
 
 /**
  * Represents a phone number linked to a specific user.
@@ -17,4 +18,13 @@ export class PhoneNumber {
 
   @Field(() => String)
   userId!: string;
+
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  @IsString()
+  label?: string | null;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  isPrimary!: boolean;
 }

@@ -24,7 +24,7 @@ export class User {
 
   // List of phone numbers associated with this user
   @Field(() => [PhoneNumber], { nullable: 'itemsAndList' })
-  phoneNumbers?: PhoneNumber[];
+  phoneNumbers?: PhoneNumber[] | null;
 
   // Ticket IDs stored as string array (references external Ticket microservice)
   @Field(() => [String], { nullable: 'itemsAndList' })

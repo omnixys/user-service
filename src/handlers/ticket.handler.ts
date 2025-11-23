@@ -25,7 +25,6 @@ import {
   KafkaEventHandler,
 } from '../messaging/interface/kafka-event.interface.js';
 import { getTopic, getTopics } from '../messaging/kafka-topic.properties.js';
-import { UserDTO, UserUpdateDTO } from '../user/models/dto/user.dto.js';
 import { UserWriteService } from '../user/services/user-write.service.js';
 import { Injectable } from '@nestjs/common';
 
@@ -37,9 +36,9 @@ import { Injectable } from '@nestjs/common';
  * @category Messaging
  * @since 1.0.0
  */
-@KafkaHandler('authentication')
+@KafkaHandler('ticket')
 @Injectable()
-export class AuthenticationHandler implements KafkaEventHandler {
+export class TicketHandler implements KafkaEventHandler {
   private readonly logger;
 
   /**
@@ -52,7 +51,7 @@ export class AuthenticationHandler implements KafkaEventHandler {
     private readonly loggerService: LoggerPlusService,
     private readonly userWriteService: UserWriteService,
   ) {
-    this.logger = this.loggerService.getLogger(AuthenticationHandler.name);
+    this.logger = this.loggerService.getLogger(TicketHandler.name);
   }
 
   /**
@@ -64,42 +63,31 @@ export class AuthenticationHandler implements KafkaEventHandler {
    *
    * @returns A Promise that resolves once the command has been processed.
    */
-  @KafkaEvent(...getTopics('createUser', 'updateUser', 'deleteUser'))
+  @KafkaEvent(...getTopics('addTicket'))
   async handle(
     topic: string,
-    data: { payload: UserDTO | UserUpdateDTO },
+    // TODO DTO implementieren
+    data: { payload: { guestId: string; ticketId: string } },
     context: KafkaEventContext,
   ): Promise<void> {
     this.logger.warn(`User command received: ${topic}`);
     this.logger.debug('Kafka context: %o', context);
 
     switch (topic) {
-      case getTopic('createUser'):
-        await this.addUserId(data as { payload: UserDTO });
-        break;
+      case getTopic('addTicket'):
+        await this.addTicketId(
+          data as { payload: { guestId: string; ticketId: string } },
+        );
 
-      case getTopic('updateUser'):
-        await this.updateUser(data as { payload: UserUpdateDTO });
         break;
-
-      case getTopic('deleteUser'):
-        await this.deleteUser(data as { payload: { id: string } });
-        break;
-
       default:
-        this.logger.warn(`Unknown authentication topic: ${topic}`);
+        this.logger.warn(`Unknown ticket topic: ${topic}`);
     }
   }
 
-  private async addUserId(data: { payload: UserDTO }) {
-    await this.userWriteService.createWithId(data.payload);
-  }
-
-  private async updateUser(data: { payload: UserUpdateDTO }) {
-    await this.userWriteService.update(data.payload);
-  }
-
-  private async deleteUser(data: { payload: { id: string } }) {
-    await this.userWriteService.delete(data.payload.id);
+  private async addTicketId(data: {
+    payload: { guestId: string; ticketId: string };
+  }) {
+    await this.userWriteService.addTicketId(data.payload);
   }
 }

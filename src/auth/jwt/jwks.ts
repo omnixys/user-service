@@ -1,5 +1,4 @@
 // TODO resolve eslint
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import jwksRsa from 'jwks-rsa';
 

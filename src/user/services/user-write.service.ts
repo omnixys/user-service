@@ -1,14 +1,14 @@
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
-// import { KafkaProducerService } from '../../messaging/kafka-producer.service.js';
+import { KafkaProducerService } from '../../messaging/kafka-producer.service.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
+import { withSpan } from '../../trace/utils/span.utils.js';
 import { UserDTO } from '../models/dto/user.dto.js';
-// import { withSpan } from '../../trace/utils/span.utils.js';
 import { User } from '../models/entities/user.entity.js';
 import { CreateUserInput } from '../models/input/create-user.input.js';
 import { PhoneNumberInput } from '../models/input/phone-number.input.js';
 import { UpdateUserInput } from '../models/input/update-user.input.js';
 import { Injectable, NotFoundException } from '@nestjs/common';
-// import { trace } from '@opentelemetry/api';
+import { trace } from '@opentelemetry/api';
 
 export interface AddPhoneNumbersDTO {
   userId: string;
@@ -22,15 +22,15 @@ export interface RemovePhoneNumbersDTO {
 
 @Injectable()
 export class UserWriteService {
-  // private readonly tracer;
+  private readonly tracer;
   private readonly logger;
 
   constructor(
     private readonly prisma: PrismaService,
-    // private readonly kafkaProducerService: KafkaProducerService,
+    private readonly kafkaProducerService: KafkaProducerService,
     private readonly loggerService: LoggerPlusService,
   ) {
-    // this.tracer = trace.getTracer(UserWriteService.name);
+    this.tracer = trace.getTracer(UserWriteService.name);
     this.logger = this.loggerService.getLogger(UserWriteService.name);
   }
 
@@ -58,6 +58,20 @@ export class UserWriteService {
         phoneNumbers: true,
       },
     });
+
+    if (input.invitationId) {
+      this.logger.debug(
+        'User created with invitationId %s, sending event to mark invitation as used',
+        input.invitationId,
+      );
+      void this.kafkaProducerService.addInvitation(
+        {
+          invitationId: input.invitationId,
+          guestId: input.id,
+        },
+        'user.write-service',
+      );
+    }
   }
 
   async create(input: CreateUserInput): Promise<User> {
@@ -105,13 +119,34 @@ export class UserWriteService {
     });
   }
 
-  async remove(id: string): Promise<boolean> {
-    const exists = await this.prisma.user.findUnique({ where: { id } });
-    if (!exists) {
-      throw new NotFoundException('User nicht gefunden');
-    }
-    const result = await this.prisma.user.delete({ where: { id } });
-    return result !== undefined;
+  async delete(id: string): Promise<boolean> {
+    return withSpan(this.tracer, this.logger, 'user.delete', async (span) => {
+      const exists = await this.prisma.user.findUnique({ where: { id } });
+      if (!exists) {
+        throw new NotFoundException('User nicht gefunden');
+      }
+      const result = await this.prisma.user.delete({ where: { id } });
+
+      const sc = span.spanContext();
+      void this.kafkaProducerService.deleteInvitations(
+        {
+          // TODO optimieren!
+          guestId: id,
+        },
+        'user.write-service',
+        { traceId: sc.traceId, spanId: sc.spanId },
+      );
+      void this.kafkaProducerService.deleteTickets(
+        {
+          // TODO optimieren!
+          guestId: id,
+        },
+        'user.write-service',
+        { traceId: sc.traceId, spanId: sc.spanId },
+      );
+
+      return result !== undefined;
+    });
   }
 
   async addPhoneNumber(input: AddPhoneNumbersDTO): Promise<void> {
@@ -145,6 +180,24 @@ export class UserWriteService {
       },
       include: {
         phoneNumbers: true,
+      },
+    });
+  }
+
+  async addTicketId({
+    guestId,
+    ticketId,
+  }: {
+    guestId: string;
+    ticketId: string;
+  }): Promise<void> {
+    this.logger.debug('Adding ticketId %s to guestId %s', ticketId, guestId);
+    await this.prisma.user.update({
+      where: { id: guestId },
+      data: {
+        ticketIds: {
+          push: ticketId,
+        },
       },
     });
   }

@@ -32,16 +32,20 @@ model User {
 model PhoneNumber {
   id        String      @id @default(cuid()) @map("id")
   number    String      @map("number")
-  type      PhoneType   @map("type")
+  type      PhoneNumberType   @map("type")
   user      User        @relation("UserPhoneNumbers", fields: [userId], references: [id], onDelete: Cascade)
   userId    String      @map("user_id")
+  label     String?     @map("label")
+  isPrimary Boolean     @default(false) @map("is_primary") 
 
   @@map("phone_number")
 }
 
-enum PhoneType {
+enum PhoneNumberType {
   WHATSAPP
+  MOBILE
   PRIVATE
   WORK
+  HOME
   OTHER
 }

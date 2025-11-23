@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 /**
  * @license GPL-3.0-or-later
  * Copyright (C) 2025 Caleb Gyamfi - Omnixys Technologies
@@ -24,7 +23,7 @@ import {
 import type { TraceContext } from '../trace/trace-context.util.js';
 import type { KafkaEnvelope } from './decorators/kafka-envelope.type.js';
 import { KafkaHeaderBuilder } from './kafka-header-builder.js';
-// import { KafkaTopics } from './kafka-topic.properties.js';
+import { KafkaTopics } from './kafka-topic.properties.js';
 import {
   Inject,
   Injectable,
@@ -87,20 +86,50 @@ export class KafkaProducerService implements OnModuleInit, OnModuleDestroy {
     });
   }
 
-  // async sendUserId(
-  //   payload: UserDTO,
-  //   service: string,
-  //   trace?: TraceContext,
-  // ): Promise<void> {
-  //   const envelope: KafkaEnvelope<typeof payload> = {
-  //     event: 'sendUserId',
-  //     service,
-  //     version: 'v1',
-  //     trace,
-  //     payload,
-  //   };
-  //   await this.send(KafkaTopics.user.sendUserId, envelope, trace);
-  // }
+  async addInvitation(
+    payload: { guestId: string; invitationId: string },
+    service: string,
+    trace?: TraceContext,
+  ): Promise<void> {
+    const envelope: KafkaEnvelope<typeof payload> = {
+      event: 'addInvitation',
+      service,
+      version: 'v1',
+      trace,
+      payload,
+    };
+    await this.send(KafkaTopics.invitation.addGuestId, envelope, trace);
+  }
+
+  async deleteTickets(
+    payload: { guestId: string },
+    service: string,
+    trace?: TraceContext,
+  ): Promise<void> {
+    const envelope: KafkaEnvelope<typeof payload> = {
+      event: 'deleteTickets',
+      service,
+      version: 'v1',
+      trace,
+      payload,
+    };
+    await this.send(KafkaTopics.ticket.deleteTickets, envelope, trace);
+  }
+
+  async deleteInvitations(
+    payload: { guestId: string },
+    service: string,
+    trace?: TraceContext,
+  ): Promise<void> {
+    const envelope: KafkaEnvelope<typeof payload> = {
+      event: 'deleteInvitations',
+      service,
+      version: 'v1',
+      trace,
+      payload,
+    };
+    await this.send(KafkaTopics.invitation.deleteInvitation, envelope, trace);
+  }
 
   async disconnect(): Promise<void> {
     if (this.producer) {

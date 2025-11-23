@@ -25,8 +25,17 @@ const { SERVICE } = env;
  */
 export const KafkaTopics = {
   [SERVICE]: {
-    receiveUserId: `${SERVICE}.sendId.authentication`,
-    receiveUserUpdate: `${SERVICE}.updateUser.authentication`,
+    createUser: `${SERVICE}.create.authentication`,
+    updateUser: `${SERVICE}.update.authentication`,
+    deleteUser: `${SERVICE}.delete.authentication`,
+    addTicket: `ticket.add.${SERVICE}`,
+  },
+  ticket: {
+    deleteTickets: `ticket.delete.${SERVICE}`,
+  },
+  invitation: {
+    deleteInvitation: `invitation.delete.${SERVICE}`,
+    addGuestId: `invitation.addGuestId.${SERVICE}`,
   },
   logstream: {
     log: `logstream.log.${SERVICE}`,
