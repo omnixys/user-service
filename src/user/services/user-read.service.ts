@@ -4,8 +4,8 @@ import { LoggerPlus } from '../../logger/logger-plus.js';
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { User } from '../models/entities/user.entity.js';
-import { Injectable, NotFoundException } from '@nestjs/common';
 import { PhoneNumberType } from '../models/enums/phone-number-type.enum.js';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 /**
  * userReadService
@@ -54,5 +54,18 @@ export class UserReadService {
     };
 
     return mapped;
+  }
+
+  async findUserList(userIds: string[]): Promise<User[]> {
+    if (userIds.length === 0) {
+      return [];
+    }
+
+    return this.prisma.user.findMany({
+      where: {
+        id: { in: userIds },
+      },
+      orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
+    });
   }
 }

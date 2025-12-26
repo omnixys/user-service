@@ -15,7 +15,8 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
 
 @Injectable()
 export class PrismaService

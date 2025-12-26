@@ -33,11 +33,18 @@ export class UserQueryResolver {
   }
 
   @UseGuards(CookieAuthGuard, RoleGuard)
-  @Query(() => User, { name: 'getMe' })
+  @Query(() => User, { name: 'me' })
   getMe(@CurrentUser() currentUser: CurrentUserData): Promise<User> {
     if (!currentUser?.id) {
       throw new UnauthorizedException('Not authenticated');
     }
     return this.service.findOne(currentUser.id);
+  }
+
+  @Query(() => [User], { name: 'getUserList' })
+  async getUserList(
+    @Args('userIds', { type: () => [ID] }) userIds: string[],
+  ): Promise<User[]> {
+    return this.service.findUserList(userIds);
   }
 }

@@ -54,7 +54,7 @@ export const env = {
   KEYS_PATH: process.env.KEYS_PATH ?? './keys',
 
   /** Tempo tracing endpoint */
-  TEMPO_URI: process.env.TEMPO_URI ?? '',
+  TEMPO_URI: process.env.TEMPO_URI ?? 'http://localhost:4318/v1/traces',
 
   /** Port on which the Node/NestJS server runs */
   PORT: Number(process.env.PORT ?? 4000),
