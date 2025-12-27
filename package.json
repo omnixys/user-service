@@ -51,12 +51,12 @@
     "prepare": "husky",
     "prisma:gen": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:reset": "prisma migrate reset --force",
     "prisma:studio": "prisma studio --schema prisma/schema.prisma",
     "prisma:seed": "tsx prisma/seed.ts",
     "prisma:push": "prisma db push",
     "prisma:pull": "prisma db pull",
-        "prisma:format": "pnpm prisma format && pnpm prisma validate && prisma generate"
+    "prisma:reset": "prisma migrate reset --force && prisma migrate dev && tsx prisma/seed.ts",
+    "prisma:format": "pnpm prisma format && pnpm prisma validate && prisma generate"
   },
   "dependencies": {
     "@apollo/server": "^5.2.0",
@@ -88,7 +88,7 @@
     "@opentelemetry/exporter-trace-otlp-http": "^0.208.0",
     "@opentelemetry/resources": "^2.2.0",
     "@opentelemetry/sdk-node": "^0.208.0",
-    "@prisma/adapter-pg": "^7.1.0",
+    "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "cfonts": "^3.3.1",
     "chalk": "^5.6.2",
