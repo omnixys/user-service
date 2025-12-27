@@ -1,44 +1,44 @@
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
+  provider = "prisma-client"
+  output   = "../src/prisma/generated"
 }
 
-
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider = "postgresql"
+  schemas  = ["user"]
 }
 
 /// ------------------------------------------------------------
 /// USER SERVICE SCHEMA
 /// ------------------------------------------------------------
 model User {
-  id              String         @id @default(cuid()) @map("id")
-  username        String         @unique @map("username")
-  firstName       String         @map("first_name")
-  lastName        String         @map("last_name")
-  email           String         @unique @map("email")
-  phoneNumbers    PhoneNumber[]  @relation("UserPhoneNumbers")
-  ticketIds       String[]       @map("ticket_ids")
-  invitationIds   String[]       @map("invitation_ids")
-  createdAt       DateTime       @default(now()) @map("created_at")
-  updatedAt       DateTime       @updatedAt @map("updated_at")
+  id            String        @id @default(cuid()) @map("id")
+  username      String        @unique @map("username")
+  firstName     String        @map("first_name")
+  lastName      String        @map("last_name")
+  email         String        @unique @map("email")
+  phoneNumbers  PhoneNumber[] @relation("UserPhoneNumbers")
+  ticketIds     String[]      @map("ticket_ids")
+  invitationIds String[]      @map("invitation_ids")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
 
   @@index([username, email])
   @@map("user")
+  @@schema("user")
 }
 
 model PhoneNumber {
-  id        String      @id @default(cuid()) @map("id")
-  number    String      @map("number")
-  type      PhoneNumberType   @map("type")
-  user      User        @relation("UserPhoneNumbers", fields: [userId], references: [id], onDelete: Cascade)
-  userId    String      @map("user_id")
-  label     String?     @map("label")
-  isPrimary Boolean     @default(false) @map("is_primary") 
+  id        String          @id @default(cuid()) @map("id")
+  number    String          @map("number")
+  type      PhoneNumberType @map("type")
+  user      User            @relation("UserPhoneNumbers", fields: [userId], references: [id], onDelete: Cascade)
+  userId    String          @map("user_id")
+  label     String?         @map("label")
+  isPrimary Boolean         @default(false) @map("is_primary")
 
   @@map("phone_number")
+  @@schema("user")
 }
 
 enum PhoneNumberType {
@@ -48,4 +48,6 @@ enum PhoneNumberType {
   WORK
   HOME
   OTHER
+
+  @@schema("user")
 }

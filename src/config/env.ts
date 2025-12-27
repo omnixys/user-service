@@ -86,6 +86,8 @@ export const env = {
   REDIS_PORT: process.env.REDIS_PORT ?? '6379',
   REDIS_HOST: process.env.REDIS_HOST ?? 'localhost',
   REDIS_PASSWORD: process.env.REDIS_PASSWORD ?? undefined,
+
+  DATABASE_URL: process.env.DATABASE_URL ?? 'DATABASE_URL',
 } as const;
 
 // /**
