@@ -12,16 +12,17 @@ datasource db {
 /// USER SERVICE SCHEMA
 /// ------------------------------------------------------------
 model User {
-  id            String        @id @default(cuid()) @map("id")
-  username      String        @unique @map("username")
-  firstName     String        @map("first_name")
-  lastName      String        @map("last_name")
-  email         String        @unique @map("email")
-  phoneNumbers  PhoneNumber[] @relation("UserPhoneNumbers")
-  ticketIds     String[]      @map("ticket_ids")
-  invitationIds String[]      @map("invitation_ids")
-  createdAt     DateTime      @default(now()) @map("created_at")
-  updatedAt     DateTime      @updatedAt @map("updated_at")
+  id                String        @id @default(cuid()) @map("id")
+  username          String        @unique @map("username")
+  firstName         String        @map("first_name")
+  lastName          String        @map("last_name")
+  email             String        @unique @map("email")
+  phoneNumbers      PhoneNumber[] @relation("UserPhoneNumbers")
+  securityQuestions Security[]    @relation("UserSecurityQuestions")
+  ticketIds         String[]      @map("ticket_ids")
+  invitationIds     String[]      @map("invitation_ids")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
 
   @@index([username, email])
   @@map("user")
@@ -38,6 +39,43 @@ model PhoneNumber {
   isPrimary Boolean         @default(false) @map("is_primary")
 
   @@map("phone_number")
+  @@schema("user")
+}
+
+model Security {
+  id String @id @default(cuid()) @map("id")
+
+  question   String @map("question")
+  answer     String @map("answer")
+  answerHash String @map("answer_hash")
+
+  attempts Int       @default(0) @map("attempts")
+  lockedAt DateTime? @map("locked_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user   User   @relation("UserSecurityQuestions", fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  @@unique([userId, question])
+  @@map("security")
+  @@schema("user")
+}
+
+model PasswordReset {
+  id        String    @id @default(cuid()) @map("id")
+  userId    String    @map("user_id")
+  userEmail String    @map("user_email")
+  token     String    @unique @map("token")
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  ipAddress String?   @map("ip_address")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([token])
+  @@map("password_reset")
   @@schema("user")
 }
 

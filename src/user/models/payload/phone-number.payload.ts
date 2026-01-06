@@ -6,7 +6,7 @@ import { IsOptional, IsString } from 'class-validator';
  * Represents a phone number linked to a specific user.
  */
 @ObjectType()
-export class PhoneNumber {
+export class PhoneNumberPayload {
   @Field(() => ID)
   id!: string;
 
@@ -22,7 +22,7 @@ export class PhoneNumber {
   @Field(() => String, { nullable: true })
   @IsOptional()
   @IsString()
-  label?: string | null;
+  label?: string;
 
   @Field(() => Boolean, { nullable: true })
   @IsOptional()

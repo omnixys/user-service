@@ -3,12 +3,12 @@ import { KafkaProducerService } from '../../messaging/kafka-producer.service.js'
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { withSpan } from '../../trace/utils/span.utils.js';
 import { UserDTO } from '../models/dto/user.dto.js';
-import { User } from '../models/entities/user.entity.js';
 import { CreateUserInput } from '../models/input/create-user.input.js';
 import { PhoneNumberInput } from '../models/input/phone-number.input.js';
 import { UpdateUserInput } from '../models/input/update-user.input.js';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { trace } from '@opentelemetry/api';
+import { UserPayload } from '../models/payload/user.payload.js';
 
 export interface AddPhoneNumbersDTO {
   userId: string;
@@ -61,7 +61,7 @@ export class UserWriteService {
 
     if (input.invitationId) {
       this.logger.debug(
-        'User created with invitationId %s, sending event to mark invitation as used',
+        'UserPayload created with invitationId %s, sending event to mark invitation as used',
         input.invitationId,
       );
       void this.kafkaProducerService.addInvitation(
@@ -74,7 +74,7 @@ export class UserWriteService {
     }
   }
 
-  async create(input: CreateUserInput): Promise<User> {
+  async create(input: CreateUserInput): Promise<UserPayload> {
     // return withSpan(this.tracer, this.logger, 'user.signUp', async (span) => {
     void this.logger.debug('input=%o', input);
 
@@ -99,12 +99,12 @@ export class UserWriteService {
     // });
   }
 
-  async update(input: UpdateUserInput): Promise<User> {
+  async update(input: UpdateUserInput): Promise<UserPayload> {
     const { id, ...patch } = input;
 
     const exists = await this.prisma.user.findUnique({ where: { id } });
     if (!exists) {
-      throw new NotFoundException('User nicht gefunden');
+      throw new NotFoundException('UserPayload nicht gefunden');
     }
 
     return this.prisma.user.update({
@@ -123,7 +123,7 @@ export class UserWriteService {
     return withSpan(this.tracer, this.logger, 'user.delete', async (span) => {
       const exists = await this.prisma.user.findUnique({ where: { id } });
       if (!exists) {
-        throw new NotFoundException('User nicht gefunden');
+        throw new NotFoundException('UserPayload nicht gefunden');
       }
       const result = await this.prisma.user.delete({ where: { id } });
 

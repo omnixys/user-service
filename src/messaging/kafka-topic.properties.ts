@@ -40,6 +40,10 @@ export const KafkaTopics = {
   logstream: {
     log: `logstream.log.${SERVICE}`,
   },
+  notification: {
+    sendSecurityAlert: `notification.sendSecurityAlert.${SERVICE}`,
+    resetPassword: `notification.resetPassword.${SERVICE}`,
+  },
   admin: {
     restart: `${SERVICE}.restart.admin`,
     shutdown: `${SERVICE}.shutdown.admin`,

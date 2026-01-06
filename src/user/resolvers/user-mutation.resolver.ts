@@ -3,28 +3,28 @@ import {
   CurrentUserData,
 } from '../../auth/decorators/current-user.decorator.js';
 import { CookieAuthGuard } from '../../auth/guards/cookie-auth.guard.js';
-import { User } from '../models/entities/user.entity.js';
 import { CreateUserInput } from '../models/input/create-user.input.js';
 import { PhoneNumberInput } from '../models/input/phone-number.input.js';
 import {
   UpdateMeInput,
   UpdateUserInput,
 } from '../models/input/update-user.input.js';
+import { UserPayload } from '../models/payload/user.payload.js';
 import { UserWriteService } from '../services/user-write.service.js';
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
 
-@Resolver(() => User)
+@Resolver(() => UserPayload)
 export class UserMutationResolver {
   constructor(private readonly service: UserWriteService) {}
 
-  @Mutation(() => User, { name: 'createUser' })
-  async create(@Args('input') input: CreateUserInput): Promise<User> {
+  @Mutation(() => UserPayload, { name: 'createUser' })
+  async create(@Args('input') input: CreateUserInput): Promise<UserPayload> {
     return this.service.create(input);
   }
 
-  @Mutation(() => User, { name: 'updateUser' })
-  update(@Args('input') input: UpdateUserInput): Promise<User> {
+  @Mutation(() => UserPayload, { name: 'updateUser' })
+  update(@Args('input') input: UpdateUserInput): Promise<UserPayload> {
     return this.service.update(input);
   }
 
@@ -69,11 +69,24 @@ export class UserMutationResolver {
   }
 
   @UseGuards(CookieAuthGuard)
-  @Mutation(() => User, { name: 'updateMe' })
+  @Mutation(() => UserPayload, { name: 'updateMe' })
   async updateMe(
     @CurrentUser() currentUser: CurrentUserData,
     @Args('input') input: UpdateMeInput,
-  ): Promise<User> {
+  ): Promise<UserPayload> {
+    if (!currentUser?.id) {
+      throw new UnauthorizedException('Not authenticated');
+    }
+
+    return this.service.update({ ...input, id: currentUser.id });
+  }
+
+  @UseGuards(CookieAuthGuard)
+  @Mutation(() => UserPayload, { name: 'updateMe' })
+  async resetPassword(
+    @CurrentUser() currentUser: CurrentUserData,
+    @Args('input') input: UpdateMeInput,
+  ): Promise<UserPayload> {
     if (!currentUser?.id) {
       throw new UnauthorizedException('Not authenticated');
     }

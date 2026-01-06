@@ -1,12 +1,11 @@
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
-import { PhoneNumber } from './phone-number.entity.js';
 
 /**
  * Represents a user entity in the GraphQL schema.
  * Mirrors the Prisma model `User` from the user-service.
  */
 @ObjectType()
-export class User {
+export class UserPayload {
   @Field(() => ID)
   id!: string;
 
@@ -21,10 +20,6 @@ export class User {
 
   @Field(() => String)
   email!: string;
-
-  // List of phone numbers associated with this user
-  @Field(() => [PhoneNumber], { nullable: 'itemsAndList' })
-  phoneNumbers?: PhoneNumber[] | null;
 
   // Ticket IDs stored as string array (references external Ticket microservice)
   @Field(() => [String], { nullable: 'itemsAndList' })

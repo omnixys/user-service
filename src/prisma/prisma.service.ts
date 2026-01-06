@@ -12,7 +12,10 @@ import { PrismaPg } from '@prisma/adapter-pg';
 
 const { DATABASE_URL } = env;
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
   constructor() {
     const adapter = new PrismaPg({
       connectionString: DATABASE_URL,

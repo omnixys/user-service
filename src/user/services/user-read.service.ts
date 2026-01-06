@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // TODO resolve eslint
 
 import { LoggerPlus } from '../../logger/logger-plus.js';
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
-import { User } from '../models/entities/user.entity.js';
 import { PhoneNumberType } from '../models/enums/phone-number-type.enum.js';
+import { PhoneNumberMapper } from '../models/mapper/phone-number.mapper.js';
+import { SecurityMapper } from '../models/mapper/security.mapper.js';
+import { UserPayload } from '../models/payload/user.payload.js';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 /**
@@ -25,12 +30,12 @@ export class UserReadService {
   }
 
   // Returns all users, ordered by start date
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserPayload[]> {
     return this.prisma.user.findMany();
   }
 
   // Returns a single user by its ID or throws if not found
-  async findOne(id: string): Promise<User> {
+  async findOne(id: string): Promise<UserPayload> {
     this.logger.debug('findOne: looking up user id=%s', id);
 
     const found = await this.prisma.user.findUnique({
@@ -41,11 +46,11 @@ export class UserReadService {
     });
 
     if (!found) {
-      throw new NotFoundException(`User with ID "${id}" not found`);
+      throw new NotFoundException(`UserPayload with ID "${id}" not found`);
     }
 
     // map Prisma PhoneType → GraphQL PhoneNumberType
-    const mapped: User = {
+    const mapped = {
       ...found,
       phoneNumbers: found.phoneNumbers.map((p) => ({
         ...p,
@@ -56,7 +61,7 @@ export class UserReadService {
     return mapped;
   }
 
-  async findUserList(userIds: string[]): Promise<User[]> {
+  async findUserList(userIds: string[]): Promise<UserPayload[]> {
     if (userIds.length === 0) {
       return [];
     }
@@ -67,5 +72,19 @@ export class UserReadService {
       },
       orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
     });
+  }
+
+  async getSecurityInfo(userId: string) {
+    const entity = await this.prisma.security.findMany({
+      where: { userId },
+    });
+    return entity ? SecurityMapper.toPayloadList(entity) : undefined;
+  }
+
+  async getPhoneNumbers(userId: string) {
+    const entity = await this.prisma.phoneNumber.findMany({
+      where: { userId },
+    });
+    return entity ? PhoneNumberMapper.toPayloadList(entity) : undefined;
   }
 }

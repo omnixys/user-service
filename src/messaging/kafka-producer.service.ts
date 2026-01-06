@@ -21,6 +21,10 @@ import {
   setGlobalKafkaProducer,
 } from '../logger/logger-plus.service.js';
 import type { TraceContext } from '../trace/trace-context.util.js';
+import {
+  PasswordResetRequestDTO,
+  SecurityPasswordResetAlertDTO,
+} from '../user/models/dto/password-reset.dto.js';
 import type { KafkaEnvelope } from './decorators/kafka-envelope.type.js';
 import { KafkaHeaderBuilder } from './kafka-header-builder.js';
 import { KafkaTopics } from './kafka-topic.properties.js';
@@ -129,6 +133,40 @@ export class KafkaProducerService implements OnModuleInit, OnModuleDestroy {
       payload,
     };
     await this.send(KafkaTopics.invitation.deleteInvitation, envelope, trace);
+  }
+
+  async sendSecurityAlert(
+    payload: SecurityPasswordResetAlertDTO,
+    service: string,
+    trace?: TraceContext,
+  ): Promise<void> {
+    const envelope: KafkaEnvelope<typeof payload> = {
+      event: 'sendSecurityAlert',
+      service,
+      version: 'v1',
+      trace,
+      payload,
+    };
+    await this.send(
+      KafkaTopics.notification.sendSecurityAlert,
+      envelope,
+      trace,
+    );
+  }
+
+  async resetPassword(
+    payload: PasswordResetRequestDTO,
+    service: string,
+    trace?: TraceContext,
+  ): Promise<void> {
+    const envelope: KafkaEnvelope<typeof payload> = {
+      event: 'resetPassword',
+      service,
+      version: 'v1',
+      trace,
+      payload,
+    };
+    await this.send(KafkaTopics.notification.resetPassword, envelope, trace);
   }
 
   async disconnect(): Promise<void> {
