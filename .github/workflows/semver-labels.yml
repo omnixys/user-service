@@ -2,7 +2,7 @@ name: SemVer Labels
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, reopened, labeled, synchronize]
 
 permissions:
   pull-requests: write
