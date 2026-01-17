@@ -22,6 +22,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 🔐 Setup SSH (Deploy Key)
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.RELEASE_DEPLOY_KEY }}
+
+      - name: 🔁 Switch git remote to SSH
+        run: |
+          git remote set-url origin git@github.com:omnixys/omnixys-user-service.git
+          git config user.name "omnixys-release-bot"
+          git config user.email "release@omnixys.com"
+
       - name: ⚙️ Enable Corepack (pnpm)
         run: |
           corepack enable
