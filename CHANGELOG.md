@@ -1,3 +1,12 @@
+# 🧾 Changelog
+
+All notable changes in this project will be documented in this file.
+
+## <small>1.0.2 (2026-01-17)</small>
+
+- fix(core): add issue Id to commit ([d96b2b629de9ff7207e00a4b3b72d0d840c7020e](https://github.com/omnixys/omnixys-user-service/commit/d96b2b629de9ff7207e00a4b3b72d0d840c7020e)), closes [#1](https://github.com/omnixys/omnixys-user-service/issues/1)
+- Merge pull request #16 from omnixys/release/1 ([2114fb6e6259b28f64f5eb6c7a2ab9a148c95aa5](https://github.com/omnixys/omnixys-user-service/commit/2114fb6e6259b28f64f5eb6c7a2ab9a148c95aa5)), closes [#16](https://github.com/omnixys/omnixys-user-service/issues/16)
+
 ## [1.0.1](https://github.com/omnixys/omnixys-user-service/compare/v1.0.0...v1.0.1) (2026-01-17)
 
 ### Bug Fixes
