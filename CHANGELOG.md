@@ -1,3 +1,12 @@
+## [1.0.3](https://github.com/omnixys/omnixys-user-service/compare/v1.0.2...v1.0.3) (2026-01-17)
+
+### Bug Fixes
+
+- **#1:** finished commitlint ([a8788fd](https://github.com/omnixys/omnixys-user-service/commit/a8788fd5a30e1ca920cfc0a5570a6c0ae73df143)), closes [#1](https://github.com/omnixys/omnixys-user-service/issues/1)
+- **core:** fix release.config.js ([6edd94c](https://github.com/omnixys/omnixys-user-service/commit/6edd94ccf59e723c12f3ae4189b60b3a4dfc1b1e)), closes [#1](https://github.com/omnixys/omnixys-user-service/issues/1)
+- **core:** update commitlint [#1](https://github.com/omnixys/omnixys-user-service/issues/1) ([97f03e5](https://github.com/omnixys/omnixys-user-service/commit/97f03e550ec9cfa10587d5cb6fd443ecb68fd4bd))
+- **dependabot:** update Dependabot ([97a062e](https://github.com/omnixys/omnixys-user-service/commit/97a062e91b1a86ad631278d6d58a22adb09a2267))
+
 # 🧾 Changelog
 
 All notable changes in this project will be documented in this file.

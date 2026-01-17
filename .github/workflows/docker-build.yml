@@ -102,7 +102,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Set up Docker Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: /tmp/.buildx-cache
           key: buildx-${{ github.sha }}
@@ -110,7 +110,7 @@ jobs:
             buildx-
 
       - name: Build and Push Docker Image (Multi-Arch)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
@@ -168,7 +168,7 @@ jobs:
           password: ${{ github.token }}
 
       - name: Set up Docker Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: /tmp/.buildx-cache
           key: buildx-${{ github.sha }}
@@ -176,7 +176,7 @@ jobs:
             buildx-
 
       - name: Build and Push Docker Image (GHCR)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
