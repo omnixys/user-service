@@ -39,5 +39,14 @@ export default {
     'scope-case': [2, 'always', 'lower-case'],
     'subject-case': [1, 'always', ['sentence-case', 'lower-case']],
     'header-max-length': [2, 'always', 100],
+
+    /**
+     * 🔴 REQUIRE at least one issue reference
+     * Accepts:
+     * - Closes: TEST-1234
+     * - Refs: TEST-1234
+     * - Fixes: TEST-1234
+     */
+    // 'references-empty': [2, 'never'],
   },
 };
