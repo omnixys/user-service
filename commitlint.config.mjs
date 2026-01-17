@@ -49,6 +49,7 @@ export default {
      * - Refs: TEST-1234
      * - Fixes: TEST-1234
      */
+    
     // 'references-empty': [2, 'never'],
   },
 };
