@@ -22,11 +22,10 @@ name: Docker Build & Push – Omnixys
 on:
   workflow_dispatch:
   # push:
-  #   branches:
-  #     - main
-  # workflow_run:
-  #   workflows: ['Continuous Integration – Omnixys']
-  #   types: [completed]
+  #   branches: [main]
+  workflow_run:
+    workflows: ['Release']
+    types: [completed]
 
 permissions:
   contents: read
@@ -78,7 +77,7 @@ env:
 
 jobs:
   push-docker:
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: 🐳 Build & Push Multi-Arch Images (Docker)
     runs-on: ubuntu-latest
     strategy:
