@@ -44,8 +44,6 @@ jobs:
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - run: pnpm ci
-
       - name: Semantic Release
         run: npx semantic-release
         env:
