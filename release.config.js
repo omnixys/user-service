@@ -141,8 +141,8 @@ export default {
       '@semantic-release/github',
       {
         assets: [
-          { path: 'CHANGELOG.md', label: '📘 Changelog' },
-          { path: 'dist/**', label: '🚀 Build Artifacts (if present)' },
+          { path: 'CHANGELOG.md', label: 'Changelog' },
+          { path: 'dist/**', label: 'Build Artifacts' },
         ],
       },
     ],
