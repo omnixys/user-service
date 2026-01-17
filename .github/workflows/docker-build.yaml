@@ -20,14 +20,13 @@
 name: Docker Build & Push – Omnixys
 
 on:
+  workflow_dispatch:
   # push:
   #   branches:
   #     - main
-  workflow_run:
-    workflows: ['Continuous Integration – Omnixys']
-    types: [completed]
-
-  workflow_dispatch:
+  # workflow_run:
+  #   workflows: ['Continuous Integration – Omnixys']
+  #   types: [completed]
 
 permissions:
   contents: read

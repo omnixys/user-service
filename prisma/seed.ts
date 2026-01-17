@@ -1,5 +1,6 @@
     import { PrismaClient } from '../src/prisma/generated/client.js';
     import { PrismaPg } from '@prisma/adapter-pg';
+    import argon2 from 'argon2';
     import 'dotenv/config';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
@@ -81,6 +82,66 @@ async function main() {
       },
     });
   }
+
+  const questions = [
+    {
+      question: 'Wie lautet der Vorname deiner Mutter?',
+      answer: 'Grace',
+    },
+    {
+      question: 'In welcher Stadt wurdest du geboren?',
+      answer: 'Accra',
+    },
+    {
+      question: 'Wie hieß dein erstes Haustier?',
+      answer: 'Max',
+    },
+    {
+      question: 'Wie lautet der Name deiner Grundschule?',
+      answer: 'Morning Star',
+    },
+    {
+      question: 'Was war dein erstes Auto?',
+      answer: 'Toyota Corolla',
+    },
+  ];
+
+  for (const q of questions) {
+       const normalized = q.answer.trim().toLowerCase();
+
+       const answerHash = await argon2.hash(normalized, {
+         type: argon2.argon2id,
+         memoryCost: 2 ** 16, // 64 MB
+         timeCost: 3,
+         parallelism: 1,
+       });
+
+
+    await prisma.security.upsert({
+      where: {
+        userId_question: {
+          userId: '694d2e8e-0932-4c8f-a1c4-e300dc235be4',
+          question: q.question,
+        },
+      },
+      update: {
+        answer: q.answer,
+        answerHash,
+        attempts: 0,
+        lockedAt: null,
+      },
+      create: {
+        userId: '694d2e8e-0932-4c8f-a1c4-e300dc235be4',
+        question: q.question,
+        answer: q.answer,
+        answerHash,
+        attempts: 0,
+      },
+    });
+  }
+
+  console.log('✔ Security questions for Caleb seeded successfully');
+
 
   console.log('✔ Users seeded successfully');
 }
