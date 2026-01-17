@@ -17,117 +17,63 @@
 # Omnixys Workflow Suite – dependabot.yml
 # Purpose: Automated dependency management and security updates across ecosystems.
 # Language: Universal
-
 version: 2
 updates:
-  # 🟦 Node / pnpm Dependencies
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "daily"
-      time: "03:00"
-      timezone: "Europe/Berlin"
+      interval: 'daily'
+      time: '03:00'
+      timezone: 'Europe/Berlin'
     commit-message:
-      prefix: "deps(node)"
-      include: "scope"
+      prefix: 'deps(node)'
+      include: 'scope'
     labels:
-      - "📦 dependencies"
-      - "🧩 needs-review"
+      - '📦 dependencies'
+      - '🧩 needs-review'
     open-pull-requests-limit: 10
     rebase-strategy: auto
     allow:
-      - dependency-type: "direct"
-      - dependency-type: "all"
+      - dependency-type: 'direct'
+      - dependency-type: 'indirect'
     ignore:
-      - dependency-name: "eslint"
-        versions: ["<9.0.0"]
-      - dependency-name: "typescript"
-        versions: ["<5.0.0"]
+      - dependency-name: 'eslint'
+        versions: ['<9.0.0']
+      - dependency-name: 'typescript'
+        versions: ['<5.0.0']
 
   # 🐳 Docker Base Image Updates
-  - package-ecosystem: "docker"
-    directory: "/"
+  - package-ecosystem: 'docker'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "sunday"
-      time: "04:00"
-      timezone: "Europe/Berlin"
+      interval: 'weekly'
+      day: 'sunday'
+      time: '04:00'
+      timezone: 'Europe/Berlin'
     commit-message:
-      prefix: "deps(docker)"
-      include: "scope"
+      prefix: 'deps(docker)'
+      include: 'scope'
     labels:
-      - "🐳 docker"
-      - "🧩 needs-review"
+      - '🐳 docker'
+      - '🧩 needs-review'
     rebase-strategy: auto
     ignore:
-      - dependency-name: "node"
-        versions: ["<20.0.0"]
+      - dependency-name: 'node'
+        versions: ['<20.0.0']
 
   # ⚙️ GitHub Actions Updates
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "05:00"
-      timezone: "Europe/Berlin"
+      interval: 'weekly'
+      day: 'monday'
+      time: '05:00'
+      timezone: 'Europe/Berlin'
     commit-message:
-      prefix: "deps(actions)"
-      include: "scope"
+      prefix: 'deps(actions)'
+      include: 'scope'
     labels:
-      - "🧠 ci"
-      - "📦 dependencies"
+      - '🧠 ci'
+      - '📦 dependencies'
     open-pull-requests-limit: 5
     rebase-strategy: auto
-
-  # ☕ Java / Maven Dependencies (for microservices)
-  - package-ecosystem: "maven"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "tuesday"
-      time: "05:00"
-      timezone: "Europe/Berlin"
-    commit-message:
-      prefix: "deps(java)"
-      include: "scope"
-    labels:
-      - "☕ java"
-      - "📦 dependencies"
-    rebase-strategy: auto
-
-  # 🧱 Python Dependencies (FastAPI, tooling, or scripts)
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "wednesday"
-      time: "06:00"
-      timezone: "Europe/Berlin"
-    commit-message:
-      prefix: "deps(python)"
-      include: "scope"
-    labels:
-      - "🐍 python"
-      - "📦 dependencies"
-    rebase-strategy: auto
-
-  # 🔐 Security & CVE Prioritization Updates
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-      time: "02:00"
-      timezone: "Europe/Berlin"
-    commit-message:
-      prefix: "security"
-      include: "scope"
-    labels:
-      - "🔒 security"
-      - "⚠️ vulnerability"
-    allow:
-      - dependency-type: "direct"
-    rebase-strategy: auto
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
