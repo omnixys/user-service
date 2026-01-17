@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Ensure repo default service label
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           SERVICE: ${{ secrets.SERVICE }}
         with:
