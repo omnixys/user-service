@@ -21,9 +21,9 @@ name: Continuous Integration – Omnixys
 
 on:
   pull_request:
-  # push:
-  #   branches-ignore:
-  #     - main
+  push:
+    branches-ignore:
+      - main
 
 concurrency:
   group: ci-${{ github.ref }}

@@ -12,41 +12,146 @@ datasource db {
 /// USER SERVICE SCHEMA
 /// ------------------------------------------------------------
 model User {
-  id                String        @id @default(cuid()) @map("id")
-  username          String        @unique @map("username")
-  firstName         String        @map("first_name")
-  lastName          String        @map("last_name")
-  email             String        @unique @map("email")
-  phoneNumbers      PhoneNumber[] @relation("UserPhoneNumbers")
-  securityQuestions Security[]    @relation("UserSecurityQuestions")
-  ticketIds         String[]      @map("ticket_ids")
-  invitationIds     String[]      @map("invitation_ids")
-  createdAt         DateTime      @default(now()) @map("created_at")
-  updatedAt         DateTime      @updatedAt @map("updated_at")
+  id       String @id @default(cuid()) @map("id")
+  username String @unique @map("username")
 
-  @@index([username, email])
+  ticketIds     String[] @map("ticket_ids")
+  invitationIds String[] @map("invitation_ids")
+
+  userType     UserType      @map("user_type")
+  status       PersonStatus  @default(ACTIVE) @map("status")
+  customer     Customer?
+  employee     Employee?
+  personalInfo PersonalInfo?
+
+  addresses         Address[]
+  contacts          Contact[]
+  securityQuestions SecurityQuestion[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
   @@map("user")
   @@schema("user")
 }
 
+/// ------------------------------------------------------------
+/// PERSON SERVICE SCHEMA
+/// ------------------------------------------------------------
+model PersonalInfo {
+  id    String @id @map("id")
+  email String @unique @map("email")
+
+  firstName     String             @map("first_name")
+  lastName      String             @map("last_name")
+  birthDate     DateTime?          @map("birth_date")
+  gender        GenderType?        @map("gender")
+  maritalStatus MaritalStatusType? @map("marital_status")
+
+  phoneNumbers PhoneNumber[]
+
+  user User @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("personal_info")
+  @@schema("user")
+}
+
+/// ------------------------------------------------------------
+/// ADDRESS
+/// ------------------------------------------------------------
+model Address {
+  id     String @id @default(cuid()) @map("id")
+  userId String @map("user_id")
+
+  street         String  @map("street")
+  houseNumber    String  @map("house_number")
+  zipCode        String  @map("zip_code")
+  city           String  @map("city")
+  state          String? @map("state")
+  country        String  @map("country")
+  additionalInfo String? @map("additional_info")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("address")
+  @@schema("user")
+}
+
+/// ------------------------------------------------------------
+/// CUSTOMER (FACHLICHE ERWEITERUNG)
+/// ------------------------------------------------------------
+
+model Customer {
+  id String @id @map("id")
+
+  tierLevel     Int                @map("tier_level")
+  subscribed    Boolean            @default(false)
+  maritalStatus MaritalStatusType?
+  state         StatusType         @map("customer_state")
+
+  interests      InterestType[]       @map("interests")
+  contactOptions ContactOptionsType[] @map("contact_options")
+
+  user User @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("customer")
+  @@schema("user")
+}
+
+/// ------------------------------------------------------------
+/// EMPLOYEE (FACHLICHE ERWEITERUNG)
+/// ------------------------------------------------------------
+
+model Employee {
+  id String @id @map("id")
+
+  department String?   @map("department")
+  position   String?   @map("position")
+  role       String?   @map("role")
+  salary     Float?    @map("salary")
+  hireDate   DateTime? @map("hire_date")
+  isExternal Boolean   @default(false) @map("is_external")
+
+  user User @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("employee")
+  @@schema("user")
+}
+
 model PhoneNumber {
-  id        String          @id @default(cuid()) @map("id")
+  id     String @id @default(cuid()) @map("id")
+  infoId String @map("info_id")
+
   number    String          @map("number")
   type      PhoneNumberType @map("type")
-  user      User            @relation("UserPhoneNumbers", fields: [userId], references: [id], onDelete: Cascade)
-  userId    String          @map("user_id")
   label     String?         @map("label")
   isPrimary Boolean         @default(false) @map("is_primary")
+
+  user PersonalInfo @relation(fields: [infoId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("phone_number")
   @@schema("user")
 }
 
-model Security {
+model SecurityQuestion {
   id String @id @default(cuid()) @map("id")
 
   question   String @map("question")
-  answer     String @map("answer")
   answerHash String @map("answer_hash")
 
   attempts Int       @default(0) @map("attempts")
@@ -55,11 +160,11 @@ model Security {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  user   User   @relation("UserSecurityQuestions", fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
   @@unique([userId, question])
-  @@map("security")
+  @@map("security_question")
   @@schema("user")
 }
 
@@ -79,6 +184,43 @@ model PasswordReset {
   @@schema("user")
 }
 
+/// ------------------------------------------------------------
+/// CONTACTS (PERSON ↔ PERSON)
+/// ------------------------------------------------------------
+
+model Contact {
+  id        String @id @default(cuid()) @map("id")
+  userId    String @map("user_id")
+  contactId String @map("contact_id")
+
+  relationship    RelationshipType @map("relationship")
+  withdrawalLimit Int              @default(0)
+  emergency       Boolean          @default(false)
+
+  startDate DateTime? @map("start_date")
+  endDate   DateTime? @map("end_date")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([userId, contactId])
+  @@map("contact")
+  @@schema("user")
+}
+
+/// ------------------------------------------------------------
+/// ENUMS
+/// ------------------------------------------------------------
+enum UserType {
+  CUSTOMER
+  EMPLOYEE
+  GUEST
+
+  @@schema("user")
+}
+
 enum PhoneNumberType {
   WHATSAPP
   MOBILE
@@ -86,6 +228,92 @@ enum PhoneNumberType {
   WORK
   HOME
   OTHER
+
+  @@schema("user")
+}
+
+enum PersonStatus {
+  ACTIVE
+  DISABLED
+  DELETED
+  INACTIVE
+  BLOCKED
+  CLOSED
+
+  @@schema("user")
+}
+
+enum GenderType {
+  MALE
+  FEMALE
+  DIVERSE
+  UNKNOWN
+
+  @@schema("user")
+}
+
+enum RelationshipType {
+  FAMILY
+  FRIEND
+  PARTNER
+  COLLEAGUE
+  OTHER
+  BUSINESS_PARTNER
+  RELATIVE
+  PARENT
+  SIBLING
+  CHILD
+  COUSIN
+
+  @@schema("user")
+}
+
+enum MaritalStatusType {
+  SINGLE
+  MARRIED
+  DIVORCED
+  WIDOWED
+
+  @@schema("user")
+}
+
+enum StatusType {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+  PENDING
+  SUSPENDED
+  CLOSED
+
+  @@schema("user")
+}
+
+enum InterestType {
+  SPORTS
+  MUSIC
+  TRAVEL
+  TECHNOLOGY
+  OTHER
+
+  INVESTMENTS
+  SAVING_AND_FINANCE
+  CREDIT_AND_DEBT
+  BANK_PRODUCTS_AND_SERVICES
+  FINANCIAL_EDUCATION_AND_COUNSELING
+  REAL_ESTATE
+  INSURANCE
+  SUSTAINABLE_FINANCE
+  TECHNOLOGY_AND_INNOVATION
+
+  @@schema("user")
+}
+
+enum ContactOptionsType {
+  EMAIL
+  PHONE
+  SMS
+  WHATSAPP
+  LETTER
 
   @@schema("user")
 }

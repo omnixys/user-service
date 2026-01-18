@@ -1,153 +1,123 @@
-    import { PrismaClient } from '../src/prisma/generated/client.js';
-    import { PrismaPg } from '@prisma/adapter-pg';
-    import argon2 from 'argon2';
-    import 'dotenv/config';
+/* eslint-disable no-console */
+
+import { PrismaClient } from '../src/prisma/generated/client.js';
+import { PrismaPg } from '@prisma/adapter-pg';
+import 'dotenv/config';
+
+import { ADDRESSES } from '../.extras/data/address.data';
+import { CONTACTS } from '../.extras/data/contact.data';
+import { CUSTOMERS } from '../.extras/data/customer.data';
+import { EMPLOYEES } from '../.extras/data/employee.data';
+import { PERSONAL_INFOS } from '../.extras/data/personal-info.data';
+import { PHONE_NUMBERS } from '../.extras/data/phone-number.data';
+import { USERS } from '../.extras/data/user.data';
+
+import { seedSecurityQuestionsForAllUsers } from '../.extras/data/security-question.data';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  const users = [
-    {
-      id: 'dde8114c-2637-462a-90b9-413924fa3f55',
-      username: 'admin',
-      firstName: 'Admin',
-      lastName: 'Omnixys',
-      email: 'admin@omnixys.com',
-    },
-    {
-      id: '694d2e8e-0932-4c8f-a1c4-e300dc235be4',
-      username: 'caleb',
-      firstName: 'Caleb',
-      lastName: 'Gyamfi',
-      email: 'caleb.gyamfi@omnixys.com',
-    },
-    {
-      id: 'f9de3f8a-5b79-4f3a-9267-10c1b9ce2a03',
-      username: 'rachel',
-      firstName: 'Rachel',
-      lastName: 'Dwomoh',
-      email: 'rachel.dwomoh@omnixys.com',
-    },
-    {
-      id: 'ae489d9b-96ce-4942-bcb1-c2e2a0c92e83',
-      username: 'guest',
-      firstName: 'Guest',
-      lastName: 'Omnixys',
-      email: 'guest@omnixys.com',
-    },
-    {
-      id: '20e7e44e-9bcd-4016-bebd-36f8d75357b6',
-      username: 'security',
-      firstName: 'Security',
-      lastName: 'Omnixys',
-      email: 'security@omnixys.com',
-    },
-    {
-      id: '9e219f6f-7706-4294-8b5b-a4105999846f',
-      username: 'audrey',
-      firstName: 'Audrey',
-      lastName: 'Omnixys',
-      email: 'audrey@omnixys.com',
-    },
-    {
-      id: '18bbde19-7e76-45dc-b204-f5c397e11362',
-      username: 'christabelle',
-      firstName: 'Christabelle',
-      lastName: 'Omnixys',
-      email: 'christabel@omnixys.com',
-    },
-  ];
+  await prisma.$transaction(async (tx) => {
+    console.log('🌱 Starting database seed…');
 
-  for (const u of users) {
-    await prisma.user.upsert({
-      where: { id: u.id },
-      update: {
-        username: u.username,
-        firstName: u.firstName,
-        lastName: u.lastName,
-        email: u.email,
-      },
-      create: {
-        id: u.id,
-        username: u.username,
-        firstName: u.firstName,
-        lastName: u.lastName,
-        email: u.email,
-        phoneNumbers: {
-          create: [],
-        },
-        ticketIds: [],
-        invitationIds: [],
-      },
-    });
-  }
+    /* -------------------------------------------------------------------------- */
+    /* USERS                                                                      */
+    /* -------------------------------------------------------------------------- */
+    console.log('→ Seeding users');
+    for (const user of USERS) {
+      await tx.user.upsert({
+        where: { id: user.id },
+        update: user,
+        create: user,
+      });
+    }
 
-  const questions = [
-    {
-      question: 'Wie lautet der Vorname deiner Mutter?',
-      answer: 'Grace',
-    },
-    {
-      question: 'In welcher Stadt wurdest du geboren?',
-      answer: 'Accra',
-    },
-    {
-      question: 'Wie hieß dein erstes Haustier?',
-      answer: 'Max',
-    },
-    {
-      question: 'Wie lautet der Name deiner Grundschule?',
-      answer: 'Morning Star',
-    },
-    {
-      question: 'Was war dein erstes Auto?',
-      answer: 'Toyota Corolla',
-    },
-  ];
+    /* -------------------------------------------------------------------------- */
+    /* PERSONAL INFOS                                                             */
+    /* -------------------------------------------------------------------------- */
+    console.log('→ Seeding personal infos');
+    for (const info of PERSONAL_INFOS) {
+      await tx.personalInfo.upsert({
+        where: { id: info.id },
+        update: info,
+        create: info,
+      });
+    }
 
-  for (const q of questions) {
-       const normalized = q.answer.trim().toLowerCase();
+    /* -------------------------------------------------------------------------- */
+    /* ADDRESSES                                                                  */
+    /* -------------------------------------------------------------------------- */
+    console.log('→ Seeding addresses');
+    for (const address of ADDRESSES) {
+      await tx.address.upsert({
+        where: { id: address.id },
+        update: address,
+        create: address,
+      });
+    }
 
-       const answerHash = await argon2.hash(normalized, {
-         type: argon2.argon2id,
-         memoryCost: 2 ** 16, // 64 MB
-         timeCost: 3,
-         parallelism: 1,
-       });
+    /* -------------------------------------------------------------------------- */
+    /* PHONE NUMBERS                                                              */
+    /* -------------------------------------------------------------------------- */
+    console.log('→ Seeding phone numbers');
+    for (const phone of PHONE_NUMBERS) {
+      await tx.phoneNumber.upsert({
+        where: { id: phone.id },
+        update: phone,
+        create: phone,
+      });
+    }
 
+    /* -------------------------------------------------------------------------- */
+    /* CUSTOMERS                                                                  */
+    /* -------------------------------------------------------------------------- */
+    console.log('→ Seeding customers');
+    for (const customer of CUSTOMERS) {
+      await tx.customer.upsert({
+        where: { id: customer.id },
+        update: customer,
+        create: customer,
+      });
+    }
 
-    await prisma.security.upsert({
-      where: {
-        userId_question: {
-          userId: '694d2e8e-0932-4c8f-a1c4-e300dc235be4',
-          question: q.question,
-        },
-      },
-      update: {
-        answer: q.answer,
-        answerHash,
-        attempts: 0,
-        lockedAt: null,
-      },
-      create: {
-        userId: '694d2e8e-0932-4c8f-a1c4-e300dc235be4',
-        question: q.question,
-        answer: q.answer,
-        answerHash,
-        attempts: 0,
-      },
-    });
-  }
+    /* -------------------------------------------------------------------------- */
+    /* EMPLOYEES                                                                  */
+    /* -------------------------------------------------------------------------- */
+    console.log('→ Seeding employees');
+    for (const employee of EMPLOYEES) {
+      await tx.employee.upsert({
+        where: { id: employee.id },
+        update: employee,
+        create: employee,
+      });
+    }
 
-  console.log('✔ Security questions for Caleb seeded successfully');
+    /* -------------------------------------------------------------------------- */
+    /* CONTACTS                                                                   */
+    /* -------------------------------------------------------------------------- */
+    // console.log('→ Seeding contacts');
+    // for (const contact of CONTACTS) {
+    //   await tx.contact.upsert({
+    //     where: { id: contact.id },
+    //     update: contact,
+    //     create: contact,
+    //   });
+    // }
 
+    /* -------------------------------------------------------------------------- */
+    /* SECURITY QUESTIONS (deterministic, rotated)                                */
+    /* -------------------------------------------------------------------------- */
+    console.log('→ Seeding security questions (deterministic)');
+    await seedSecurityQuestionsForAllUsers();
 
-  console.log('✔ Users seeded successfully');
+    console.log('✅ Database seed completed successfully');
+  });
 }
 
 main()
   .catch((e) => {
+    console.error('❌ Seed failed');
     console.error(e);
     process.exit(1);
   })

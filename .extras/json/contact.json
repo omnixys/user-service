@@ -1,0 +1,1819 @@
+[
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAAA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Gyamfi",
+    "firstName": "Rachel",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": true,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": {
+      "$date": "2025-01-01T00:00:00.000Z"
+    },
+    "created": {
+      "$date": "2023-05-01T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-06-05T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAJQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAAQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Gyamfi",
+    "firstName": "Nevaeh Amber Okorie",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-06-12T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-07-06T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAJQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAAg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Gyamfi",
+    "firstName": "Neriah Amaziah Ohemaa",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-06-10T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-01-25T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAJQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAAw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Gyamfi",
+    "firstName": "Caleb",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-08-01T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-11-03T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAAQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAABA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Gyamfi",
+    "firstName": "Nevaeh Ember Okorie",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-08-09T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-08-01T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAAQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAABQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Gyamfi",
+    "firstName": "Neriah Amaziah Ohemaa",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-11-23T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-12-19T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAAQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAABg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Müller",
+    "firstName": "Sofia",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-04-12T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-05-31T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAAg==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAABw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Müller",
+    "firstName": "John",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-04-04T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-12-22T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAAw==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAACA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Schmidt",
+    "firstName": "Erik",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-11-11T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-05-03T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAABA==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAACQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Schmidt",
+    "firstName": "Lisa",
+    "relationship": "CHILD",
+    "withdrawalLimit": 50,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-08-31T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-10-08T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAABA==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAEA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Schmidt",
+    "firstName": "Anna",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-06-08T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-01-04T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAABQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAEQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Schmidt",
+    "firstName": "Lisa",
+    "relationship": "CHILD",
+    "withdrawalLimit": 50,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-05-22T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-03-08T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAABQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAEg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Müller",
+    "firstName": "John",
+    "relationship": "COLLEAGUE",
+    "withdrawalLimit": null,
+    "emergencyContact": false,
+    "startDate": null,
+    "endDate": null,
+    "created": {
+      "$date": "2022-02-15T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-12-20T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAABg==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAEw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Müller",
+    "firstName": "Emma",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-10-23T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-01-05T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAACA==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAFA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Müller",
+    "firstName": "Emily",
+    "relationship": "SIBLING",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-08-10T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-09-12T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAACA==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAFQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Müller",
+    "firstName": "Ethan",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-06-13T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-04-16T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAACA==",
+        "subType": "04"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAFg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Müller",
+    "firstName": "Elena",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-04-30T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-02-16T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAACA==",
+        "subType": "04"
+      }
+    },
+    "idx": 3
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAFw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Müller",
+    "firstName": "Emerich",
+    "relationship": "RELATIVE",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-12-09T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-01-11T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAACA==",
+        "subType": "04"
+      }
+    },
+    "idx": 4
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAGA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Doe",
+    "firstName": "Jane",
+    "relationship": "COLLEAGUE",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-07-01T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-10-27T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAACQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAGQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Singh",
+    "firstName": "Aarav",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-07-22T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-04-29T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAACQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAIA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Garcia",
+    "firstName": "Maria",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-02-22T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-06-16T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAEA==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAIQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Johnson",
+    "firstName": "Linda",
+    "relationship": "PARENT",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-08-06T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-03-03T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAEQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAIg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Nguyen",
+    "firstName": "Linh",
+    "relationship": "COLLEAGUE",
+    "withdrawalLimit": null,
+    "emergencyContact": false,
+    "startDate": null,
+    "endDate": null,
+    "created": {
+      "$date": "2022-11-20T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-02-06T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAEg==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAIw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Saito",
+    "firstName": "Rina",
+    "relationship": "BUSINESS_PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-12-19T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-01-21T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAEg==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAJA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Kim",
+    "firstName": "Minji",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-01-04T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-01-01T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAFA==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAJQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Ivanov",
+    "firstName": "Mikhail",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-10-01T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-06-15T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAFA==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAJg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Osei",
+    "firstName": "Akosua",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-03-08T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-08-01T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAFQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAJw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Owusu",
+    "firstName": "Afia",
+    "relationship": "SIBLING",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-01-19T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-06-29T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAFQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAKA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Owusu",
+    "firstName": "Akosua",
+    "relationship": "PARENT",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-12-18T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-11-05T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAFQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAKQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Li",
+    "firstName": "Wang",
+    "relationship": "BUSINESS_PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-03-20T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-06-19T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAFQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 3
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAMA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Patel",
+    "firstName": "Raj",
+    "relationship": "BUSINESS_PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-11-28T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-08-26T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAFQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 4
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAMQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Owusu",
+    "firstName": "Afia",
+    "relationship": "PARENT",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-03-01T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-05-13T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAFg==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAMg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Tanaka",
+    "firstName": "Yuki",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-06-30T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-12-20T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAGA==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAMw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Tanaka",
+    "firstName": "Aiko",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-01-24T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-08-05T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAGA==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAANA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Tanaka",
+    "firstName": "Taro",
+    "relationship": "PARENT",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-02-28T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-02-12T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAGA==",
+        "subType": "04"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAANQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Tanaka",
+    "firstName": "Yumi",
+    "relationship": "PARENT",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-07-13T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-09-30T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAGA==",
+        "subType": "04"
+      }
+    },
+    "idx": 3
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAANg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Kobayashi",
+    "firstName": "Hana",
+    "relationship": "SIBLING",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-11-13T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-02-21T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAGA==",
+        "subType": "04"
+      }
+    },
+    "idx": 4
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAANw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Tanaka",
+    "firstName": "Sota",
+    "relationship": "SIBLING",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-11-02T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-06-27T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAGA==",
+        "subType": "04"
+      }
+    },
+    "idx": 5
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAOA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Saito",
+    "firstName": "Ryo",
+    "relationship": "COLLEAGUE",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-02-16T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-04-17T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAGA==",
+        "subType": "04"
+      }
+    },
+    "idx": 6
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAOQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Patel",
+    "firstName": "Kishan",
+    "relationship": "BUSINESS_PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-01-28T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-01-28T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAGQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAQA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Müller",
+    "firstName": "Linda",
+    "relationship": "BUSINESS_PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-07-28T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-06-29T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAGQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAQQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Smith",
+    "firstName": "Alice",
+    "relationship": "RELATIVE",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-10-17T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-03-04T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAGQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAQg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Meyer",
+    "firstName": "Julia",
+    "relationship": "SIBLING",
+    "withdrawalLimit": null,
+    "emergencyContact": false,
+    "startDate": null,
+    "endDate": null,
+    "created": {
+      "$date": "2023-11-29T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-03-12T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIA==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAQw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Ivanov",
+    "firstName": "Elena",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-11-14T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-09-22T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAARA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Ivanov",
+    "firstName": "Alexander",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-03-10T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-03-06T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAARQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Ivanov",
+    "firstName": "Maria",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-05-21T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-12-08T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAARg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Ivanov",
+    "firstName": "Anastasia",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-10-31T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-04-06T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIQ==",
+        "subType": "04"
+      }
+    },
+    "idx": 3
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAARw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Ivanov",
+    "firstName": "Dmitry",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-06-18T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-01-22T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIg==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAASA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Ivanov",
+    "firstName": "Alexander",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-02-03T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-01-03T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIg==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAASQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Ivanov",
+    "firstName": "Maria",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-10-17T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-03-24T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIg==",
+        "subType": "04"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAUA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Ivanov",
+    "firstName": "Anastasia",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-03-04T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-02-02T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIg==",
+        "subType": "04"
+      }
+    },
+    "idx": 3
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAUQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Andersson",
+    "firstName": "Anna",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-10-05T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-11-23T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIw==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAUg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Andersson",
+    "firstName": "Lena",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-04-25T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-04-22T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIw==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAUw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Andersson",
+    "firstName": "Eric",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-07-19T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-11-23T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAIw==",
+        "subType": "04"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAVA==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Andersson",
+    "firstName": "Johan",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-10-22T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-01-08T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAJA==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAVQ==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Andersson",
+    "firstName": "Lena",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-01-24T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-05-13T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAJA==",
+        "subType": "04"
+      }
+    },
+    "idx": 1
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAVg==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Andersson",
+    "firstName": "Eric",
+    "relationship": "CHILD",
+    "withdrawalLimit": 1000,
+    "emergencyContact": false,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2022-10-17T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-12-25T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAJA==",
+        "subType": "04"
+      }
+    },
+    "idx": 2
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAVw==",
+        "subType": "04"
+      }
+    },
+    "version": 0,
+    "lastName": "Gyamfi",
+    "firstName": "Rachel",
+    "relationship": "PARTNER",
+    "withdrawalLimit": 1000,
+    "emergencyContact": true,
+    "startDate": {
+      "$date": "2020-01-01T00:00:00.000Z"
+    },
+    "endDate": null,
+    "created": {
+      "$date": "2023-08-27T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2023-09-09T00:00:00.000Z"
+    },
+    "customerId": {
+      "$binary": {
+        "base64": "AAAAAAAAAAAAAAAAAAAAAA==",
+        "subType": "04"
+      }
+    },
+    "idx": 0
+  },
+  {
+    "_id": {
+      "$binary": {
+        "base64": "IAAAAAAAAAAAAAAAAAAAWA==",
+        "subType": "04"
+      }
+    },
+    "version": 1,
+    "lastName": "Admin",
+    "firstName": "Contact",
+    "relationship": "COLLEAGUE",
+    "withdrawalLimit": 1000,
+    "emergencyContact": true,
+    "startDate": null,
+    "endDate": null,
+    "created": {
+      "$date": "2023-08-03T00:00:00.000Z"
+    },
+    "updated": {
+      "$date": "2022-08-10T00:00:00.000Z"
+    },
+    "idx": 0
+  }
+]
