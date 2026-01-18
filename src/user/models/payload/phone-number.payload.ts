@@ -17,7 +17,7 @@ export class PhoneNumberPayload {
   type!: PhoneNumberType;
 
   @Field(() => String)
-  userId!: string;
+  infoId!: string;
 
   @Field(() => String, { nullable: true })
   @IsOptional()

@@ -10,7 +10,8 @@ import { env } from '../config/env.js';
 import { PrismaClient } from './generated/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
 
-const { DATABASE_URL } = env;
+// const { DATABASE_URL} = env;
+const { DATABASE_URL_LOCALE } = env;
 @Injectable()
 export class PrismaService
   extends PrismaClient
@@ -18,7 +19,8 @@ export class PrismaService
 {
   constructor() {
     const adapter = new PrismaPg({
-      connectionString: DATABASE_URL,
+      connectionString: DATABASE_URL_LOCALE,
+      // connectionString: DATABASE_URL,
     });
 
     super({ adapter });

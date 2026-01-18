@@ -1,7 +1,7 @@
 import type { PhoneNumber } from '../../../prisma/generated/client.js';
 import { n2u } from '../../utils/null-to-undefined.js';
-import { PhoneNumberType } from '../enums/phone-number-type.enum.js';
-import { PhoneNumberPayload } from '../payload/phone-number.payload.js';
+import type { PhoneNumberType } from '../enums/phone-number-type.enum.js';
+import type { PhoneNumberPayload } from '../payload/phone-number.payload.js';
 
 export class PhoneNumberMapper {
   static toPayload(user: PhoneNumber): PhoneNumberPayload {
@@ -9,7 +9,7 @@ export class PhoneNumberMapper {
       id: user.id,
       number: user.number,
       type: user.type as PhoneNumberType,
-      userId: user.userId,
+      infoId: user.infoId,
       label: n2u(user.label),
       isPrimary: user.isPrimary,
     };

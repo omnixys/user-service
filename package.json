@@ -55,6 +55,7 @@
     "prisma:seed": "tsx prisma/seed.ts",
     "prisma:push": "prisma db push",
     "prisma:pull": "prisma db pull",
+    "prisma:reset:locale": "prisma migrate reset --force && prisma migrate dev && tsx prisma/seed.locale.ts",
     "prisma:reset": "prisma migrate reset --force && prisma migrate dev && tsx prisma/seed.ts",
     "prisma:format": "pnpm prisma format && pnpm prisma validate && prisma generate",
     "release": "semantic-release"
@@ -113,6 +114,7 @@
     "@nestjs/cli": "latest",
     "@nestjs/schematics": "^11.0.9",
     "@nestjs/testing": "latest",
+    "@prisma/extension-accelerate": "^3.0.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/git": "^10.0.1",

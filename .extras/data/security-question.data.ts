@@ -3,9 +3,6 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import argon2 from 'argon2';
 import 'dotenv/config';
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
-const prisma = new PrismaClient({ adapter });
-
 const QUESTIONS_PER_USER = 5;
 
 /**
@@ -22,7 +19,7 @@ function shuffle<T>(array: readonly T[]): T[] {
  * Answers are only used during seeding and are never stored in plain text.
  */
 
-export const SECURITY_QUESTION_POOL = [
+const SECURITY_QUESTION_POOL = [
   { question: 'Wie lautet der Vorname deiner Mutter?', answer: 'Grace' },
   { question: 'Wie lautet der Vorname deines Vaters?', answer: 'Michael' },
   { question: 'In welcher Stadt wurdest du geboren?', answer: 'Accra' },
@@ -81,7 +78,7 @@ export const SECURITY_QUESTION_POOL = [
  * - Idempotent via upsert
  * ------------------------------------------------------------
  */
-export async function seedSecurityQuestionsForAllUsers() {
+export async function seedSecurityQuestionsForAllUsers(prisma: any) {
   const users = await prisma.user.findMany({
     select: { id: true },
   });
@@ -93,16 +90,6 @@ export async function seedSecurityQuestionsForAllUsers() {
     );
 
     for (const q of selected) {
-      const normalized = q.answer.trim().toLowerCase();
-
-      const answerHash = await argon2.hash(normalized, {
-        type: argon2.argon2id,
-        memoryCost: 2 ** 16, // 64 MB
-        timeCost: 3,
-        parallelism: 1,
-      });
-
-      for (const q of selected) {
         const normalized = q.answer.trim().toLowerCase();
 
         const answerHash = await argon2.hash(normalized, {
@@ -133,6 +120,5 @@ export async function seedSecurityQuestionsForAllUsers() {
         });
       }
     }
-  }
   console.log('✔ Security questions seeded (5 random per user)');
 }

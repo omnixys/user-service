@@ -1,25 +1,22 @@
-/* eslint-disable no-console */
-
 import { PrismaClient } from '../src/prisma/generated/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
 import 'dotenv/config';
 
-import { ADDRESSES } from '../.extras/data/address.data';
-import { CONTACTS } from '../.extras/data/contact.data';
-import { CUSTOMERS } from '../.extras/data/customer.data';
-import { EMPLOYEES } from '../.extras/data/employee.data';
-import { PERSONAL_INFOS } from '../.extras/data/personal-info.data';
-import { PHONE_NUMBERS } from '../.extras/data/phone-number.data';
-import { USERS } from '../.extras/data/user.data';
+import { ADDRESSES } from '../.extras/data/address.data.js';
+import { CONTACTS } from '../.extras/data/contact.data.js';
+import { CUSTOMERS } from '../.extras/data/customer.data.js';
+import { EMPLOYEES } from '../.extras/data/employee.data.js';
+import { PERSONAL_INFOS } from '../.extras/data/personal-info.data.js';
+import { PHONE_NUMBERS } from '../.extras/data/phone-number.data.js';
+import { USERS } from '../.extras/data/user.data.js';
+import { seedSecurityQuestionsForAllUsers } from '../.extras/data/security-question.data.js';
 
-import { seedSecurityQuestionsForAllUsers } from '../.extras/data/security-question.data';
-
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL_LOCALE! });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
   await prisma.$transaction(async (tx) => {
-    console.log('🌱 Starting database seed…');
+    console.log('🌱 Starting locale database seed…');
 
     /* -------------------------------------------------------------------------- */
     /* USERS                                                                      */
@@ -105,14 +102,14 @@ async function main() {
     //   });
     // }
 
-    /* -------------------------------------------------------------------------- */
-    /* SECURITY QUESTIONS (deterministic, rotated)                                */
-    /* -------------------------------------------------------------------------- */
-    console.log('→ Seeding security questions (deterministic)');
-    await seedSecurityQuestionsForAllUsers();
-
     console.log('✅ Database seed completed successfully');
   });
+
+  /* -------------------------------------------------------------------------- */
+  /* SECURITY QUESTIONS (deterministic, rotated)                                */
+  /* -------------------------------------------------------------------------- */
+  console.log('→ Seeding security questions (deterministic)');
+  await seedSecurityQuestionsForAllUsers(prisma);
 }
 
 main()

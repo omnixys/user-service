@@ -1,10 +1,10 @@
 import type { LoggerPlus } from '../../logger/logger-plus.js';
+import type { Span } from '@opentelemetry/api';
 import {
   context as otelContext,
   trace,
   SpanStatusCode,
   type Tracer,
-  Span,
 } from '@opentelemetry/api';
 
 /**

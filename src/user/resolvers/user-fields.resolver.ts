@@ -1,21 +1,88 @@
+import { Resolver, ResolveField, Parent } from '@nestjs/graphql';
+
+import { AddressPayload } from '../models/payload/address.payload.js';
+import { ContactPayload } from '../models/payload/contact.payload.js';
+import { CustomerPayload } from '../models/payload/customer.payload.js';
+import { EmployeePayload } from '../models/payload/employee.payload.js';
+import { PersonalInfoPayload } from '../models/payload/personal-info.payload.js';
 import { PhoneNumberPayload } from '../models/payload/phone-number.payload.js';
-import { SecurityPayload } from '../models/payload/security.payload.js';
 import { UserPayload } from '../models/payload/user.payload.js';
 
-import { Resolver, ResolveField, Parent } from '@nestjs/graphql';
 import { UserReadService } from '../services/user-read.service.js';
+
+import { AddressMapper } from '../models/mapper/address.mapper.js';
+import { ContactMapper } from '../models/mapper/contact.mapper.js';
+import { CustomerMapper } from '../models/mapper/customer.mapper.js';
+import { EmployeeMapper } from '../models/mapper/employee.mapper.js';
+import { PersonalInfoMapper } from '../models/mapper/personal-info.mapper.js';
+import { PhoneNumberMapper } from '../models/mapper/phone-number.mapper.js';
+import { FullSecurityQuestionMapper } from '../models/mapper/security.mapper.js';
+import { FullSecurityQuestionPayload } from '../models/payload/security-question.payload.js';
 
 @Resolver(() => UserPayload)
 export class UserFieldsResolver {
   constructor(private readonly readService: UserReadService) {}
 
-  @ResolveField(() => [PhoneNumberPayload], { nullable: true })
-  async phoneNumbers(@Parent() user: UserPayload) {
-    return this.readService.getPhoneNumbers(user.id);
+  /* ------------------------------------------------------------------
+   * PersonalInfo (1:1)
+   * ------------------------------------------------------------------ */
+  @ResolveField(() => PersonalInfoPayload, { nullable: true })
+  async personalInfo(@Parent() user: UserPayload) {
+    const entity = await this.readService.getPersonalInfo(user.id);
+    return entity ? PersonalInfoMapper.toPayload(entity) : null;
   }
 
-  @ResolveField(() => [SecurityPayload], { nullable: true })
-  async securityInfo(@Parent() user: UserPayload) {
-    return this.readService.getSecurityInfo(user.id);
+  /* ------------------------------------------------------------------
+   * PhoneNumbers (via PersonalInfo)
+   * ------------------------------------------------------------------ */
+  @ResolveField(() => [PhoneNumberPayload], { nullable: true })
+  async phoneNumbers(@Parent() user: UserPayload) {
+    const entities = await this.readService.getPhoneNumbers(user.id);
+    return entities.length ? PhoneNumberMapper.toPayloadList(entities) : [];
+  }
+
+  /* ------------------------------------------------------------------
+   * Addresses
+   * ------------------------------------------------------------------ */
+  @ResolveField(() => [AddressPayload], { nullable: true })
+  async addresses(@Parent() user: UserPayload) {
+    const entities = await this.readService.getAddresses(user.id);
+    return AddressMapper.toPayloadList(entities);
+  }
+
+  /* ------------------------------------------------------------------
+   * Contacts (Person ↔ Person)
+   * ------------------------------------------------------------------ */
+  @ResolveField(() => [ContactPayload], { nullable: true })
+  async contacts(@Parent() user: UserPayload) {
+    const entities = await this.readService.getContacts(user.id);
+    return ContactMapper.toPayloadList(entities);
+  }
+
+  /* ------------------------------------------------------------------
+   * Customer Extension (optional)
+   * ------------------------------------------------------------------ */
+  @ResolveField(() => CustomerPayload, { nullable: true })
+  async customer(@Parent() user: UserPayload) {
+    const entity = await this.readService.getCustomer(user.id);
+    return entity ? CustomerMapper.toPayload(entity) : null;
+  }
+
+  /* ------------------------------------------------------------------
+   * Employee Extension (optional)
+   * ------------------------------------------------------------------ */
+  @ResolveField(() => EmployeePayload, { nullable: true })
+  async employee(@Parent() user: UserPayload) {
+    const entity = await this.readService.getEmployee(user.id);
+    return entity ? EmployeeMapper.toPayload(entity) : null;
+  }
+
+  /* ------------------------------------------------------------------
+   * Security Questions
+   * ------------------------------------------------------------------ */
+  @ResolveField(() => [FullSecurityQuestionPayload], { nullable: true })
+  async securityQuestions(@Parent() user: UserPayload) {
+    const entities = await this.readService.getSecurityInfo(user.id);
+    return FullSecurityQuestionMapper.toPayloadList(entities);
   }
 }

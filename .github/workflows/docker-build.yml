@@ -85,6 +85,12 @@ jobs:
         node-version: [24.10.0]
 
     steps:
+      - name: 🚫 Abort if Release was not successful
+        if: ${{ github.event.workflow_run.conclusion != 'success' }}
+        run: |
+          echo "Release workflow was not successful. Aborting Docker build."
+          exit 1
+          
       - name: 🧾 Checkout repository
         uses: actions/checkout@v4
 

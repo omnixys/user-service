@@ -1,26 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import type { Security } from '../../../prisma/generated/client.js';
+import type { SecurityQuestion } from '../../../prisma/generated/client.js';
 import { n2u } from '../../utils/null-to-undefined.js';
-import { SecurityPayload } from '../payload/security.payload.js';
+import type { FullSecurityQuestionPayload } from '../payload/security-question.payload.js';
 
-export class SecurityMapper {
-  static toPayload(security: Security): SecurityPayload {
+export class FullSecurityQuestionMapper {
+  static toPayload(q: SecurityQuestion): FullSecurityQuestionPayload {
     return {
-      id: security.id,
-      question: security.question,
-      answer: security.answer,
-      answerHash: security.answerHash,
-      attempts: security.attempts,
-      lockedAt: n2u(security.lockedAt),
-      locked: Boolean(security.lockedAt && security.lockedAt > new Date()),
-      createdAt: security.createdAt,
-      updatedAt: security.updatedAt,
-      userId: security.userId,
+      id: q.id,
+      question: q.question,
+      attempts: q.attempts,
+      lockedAt: n2u(q.lockedAt),
+      answerHash: q.answerHash,
+      createdAt: q.createdAt,
+      updatedAt: q.updatedAt,
     };
   }
 
-  static toPayloadList(list: Security[]): SecurityPayload[] {
+  static toPayloadList(
+    list: SecurityQuestion[],
+  ): FullSecurityQuestionPayload[] {
     return list.map((security) => this.toPayload(security));
   }
 }

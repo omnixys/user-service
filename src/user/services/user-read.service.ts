@@ -1,15 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-// TODO resolve eslint
-
 import { LoggerPlus } from '../../logger/logger-plus.js';
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
+import {
+  Address,
+  Contact,
+  Customer,
+  Employee,
+  PersonalInfo,
+  PhoneNumber,
+  SecurityQuestion,
+  User,
+} from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
-import { PhoneNumberType } from '../models/enums/phone-number-type.enum.js';
-import { PhoneNumberMapper } from '../models/mapper/phone-number.mapper.js';
-import { SecurityMapper } from '../models/mapper/security.mapper.js';
-import { UserPayload } from '../models/payload/user.payload.js';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 /**
@@ -29,39 +30,30 @@ export class UserReadService {
     this.logger = this.loggerService.getLogger(UserReadService.name);
   }
 
-  // Returns all users, ordered by start date
-  async findAll(): Promise<UserPayload[]> {
-    return this.prisma.user.findMany();
+  async findAll(): Promise<User[]> {
+    this.logger.debug('findAll: loading all users');
+
+    return this.prisma.user.findMany({
+      orderBy: { createdAt: 'asc' },
+    });
   }
 
   // Returns a single user by its ID or throws if not found
-  async findOne(id: string): Promise<UserPayload> {
-    this.logger.debug('findOne: looking up user id=%s', id);
+  async findById(id: string): Promise<User> {
+    this.logger.debug('findById: looking up user id=%s', id);
 
-    const found = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id },
-      include: {
-        phoneNumbers: true,
-      },
     });
 
-    if (!found) {
-      throw new NotFoundException(`UserPayload with ID "${id}" not found`);
+    if (!user) {
+      throw new NotFoundException(`User with ID "${id}" not found`);
     }
 
-    // map Prisma PhoneType → GraphQL PhoneNumberType
-    const mapped = {
-      ...found,
-      phoneNumbers: found.phoneNumbers.map((p) => ({
-        ...p,
-        type: p.type as unknown as PhoneNumberType,
-      })),
-    };
-
-    return mapped;
+    return user;
   }
 
-  async findUserList(userIds: string[]): Promise<UserPayload[]> {
+  async findByIds(userIds: string[]): Promise<User[]> {
     if (userIds.length === 0) {
       return [];
     }
@@ -70,21 +62,87 @@ export class UserReadService {
       where: {
         id: { in: userIds },
       },
-      orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
+      orderBy: {
+        username: 'asc',
+      },
     });
   }
 
-  async getSecurityInfo(userId: string) {
-    const entity = await this.prisma.security.findMany({
-      where: { userId },
+  /* ------------------------------------------------------------------
+   * Personal Info (1:1)
+   * ------------------------------------------------------------------ */
+
+  async getPersonalInfo(userId: string): Promise<PersonalInfo | null> {
+    return this.prisma.personalInfo.findUnique({
+      where: { id: userId },
     });
-    return entity ? SecurityMapper.toPayloadList(entity) : undefined;
   }
 
-  async getPhoneNumbers(userId: string) {
-    const entity = await this.prisma.phoneNumber.findMany({
-      where: { userId },
+  /* ------------------------------------------------------------------
+   * Phone Numbers (via PersonalInfo)
+   * ------------------------------------------------------------------ */
+
+  async getPhoneNumbers(userId: string): Promise<PhoneNumber[]> {
+    return this.prisma.phoneNumber.findMany({
+      where: {
+        infoId: userId,
+      },
+      orderBy: {
+        isPrimary: 'desc',
+      },
     });
-    return entity ? PhoneNumberMapper.toPayloadList(entity) : undefined;
+  }
+
+  /* ------------------------------------------------------------------
+   * Security Questions
+   * ------------------------------------------------------------------ */
+
+  async getSecurityInfo(userId: string): Promise<SecurityQuestion[]> {
+    return this.prisma.securityQuestion.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'asc' },
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * Addresses
+   * ------------------------------------------------------------------ */
+
+  async getAddresses(userId: string): Promise<Address[]> {
+    return this.prisma.address.findMany({
+      where: { userId },
+      orderBy: { city: 'asc' },
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * Contacts (Person ↔ Person)
+   * ------------------------------------------------------------------ */
+
+  async getContacts(userId: string): Promise<Contact[]> {
+    return this.prisma.contact.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'asc' },
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * Customer Extension
+   * ------------------------------------------------------------------ */
+
+  async getCustomer(userId: string): Promise<Customer | null> {
+    return this.prisma.customer.findUnique({
+      where: { id: userId },
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * Employee Extension
+   * ------------------------------------------------------------------ */
+
+  async getEmployee(userId: string): Promise<Employee | null> {
+    return this.prisma.employee.findUnique({
+      where: { id: userId },
+    });
   }
 }
