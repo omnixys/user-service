@@ -32,6 +32,7 @@ export const PersonStatus = {
   ACTIVE: 'ACTIVE',
   DISABLED: 'DISABLED',
   DELETED: 'DELETED',
+  INACTIVE: 'INACTIVE',
 } as const;
 
 export type PersonStatus = (typeof PersonStatus)[keyof typeof PersonStatus];
@@ -51,6 +52,12 @@ export const RelationshipType = {
   PARTNER: 'PARTNER',
   COLLEAGUE: 'COLLEAGUE',
   OTHER: 'OTHER',
+  BUSINESS_PARTNER: 'BUSINESS_PARTNER',
+  RELATIVE: 'RELATIVE',
+  PARENT: 'PARENT',
+  SIBLING: 'SIBLING',
+  CHILD: 'CHILD',
+  COUSIN: 'COUSIN',
 } as const;
 
 export type RelationshipType =
@@ -70,6 +77,9 @@ export const StatusType = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
   BLOCKED: 'BLOCKED',
+  PENDING: 'PENDING',
+  SUSPENDED: 'SUSPENDED',
+  CLOSED: 'CLOSED',
 } as const;
 
 export type StatusType = (typeof StatusType)[keyof typeof StatusType];
@@ -80,6 +90,15 @@ export const InterestType = {
   TRAVEL: 'TRAVEL',
   TECHNOLOGY: 'TECHNOLOGY',
   OTHER: 'OTHER',
+  INVESTMENTS: 'INVESTMENTS',
+  SAVING_AND_FINANCE: 'SAVING_AND_FINANCE',
+  CREDIT_AND_DEBT: 'CREDIT_AND_DEBT',
+  BANK_PRODUCTS_AND_SERVICES: 'BANK_PRODUCTS_AND_SERVICES',
+  FINANCIAL_EDUCATION_AND_COUNSELING: 'FINANCIAL_EDUCATION_AND_COUNSELING',
+  REAL_ESTATE: 'REAL_ESTATE',
+  INSURANCE: 'INSURANCE',
+  SUSTAINABLE_FINANCE: 'SUSTAINABLE_FINANCE',
+  TECHNOLOGY_AND_INNOVATION: 'TECHNOLOGY_AND_INNOVATION',
 } as const;
 
 export type InterestType = (typeof InterestType)[keyof typeof InterestType];
@@ -89,6 +108,7 @@ export const ContactOptionsType = {
   PHONE: 'PHONE',
   SMS: 'SMS',
   WHATSAPP: 'WHATSAPP',
+  LETTER: 'LETTER',
 } as const;
 
 export type ContactOptionsType =

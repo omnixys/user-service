@@ -114,12 +114,12 @@ model Customer {
 model Employee {
   id String @id @map("id")
 
-  department String?
-  position   String?
-  role       String?
-  salary     Float?
-  hireDate   DateTime?
-  isExternal Boolean   @default(false)
+  department String?   @map("department")
+  position   String?   @map("position")
+  role       String?   @map("role")
+  salary     Float?    @map("salary")
+  hireDate   DateTime? @map("hire_date")
+  isExternal Boolean   @default(false) @map("is_external")
 
   user User @relation(fields: [id], references: [id], onDelete: Cascade)
 
@@ -236,6 +236,9 @@ enum PersonStatus {
   ACTIVE
   DISABLED
   DELETED
+  INACTIVE
+  BLOCKED
+  CLOSED
 
   @@schema("user")
 }
@@ -255,6 +258,12 @@ enum RelationshipType {
   PARTNER
   COLLEAGUE
   OTHER
+  BUSINESS_PARTNER
+  RELATIVE
+  PARENT
+  SIBLING
+  CHILD
+  COUSIN
 
   @@schema("user")
 }
@@ -272,6 +281,9 @@ enum StatusType {
   ACTIVE
   INACTIVE
   BLOCKED
+  PENDING
+  SUSPENDED
+  CLOSED
 
   @@schema("user")
 }
@@ -283,6 +295,16 @@ enum InterestType {
   TECHNOLOGY
   OTHER
 
+  INVESTMENTS
+  SAVING_AND_FINANCE
+  CREDIT_AND_DEBT
+  BANK_PRODUCTS_AND_SERVICES
+  FINANCIAL_EDUCATION_AND_COUNSELING
+  REAL_ESTATE
+  INSURANCE
+  SUSTAINABLE_FINANCE
+  TECHNOLOGY_AND_INNOVATION
+
   @@schema("user")
 }
 
@@ -291,6 +313,7 @@ enum ContactOptionsType {
   PHONE
   SMS
   WHATSAPP
+  LETTER
 
   @@schema("user")
 }
