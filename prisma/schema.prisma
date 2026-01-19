@@ -31,6 +31,10 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([status])
+  @@index([userType])
+  @@index([status, userType])
+  @@index([createdAt])
   @@map("user")
   @@schema("user")
 }
@@ -55,6 +59,8 @@ model PersonalInfo {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([lastName])
+  @@index([firstName, lastName])
   @@map("personal_info")
   @@schema("user")
 }
@@ -79,6 +85,9 @@ model Address {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([userId])
+  @@index([country, city])
+  @@index([zipCode])
   @@map("address")
   @@schema("user")
 }
@@ -103,6 +112,10 @@ model Customer {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([tierLevel])
+  @@index([state])
+  @@index([subscribed])
+  @@index([tierLevel, state])
   @@map("customer")
   @@schema("user")
 }
@@ -126,6 +139,9 @@ model Employee {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([department])
+  @@index([role])
+  @@index([isExternal])
   @@map("employee")
   @@schema("user")
 }
@@ -144,6 +160,8 @@ model PhoneNumber {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([infoId])
+  @@index([infoId, isPrimary])
   @@map("phone_number")
   @@schema("user")
 }
@@ -164,6 +182,8 @@ model SecurityQuestion {
   userId String @map("user_id")
 
   @@unique([userId, question])
+  @@index([userId])
+  @@index([lockedAt])
   @@map("security_question")
   @@schema("user")
 }
@@ -175,7 +195,6 @@ model PasswordReset {
   token     String    @unique @map("token")
   expiresAt DateTime  @map("expires_at")
   usedAt    DateTime? @map("used_at")
-  ipAddress String?   @map("ip_address")
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -206,6 +225,8 @@ model Contact {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([userId, contactId])
+  @@index([userId])
+  @@index([emergency])
   @@map("contact")
   @@schema("user")
 }

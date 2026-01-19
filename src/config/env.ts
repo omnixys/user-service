@@ -88,6 +88,8 @@ export const env = {
   REDIS_PASSWORD: process.env.REDIS_PASSWORD ?? undefined,
 
   DATABASE_URL: process.env.DATABASE_URL ?? 'DATABASE_URL',
+  DATABASE_URL_LOCALE: process.env.DATABASE_URL_LOCALE ?? 'DATABASE_URL_LOCALE',
+  SHADOW_DATABASE_URL: process.env.SHADOW_DATABASE_URL ?? 'SHADOW_DATABASE_URL',
 } as const;
 
 // /**

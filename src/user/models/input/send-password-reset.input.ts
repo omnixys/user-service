@@ -7,7 +7,4 @@ export class SendPasswordResetInput {
 
   @Field(() => String)
   resetUrl!: string;
-
-  @Field(() => String, { nullable: true })
-  ipAddress?: string;
 }

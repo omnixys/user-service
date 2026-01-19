@@ -1,4 +1,6 @@
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { UserType } from '../enums/user-type.enum.js';
+import { PersonStatus } from '../enums/person-status.enum.js';
 
 /**
  * Represents a user entity in the GraphQL schema.
@@ -12,14 +14,11 @@ export class UserPayload {
   @Field(() => String)
   username!: string;
 
-  @Field(() => String)
-  firstName!: string;
+  @Field(() => UserType)
+  userType!: UserType;
 
-  @Field(() => String)
-  lastName!: string;
-
-  @Field(() => String)
-  email!: string;
+  @Field(() => PersonStatus)
+  status!: PersonStatus;
 
   // Ticket IDs stored as string array (references external Ticket microservice)
   @Field(() => [String], { nullable: 'itemsAndList' })

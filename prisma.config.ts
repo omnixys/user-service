@@ -5,10 +5,12 @@ export default defineConfig({
   schema: 'prisma/schema.prisma',
   migrations: {
     path: 'prisma/migrations',
-    seed: 'tsx prisma/seed.ts',
+    // seed: 'tsx prisma/seed.ts',
+    seed: 'tsx prisma/seed.locale.ts',
   },
   datasource: {
-    url: env('DATABASE_URL'),
+    // url: env('DATABASE_URL'),
+    url: env('DATABASE_URL_LOCALE'),
     shadowDatabaseUrl: env('SHADOW_DATABASE_URL'),
   },
 });

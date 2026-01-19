@@ -1,13 +1,13 @@
-import { Field, InputType } from '@nestjs/graphql';
-import {
-  IsEmail,
-  IsOptional,
-  IsString,
-  Length,
-  ValidateNested,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { UserType } from '../enums/user-type.enum.js';
+import { AddressInput } from './address.input.js';
+import { ContactInput } from './contact.input.js';
+import { CustomerInput } from './customer.input.js';
+import { EmployeeInput } from './employee.input.js';
+import { PersonalInfoInput } from './personal-info.input.js';
 import { PhoneNumberInput } from './phone-number.input.js';
+import { AddSecurityQuestionInput } from './security-question.input.js';
+import { Field, InputType } from '@nestjs/graphql';
+import { IsString, Length } from 'class-validator';
 
 /**
  * Input type for creating a new user.
@@ -20,24 +20,30 @@ export class CreateUserInput {
   @Length(3, 32)
   username!: string;
 
-  @Field(() => String)
-  @IsString()
-  @Length(1, 64)
-  firstName!: string;
+  @Field(() => UserType)
+  userType!: UserType;
 
-  @Field(() => String)
-  @IsString()
-  @Length(1, 64)
-  lastName!: string;
+  @Field(() => PersonalInfoInput)
+  personalInfo!: PersonalInfoInput;
 
-  @Field(() => String)
-  @IsEmail()
-  email!: string;
-
-  // Optional list of phone numbers (WHATSAPP, PRIVATE, WORK, etc.)
   @Field(() => [PhoneNumberInput], { nullable: true })
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => PhoneNumberInput)
   phoneNumbers?: PhoneNumberInput[];
+
+  @Field(() => [AddressInput])
+  addresses!: AddressInput[];
+
+  @Field(() => CustomerInput, { nullable: true })
+  customer?: CustomerInput;
+
+  @Field(() => EmployeeInput, { nullable: true })
+  employee?: EmployeeInput;
+
+  @Field(() => [ContactInput], { nullable: true })
+  contacts?: ContactInput[];
+
+  @Field(() => [AddSecurityQuestionInput], { nullable: true })
+  securityQuestions?: AddSecurityQuestionInput[];
+
+  @Field(() => [String], { nullable: true })
+  invitationIds?: string[];
 }
