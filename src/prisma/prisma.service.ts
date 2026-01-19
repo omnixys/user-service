@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * @license GPL-3.0-or-later
  * © 2025 Caleb Gyamfi – Omnixys Technologies
@@ -12,6 +13,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 
 // const { DATABASE_URL} = env;
 const { DATABASE_URL_LOCALE } = env;
+
 @Injectable()
 export class PrismaService
   extends PrismaClient

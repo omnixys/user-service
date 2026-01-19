@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Resolver, ResolveField, Parent } from '@nestjs/graphql';
 
 import { AddressPayload } from '../models/payload/address.payload.js';

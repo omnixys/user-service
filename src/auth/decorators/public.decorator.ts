@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 // TODO Resolve eslint
 
 import { SetMetadata } from '@nestjs/common';
