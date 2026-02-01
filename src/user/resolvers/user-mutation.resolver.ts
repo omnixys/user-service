@@ -3,7 +3,7 @@ import {
   CurrentUserData,
 } from '../../auth/decorators/current-user.decorator.js';
 import { CookieAuthGuard } from '../../auth/guards/cookie-auth.guard.js';
-import { AddressInput } from '../models/input/address.input.js';
+import { UserAddressInput } from '../models/input/address.input.js';
 import { AddContactInput } from '../models/input/contact.input.js';
 
 import { CreateUserInput } from '../models/input/create-user.input.js';
@@ -125,7 +125,7 @@ export class UserMutationResolver {
   @Mutation(() => Boolean, { name: 'addAddress' })
   async addAddress(
     @CurrentUser() currentUser: CurrentUserData,
-    @Args('address') input: AddressInput,
+    @Args('address') input: UserAddressInput,
   ): Promise<boolean> {
     if (!currentUser?.id) {
       throw new UnauthorizedException('Not authenticated');

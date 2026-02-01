@@ -29,8 +29,8 @@ updates:
       prefix: 'deps(node)'
       include: 'scope'
     labels:
-      - '📦 dependencies'
-      - '🧩 needs-review'
+      - 'dependencies'
+      - 'needs-review'
     open-pull-requests-limit: 10
     rebase-strategy: auto
     allow:
@@ -54,8 +54,8 @@ updates:
       prefix: 'deps(docker)'
       include: 'scope'
     labels:
-      - '🐳 docker'
-      - '🧩 needs-review'
+      - 'docker'
+      - 'needs-review'
     rebase-strategy: auto
     ignore:
       - dependency-name: 'node'
@@ -73,7 +73,7 @@ updates:
       prefix: 'deps(actions)'
       include: 'scope'
     labels:
-      - '🧠 ci'
-      - '📦 dependencies'
+      - 'ci'
+      - 'dependencies'
     open-pull-requests-limit: 5
     rebase-strategy: auto

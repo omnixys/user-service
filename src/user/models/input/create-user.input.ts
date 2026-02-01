@@ -1,5 +1,5 @@
 import { UserType } from '../enums/user-type.enum.js';
-import { AddressInput } from './address.input.js';
+import { UserAddressInput } from './address.input.js';
 import { ContactInput } from './contact.input.js';
 import { CustomerInput } from './customer.input.js';
 import { EmployeeInput } from './employee.input.js';
@@ -29,8 +29,8 @@ export class CreateUserInput {
   @Field(() => [PhoneNumberInput], { nullable: true })
   phoneNumbers?: PhoneNumberInput[];
 
-  @Field(() => [AddressInput])
-  addresses!: AddressInput[];
+  @Field(() => [UserAddressInput])
+  addresses!: UserAddressInput[];
 
   @Field(() => CustomerInput, { nullable: true })
   customer?: CustomerInput;

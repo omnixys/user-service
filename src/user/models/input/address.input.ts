@@ -2,7 +2,7 @@ import { Field, ID, InputType } from '@nestjs/graphql';
 import { IsOptional, IsString, Length } from 'class-validator';
 
 @InputType()
-export class AddressInput {
+export class UserAddressInput {
   @Field()
   @IsString()
   @Length(1, 255)
@@ -47,7 +47,7 @@ export class AddAddressInput {
   @Field(() => String)
   @IsString()
   @Length(3, 32)
-  address!: AddressInput;
+  address!: UserAddressInput;
 }
 
 /**

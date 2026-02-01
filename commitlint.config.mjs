@@ -34,6 +34,7 @@ export default {
         'revert',
         'style',
         'test',
+        'breaking',
       ],
     ],
     'scope-case': [2, 'always', 'lower-case'],

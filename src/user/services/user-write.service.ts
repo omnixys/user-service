@@ -9,15 +9,15 @@ import { GenderType } from '../models/enums/gender-type.enum.js';
 import { MaritalStatusType } from '../models/enums/marital-status-type.enum.js';
 import { StatusType } from '../models/enums/status-type.enum.js';
 import { UserType } from '../models/enums/user-type.enum.js';
-import { AddressInput } from '../models/input/address.input.js';
+import { UserAddressInput } from '../models/input/address.input.js';
 import { AddContactInput } from '../models/input/contact.input.js';
 import { CreateUserInput } from '../models/input/create-user.input.js';
 import { PhoneNumberInput } from '../models/input/phone-number.input.js';
+import { AddSecurityQuestionInput } from '../models/input/security-question.input.js';
 import { UpdateUserInput } from '../models/input/update-user.input.js';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { trace } from '@opentelemetry/api';
 import * as argon2 from 'argon2';
-import { AddSecurityQuestionInput } from '../models/input/security-question.input.js';
 
 export interface AddPhoneNumbersDTO {
   userId: string;
@@ -333,7 +333,7 @@ export class UserWriteService {
     });
   }
 
-  async addAddress(userId: string, input: AddressInput): Promise<void> {
+  async addAddress(userId: string, input: UserAddressInput): Promise<void> {
     await this.prisma.address.create({
       data: {
         userId,
