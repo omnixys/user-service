@@ -2,6 +2,10 @@
 
 All notable changes in this project will be documented in this file.
 
+## <small>2.0.3 (2026-02-02)</small>
+
+- fix(prisma): fix prisma service ([264f9aef7c4fb5efa8a28439bae40179ef7848a2](https://github.com/omnixys/omnixys-user-service/commit/264f9aef7c4fb5efa8a28439bae40179ef7848a2))
+
 ## <small>2.0.2 (2026-02-02)</small>
 
 - fix(ci): update docker.yml ([7aab80aa67750a72e2f670edcbcc4bf4d206ce75](https://github.com/omnixys/omnixys-user-service/commit/7aab80aa67750a72e2f670edcbcc4bf4d206ce75))
