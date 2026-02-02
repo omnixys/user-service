@@ -132,7 +132,7 @@ USER node
 COPY --from=dependencies --chown=node:node /home/node/node_modules ./node_modules
 COPY --from=dist --chown=node:node /home/node/dist ./dist
 COPY --chown=node:node package.json ./
-COPY --from=dist /home/node/node_modules/.prisma ./node_modules/.prisma
+COPY --from=dist --chown=node:node /home/node/prisma ./prisma
 
 
 # ----- Expose application port (per Omnixys port conventions) -----
