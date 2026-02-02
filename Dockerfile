@@ -49,6 +49,7 @@ ARG SHADOW_DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}
 ENV SHADOW_DATABASE_URL=${SHADOW_DATABASE_URL}
 
+
 COPY --chown=node:node package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --ignore-scripts
 COPY --chown=node:node . .
@@ -57,6 +58,9 @@ COPY --chown=node:node . .
 RUN pnpm run build
 
 # Prisma Client generieren (jetzt existiert prisma/schema.prisma)
+RUN echo "SHADOW_DATABASE_URL=${SHADOW_DATABASE_URL}"
+RUN echo "DATABASE_URL=${DATABASE_URL}"
+
 RUN pnpm prisma generate
 
 
@@ -67,18 +71,11 @@ RUN pnpm prisma generate
 # ---------------------------------------------------------------------------------------
 FROM base AS dependencies
 
-ARG DATABASE_URL
-ARG SHADOW_DATABASE_URL
-
-ENV DATABASE_URL=${DATABASE_URL}
-ENV SHADOW_DATABASE_URL=${SHADOW_DATABASE_URL}
-
 COPY --chown=node:node package.json pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile --ignore-scripts
 
 # Prisma Client auch hier generieren (prod deps)
 COPY --from=dist --chown=node:node /home/node/prisma ./prisma
-RUN pnpm prisma generate
 
 
 # ---------------------------------------------------------------------------------------
@@ -135,6 +132,8 @@ USER node
 COPY --from=dependencies --chown=node:node /home/node/node_modules ./node_modules
 COPY --from=dist --chown=node:node /home/node/dist ./dist
 COPY --chown=node:node package.json ./
+COPY --from=dist /home/node/node_modules/.prisma ./node_modules/.prisma
+
 
 # ----- Expose application port (per Omnixys port conventions) -----
 EXPOSE 3000
