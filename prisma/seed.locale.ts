@@ -11,7 +11,7 @@ import { PHONE_NUMBERS } from '../.extras/data/phone-number.data.js';
 import { USERS } from '../.extras/data/user.data.js';
 import { seedSecurityQuestionsForAllUsers } from '../.extras/data/security-question.data.js';
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL_LOCALE! });
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {

@@ -56,7 +56,7 @@
     "prisma:push": "prisma db push",
     "prisma:pull": "prisma db pull",
     "prisma:reset:locale": "prisma migrate reset --force && prisma migrate dev && tsx prisma/seed.locale.ts",
-    "prisma:reset": "prisma migrate reset --force && prisma migrate dev && tsx prisma/seed.ts",
+    "prisma:reset": "prisma migrate reset --force && prisma migrate dev && tsx prisma/seed.locale.ts",
     "prisma:format": "pnpm prisma format && pnpm prisma validate && prisma generate",
     "release": "semantic-release"
   },
