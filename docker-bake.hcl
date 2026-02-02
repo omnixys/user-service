@@ -41,6 +41,14 @@ variable "REVISION" {
   default = "local-dev"
 }
 
+variable "DATABASE_URL" {
+  default = "kp"
+}
+
+variable "SHADOW_DATABASE_URL" {
+  default = "local-dev"
+}
+
 # ---------------------------------------------------------------------------------------
 # Target Group
 # ---------------------------------------------------------------------------------------
@@ -59,6 +67,8 @@ target "build" {
     APP_VERSION  = "${APP_VERSION}"
     CREATED      = "${CREATED}"
     REVISION     = "${REVISION}"
+    DATABASE_URL         = "${DATABASE_URL}"
+    SHADOW_DATABASE_URL  = "${SHADOW_DATABASE_URL}"
   }
 
   labels = {

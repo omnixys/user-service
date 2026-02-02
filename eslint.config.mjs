@@ -38,6 +38,7 @@ export default tseslint.config(
   {
     ignores: [
       'eslint.config.mjs',
+      'prisma.config.ts',
       'dist/**',
       'node_modules/**',
       'coverage/**',

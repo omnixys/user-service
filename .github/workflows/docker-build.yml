@@ -20,7 +20,7 @@
 name: Docker Build & Push – Omnixys
 
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
   # push:
   #   branches: [main]
   workflow_run:
@@ -90,7 +90,7 @@ jobs:
         run: |
           echo "Release workflow was not successful. Aborting Docker build."
           exit 1
-          
+
       - name: 🧾 Checkout repository
         uses: actions/checkout@v6
 
@@ -148,7 +148,7 @@ jobs:
           cosign sign --yes --recursive ${{ env.IMAGE_NAME }}:latest
 
   push-github:
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: 🐳 Build & Push Multi-Arch Images (Github)
     runs-on: ubuntu-latest
     strategy:
