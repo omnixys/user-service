@@ -2,6 +2,10 @@
 
 All notable changes in this project will be documented in this file.
 
+## <small>2.0.1 (2026-02-02)</small>
+
+- fix(ci): update docker pipeline ([e866ac59a051395aa7ef9d3dcf6493954f73df0e](https://github.com/omnixys/omnixys-user-service/commit/e866ac59a051395aa7ef9d3dcf6493954f73df0e))
+
 ## 2.0.0 (2026-02-02)
 
 - breaking(ci): update release ([496783a70ea4f52095bdb36002fcccbb4572d9a4](https://github.com/omnixys/omnixys-user-service/commit/496783a70ea4f52095bdb36002fcccbb4572d9a4))
