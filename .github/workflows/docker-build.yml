@@ -37,7 +37,6 @@ env:
   COSIGN_EXPERIMENTAL: 'true'
   IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}-service
   IMAGE_NAME_REPOSITORY: ghcr.io/${{ github.repository }}
-  CURRENT_VERSION: ${{ vars.CURRENT_VERSION }}
 
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -94,6 +93,14 @@ jobs:
       - name: 🧾 Checkout repository
         uses: actions/checkout@v6
 
+      - name: 🏷️ Resolve version from Git tag
+        id: version
+        run: |
+          git fetch --tags
+          VERSION=$(gh release view --json tagName -q .tagName)
+          VERSION=${VERSION#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
@@ -121,17 +128,17 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ env.IMAGE_NAME }}:${{ env.CURRENT_VERSION }}
+            ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
             ${{ env.IMAGE_NAME }}:latest
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.version=${{ env.CURRENT_VERSION }}
+            org.opencontainers.image.version=${{ steps.version.outputs.version }}
             org.opencontainers.image.description=Omnixys Microservice – ${{ env.IMAGE_NAME }}
             org.opencontainers.image.licenses=GPL-3.0-or-later
           build-args: |
             REVISION=${{ github.sha }}
             CREATED=${{ env.CURRENT_DATE }}
-            APP_VERSION=${{ env.CURRENT_VERSION }}
+            APP_VERSION=${{ steps.version.outputs.version }}
             APP_NAME=${{ secrets.SERVICE }}
             NODE_VERSION=${{ matrix.node-version }}
             DATABASE_URL=${{ env.DATABASE_URL }}
@@ -144,7 +151,7 @@ jobs:
 
       - name: Sign Docker Image with cosign (OIDC/GitHub)
         run: |
-          cosign sign --yes --recursive ${{ env.IMAGE_NAME }}:${{ env.CURRENT_VERSION }}
+          cosign sign --yes --recursive ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
           cosign sign --yes --recursive ${{ env.IMAGE_NAME }}:latest
 
   push-github:
@@ -158,6 +165,14 @@ jobs:
     steps:
       - name: 🧾 Checkout repository
         uses: actions/checkout@v6
+
+      - name: 🏷️ Resolve version from Git tag
+        id: version
+        run: |
+          git fetch --tags
+          VERSION=$(gh release view --json tagName -q .tagName)
+          VERSION=${VERSION#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -187,17 +202,17 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ env.IMAGE_NAME_REPOSITORY }}:${{ env.CURRENT_VERSION }}
+            ${{ env.IMAGE_NAME_REPOSITORY }}:${{ steps.version.outputs.version }}
             ${{ env.IMAGE_NAME_REPOSITORY }}:latest
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.version=${{ env.CURRENT_VERSION }}
+            org.opencontainers.image.version=${{ steps.version.outputs.version }}
             org.opencontainers.image.description=Omnixys Microservice – ${{ env.IMAGE_NAME }}
             org.opencontainers.image.licenses=GPL-3.0-or-later
           build-args: |
             REVISION=${{ github.sha }}
             CREATED=${{ env.CURRENT_DATE }}
-            APP_VERSION=${{ env.CURRENT_VERSION }}
+            APP_VERSION=${{ steps.version.outputs.version }}
             APP_NAME=${{ secrets.SERVICE }}
             NODE_VERSION=${{ matrix.node-version }}
             DATABASE_URL=${{ env.DATABASE_URL }}
@@ -210,5 +225,5 @@ jobs:
 
       - name: Sign Docker Image with cosign (OIDC/GitHub)
         run: |
-          cosign sign --yes --recursive ${{ env.IMAGE_NAME_REPOSITORY }}:${{ env.CURRENT_VERSION }}
+          cosign sign --yes --recursive ${{ env.IMAGE_NAME_REPOSITORY }}:${{ steps.version.outputs.version }}
           cosign sign --yes --recursive ${{ env.IMAGE_NAME_REPOSITORY }}:latest

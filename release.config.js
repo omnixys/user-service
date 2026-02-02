@@ -146,17 +146,13 @@ export default {
         ],
 
         releaseBodyTemplate: `
-Today, we are excited to share the **{{nextRelease.version}}** release 🎉
+Today, we are excited to share the **v{{version}}** release 🎉
 
 This release includes stability improvements, bug fixes, and internal refinements for the **User Service**.
 
 ---
 
-{{#if commits}}
-## 🔍 Changes
-{{/if}}
-
-{{notes}}
+{{body}}
 
 ---
 
