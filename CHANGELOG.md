@@ -2,6 +2,11 @@
 
 All notable changes in this project will be documented in this file.
 
+## <small>2.0.2 (2026-02-02)</small>
+
+- fix(ci): update docker.yml ([7aab80aa67750a72e2f670edcbcc4bf4d206ce75](https://github.com/omnixys/omnixys-user-service/commit/7aab80aa67750a72e2f670edcbcc4bf4d206ce75))
+- Merge branch 'main' of https://github.com/omnixys/omnixys-user-service ([99fe91a12952559d1a0ba78d894676b8e569da8d](https://github.com/omnixys/omnixys-user-service/commit/99fe91a12952559d1a0ba78d894676b8e569da8d))
+
 ## <small>2.0.1 (2026-02-02)</small>
 
 - fix(ci): update docker pipeline ([e866ac59a051395aa7ef9d3dcf6493954f73df0e](https://github.com/omnixys/omnixys-user-service/commit/e866ac59a051395aa7ef9d3dcf6493954f73df0e))
