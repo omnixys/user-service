@@ -2,6 +2,11 @@
 
 All notable changes in this project will be documented in this file.
 
+## <small>2.1.2 (2026-02-25)</small>
+
+- fix(ci): change serets.SERVICE to vars.SERVICE ([fe76d8e5d796ca7ba37e4b4a34b54083722bb325](https://github.com/omnixys/omnixys-user-service/commit/fe76d8e5d796ca7ba37e4b4a34b54083722bb325))
+- Merge branch 'main' of https://github.com/omnixys/omnixys-user-service ([9338626abbccb7269ec8b3b4d42a5f61a6a0bdc5](https://github.com/omnixys/omnixys-user-service/commit/9338626abbccb7269ec8b3b4d42a5f61a6a0bdc5))
+
 ## <small>2.1.1 (2026-02-25)</small>
 
 - fix(ci): update CI ([61591d9237e94e59b6e9a4b03c5b0f909004a288](https://github.com/omnixys/omnixys-user-service/commit/61591d9237e94e59b6e9a4b03c5b0f909004a288))
