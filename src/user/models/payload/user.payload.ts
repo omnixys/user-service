@@ -1,6 +1,7 @@
-import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
-import { UserType } from '../enums/user-type.enum.js';
 import { PersonStatus } from '../enums/person-status.enum.js';
+import { RealmRole } from '../enums/role-type.enum.js';
+import { UserType } from '../enums/user-type.enum.js';
+import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
 
 /**
  * Represents a user entity in the GraphQL schema.
@@ -33,4 +34,7 @@ export class UserPayload {
 
   @Field(() => GraphQLISODateTime)
   updatedAt!: Date;
+
+  @Field(() => RealmRole, { nullable: true })
+  role?: RealmRole;
 }

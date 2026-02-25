@@ -20,6 +20,11 @@ export class CreateUserInput {
   @Length(3, 32)
   username!: string;
 
+  @Field(() => String)
+  @IsString()
+  @Length(8, 32)
+  password!: string;
+
   @Field(() => UserType)
   userType!: UserType;
 

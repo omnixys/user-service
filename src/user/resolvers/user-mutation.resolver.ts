@@ -5,8 +5,6 @@ import {
 import { CookieAuthGuard } from '../../auth/guards/cookie-auth.guard.js';
 import { UserAddressInput } from '../models/input/address.input.js';
 import { AddContactInput } from '../models/input/contact.input.js';
-
-import { CreateUserInput } from '../models/input/create-user.input.js';
 import { PhoneNumberInput } from '../models/input/phone-number.input.js';
 import { AddSecurityQuestionInput } from '../models/input/security-question.input.js';
 import {
@@ -24,16 +22,6 @@ import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
 @Resolver(() => UserPayload)
 export class UserMutationResolver {
   constructor(private readonly service: UserWriteService) {}
-
-  /* ------------------------------------------------------------------
-   * Create
-   * ------------------------------------------------------------------ */
-
-  @Mutation(() => UserPayload, { name: 'createUser' })
-  async create(@Args('input') input: CreateUserInput): Promise<UserPayload> {
-    const user = await this.service.create(input);
-    return userMapper.toPayload(user);
-  }
 
   /* ------------------------------------------------------------------
    * Update (admin / internal)

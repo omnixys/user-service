@@ -1,28 +1,17 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsEmail, IsString, Length } from 'class-validator';
-
 /**
  * Input type for creating a new user.
  * Corresponds to fields in the User entity.
  */
-@InputType()
-export class KCSignUpDTO {
-  @Field(() => String)
-  @IsString()
-  @Length(3, 32)
-  username!: string;
+export interface KCSignUpDTO {
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
 
-  @Field(() => String)
-  @IsString()
-  @Length(1, 64)
-  firstName!: string;
-
-  @Field(() => String)
-  @IsString()
-  @Length(1, 64)
-  lastName!: string;
-
-  @Field(() => String)
-  @IsEmail()
-  email!: string;
+export interface UserIdDTO {
+  newId: string;
+  oldId: string;
 }

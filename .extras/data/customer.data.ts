@@ -33,6 +33,15 @@ export const CUSTOMERS = [
     interests: [
       InterestType.BANK_PRODUCTS_AND_SERVICES,
       InterestType.TECHNOLOGY_AND_INNOVATION,
+      InterestType.FINANCIAL_EDUCATION_AND_COUNSELING,
+      InterestType.SUSTAINABLE_FINANCE,
+      InterestType.INVESTMENTS,
+      InterestType.SAVING_AND_FINANCE,
+      InterestType.CREDIT_AND_DEBT,
+      InterestType.REAL_ESTATE,
+      InterestType.INSURANCE,
+      InterestType.SUSTAINABLE_FINANCE,
+      InterestType.TRAVEL,
     ],
   },
 

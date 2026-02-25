@@ -8,8 +8,8 @@ import { CUSTOMERS } from '../.extras/data/customer.data.js';
 import { EMPLOYEES } from '../.extras/data/employee.data.js';
 import { PERSONAL_INFOS } from '../.extras/data/personal-info.data.js';
 import { PHONE_NUMBERS } from '../.extras/data/phone-number.data.js';
-import { USERS } from '../.extras/data/user.data.js';
 import { seedSecurityQuestionsForAllUsers } from '../.extras/data/security-question.data.js';
+import { USERS } from '../.extras/data/user.data.js';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -93,14 +93,19 @@ async function main() {
     /* -------------------------------------------------------------------------- */
     /* CONTACTS                                                                   */
     /* -------------------------------------------------------------------------- */
-    // console.log('→ Seeding contacts');
-    // for (const contact of CONTACTS) {
-    //   await tx.contact.upsert({
-    //     where: { id: contact.id },
-    //     update: contact,
-    //     create: contact,
-    //   });
-    // }
+    console.log('→ Seeding contacts');
+    for (const contact of CONTACTS) {
+      await tx.contact.upsert({
+        where: {
+          userId_contactId: {
+            userId: contact.userId,
+            contactId: contact.contactId,
+          },
+        },
+        update: contact,
+        create: contact,
+      });
+    }
 
     console.log('✅ Database seed completed successfully');
   });

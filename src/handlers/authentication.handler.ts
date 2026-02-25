@@ -16,17 +16,19 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { LoggerPlusService } from '../logger/logger-plus.service.js';
 import {
   KafkaEvent,
   KafkaHandler,
-} from '../messaging/decorators/kafka-event.decorator.js';
+} from '../kafka/decorators/kafka-event.decorator.js';
 import {
   type KafkaEventContext,
   KafkaEventHandler,
-} from '../messaging/interface/kafka-event.interface.js';
-import { getTopic, getTopics } from '../messaging/kafka-topic.properties.js';
+} from '../kafka/interface/kafka-event.interface.js';
+import { getTopic, getTopics } from '../kafka/kafka-topic.properties.js';
+import { LoggerPlusService } from '../logger/logger-plus.service.js';
+import { UserIdDTO } from '../user/models/dto/kc-sign-up.dto.js';
 import { UserDTO, UserUpdateDTO } from '../user/models/dto/user.dto.js';
+import { RegisterService } from '../user/services/register.service.js';
 import { UserWriteService } from '../user/services/user-write.service.js';
 import { Injectable } from '@nestjs/common';
 
@@ -51,6 +53,7 @@ export class AuthenticationHandler implements KafkaEventHandler {
    */
   constructor(
     private readonly loggerService: LoggerPlusService,
+    private readonly registerService: RegisterService,
     private readonly userWriteService: UserWriteService,
   ) {
     this.logger = this.loggerService.getLogger(AuthenticationHandler.name);
@@ -65,10 +68,12 @@ export class AuthenticationHandler implements KafkaEventHandler {
    *
    * @returns A Promise that resolves once the command has been processed.
    */
-  @KafkaEvent(...getTopics('createUser', 'updateUser', 'deleteUser'))
+  @KafkaEvent(
+    ...getTopics('createUser', 'updateUser', 'deleteUser', 'addUserId'),
+  )
   async handle(
     topic: string,
-    data: { payload: UserDTO | UserUpdateDTO },
+    data: { payload: UserDTO | UserUpdateDTO | UserIdDTO },
     context: KafkaEventContext,
   ): Promise<void> {
     this.logger.warn(`User command received: ${topic}`);
@@ -76,7 +81,7 @@ export class AuthenticationHandler implements KafkaEventHandler {
 
     switch (topic) {
       case getTopic('createUser'):
-        await this.addUserId(data as { payload: UserDTO });
+        await this.createUserWithId(data as { payload: UserDTO });
         break;
 
       case getTopic('updateUser'):
@@ -87,12 +92,16 @@ export class AuthenticationHandler implements KafkaEventHandler {
         await this.deleteUser(data as { payload: { id: string } });
         break;
 
+      case getTopic('addUserId'):
+        await this.addUserId(data as { payload: UserIdDTO });
+        break;
+
       default:
         this.logger.warn(`Unknown authentication topic: ${topic}`);
     }
   }
 
-  private async addUserId(data: { payload: UserDTO }) {
+  private async createUserWithId(data: { payload: UserDTO }) {
     await this.userWriteService.createWithId(data.payload);
   }
 
@@ -102,5 +111,9 @@ export class AuthenticationHandler implements KafkaEventHandler {
 
   private async deleteUser(data: { payload: { id: string } }) {
     await this.userWriteService.delete(data.payload.id);
+  }
+
+  private async addUserId(data: { payload: UserIdDTO }) {
+    await this.registerService.addUserId(data.payload);
   }
 }

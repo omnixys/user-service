@@ -1,227 +1,138 @@
 import { RelationshipType } from '../../src/prisma/generated/client';
 
-/**
- * CONTACT SEED DATA
- * ------------------------------------------------------------
- * Derived from legacy MongoDB contacts
- * Only contacts referencing existing users are seeded
- * ------------------------------------------------------------
- */
+/* -------------------------------------------------------------------------- */
+/* CORE USER IDS                                                               */
+/* -------------------------------------------------------------------------- */
+
+const ADMIN = 'dde8114c-2637-462a-90b9-413924fa3f55';
+const CALEB = '694d2e8e-0932-4c8f-a1c4-e300dc235be4';
+const RACHEL = 'f9de3f8a-5b79-4f3a-9267-10c1b9ce2a03';
+const SECURITY = '20e7e44e-9bcd-4016-bebd-36f8d75357b6';
+const AUDREY = '9e219f6f-7706-4294-8b5b-a4105999846f';
+const CHRISTABELLE = '18bbde19-7e76-45dc-b204-f5c397e11362';
+
+/* -------------------------------------------------------------------------- */
+/* SEEDED USER IDS (SEQUENTIAL)                                                */
+/* -------------------------------------------------------------------------- */
+
+const USERS = [
+  '00000000-0000-0000-0000-000000000000', // mark.williams2
+  '00000000-0000-0000-0000-000000000001', // julia
+  '00000000-0000-0000-0000-000000000002', // anna.schmidt
+  '00000000-0000-0000-0000-000000000003', // erik
+  '00000000-0000-0000-0000-000000000004', // laura.brown
+  '00000000-0000-0000-0000-000000000005', // shamaar
+  '00000000-0000-0000-0000-000000000006', // john.muller
+  '00000000-0000-0000-0000-000000000007', // linh.nguyen
+  '00000000-0000-0000-0000-000000000008', // miguel.garcia
+  '00000000-0000-0000-0000-000000000009', // soojin.lee
+  '00000000-0000-0000-0000-000000000010', // jane.doe
+  '00000000-0000-0000-0000-000000000011', // mark.williams
+  '00000000-0000-0000-0000-000000000012', // luca.rossi
+  '00000000-0000-0000-0000-000000000013', // kwame.owusu
+  '00000000-0000-0000-0000-000000000014', // yaa.osei
+  '00000000-0000-0000-0000-000000000015', // lisa.peterson
+  '00000000-0000-0000-0000-000000000016', // hiroshi.tanaka
+  '00000000-0000-0000-0000-000000000017', // emily.smith
+  '00000000-0000-0000-0000-000000000018', // david.jones
+  '00000000-0000-0000-0000-000000000019', // dmitry.ivanov
+  '00000000-0000-0000-0000-000000000020', // elena.ivanova
+  '00000000-0000-0000-0000-000000000021', // johan.andersson
+  '00000000-0000-0000-0000-000000000022', // anna.andersson
+];
+
+/* -------------------------------------------------------------------------- */
+/* CONTACTS                                                                   */
+/* -------------------------------------------------------------------------- */
 
 export const CONTACTS = [
-  // ---------------------------------------------------------------------------
-  // ADMIN → RACHEL
-  // ---------------------------------------------------------------------------
+  /* ------------------------------------------------------------------------ */
+  /* CALEB – EXACTLY 5 CONTACTS (REQUIRED)                                     */
+  /* ------------------------------------------------------------------------ */
   {
-    id: '50000000-0000-0000-0000-000000000000',
-    userId: '00000000-0000-0000-0000-000000000000', // admin
-    contactId: '00000000-0000-0000-0000-000000000002', // rachel
+    id: 'contact-caleb-01',
+    userId: CALEB,
+    contactId: RACHEL,
     relationship: RelationshipType.PARTNER,
-    withdrawalLimit: 1000,
+    withdrawalLimit: 5000,
     emergency: true,
-    startDate: new Date('2020-01-01'),
-    endDate: null,
-  },
-
-  // ---------------------------------------------------------------------------
-  // CALEB ↔ RACHEL
-  // ---------------------------------------------------------------------------
-  {
-    id: '50000000-0000-0000-0000-000000000001',
-    userId: '00000000-0000-0000-0000-000000000001', // caleb
-    contactId: '00000000-0000-0000-0000-000000000002', // rachel
-    relationship: RelationshipType.PARTNER,
-    withdrawalLimit: 1000,
-    emergency: true,
-    startDate: new Date('2020-01-01'),
-    endDate: null,
+    startDate: new Date('2022-06-01'),
   },
   {
-    id: '50000000-0000-0000-0000-000000000002',
-    userId: '00000000-0000-0000-0000-000000000002', // rachel
-    contactId: '00000000-0000-0000-0000-000000000001', // caleb
-    relationship: RelationshipType.PARTNER,
-    withdrawalLimit: 1000,
-    emergency: true,
-    startDate: new Date('2020-01-01'),
-    endDate: null,
-  },
-
-  // ---------------------------------------------------------------------------
-  // CALEB → AUDREY
-  // ---------------------------------------------------------------------------
-  {
-    id: '50000000-0000-0000-0000-000000000003',
-    userId: '00000000-0000-0000-0000-000000000001', // caleb
-    contactId: '00000000-0000-0000-0000-000000000004', // audrey
+    id: 'contact-caleb-02',
+    userId: CALEB,
+    contactId: AUDREY,
     relationship: RelationshipType.FRIEND,
-    withdrawalLimit: 0,
+    withdrawalLimit: 1500,
     emergency: false,
-    startDate: null,
-    endDate: null,
+  },
+  {
+    id: 'contact-caleb-03',
+    userId: CALEB,
+    contactId: CHRISTABELLE,
+    relationship: RelationshipType.COLLEAGUE,
+    withdrawalLimit: 1000,
+    emergency: false,
+  },
+  {
+    id: 'contact-caleb-04',
+    userId: CALEB,
+    contactId: USERS[13], // kwame
+    relationship: RelationshipType.RELATIVE,
+    withdrawalLimit: 2000,
+    emergency: true,
+  },
+  {
+    id: 'contact-caleb-05',
+    userId: CALEB,
+    contactId: USERS[14], // yaa
+    relationship: RelationshipType.COUSIN,
+    withdrawalLimit: 1200,
+    emergency: false,
   },
 
-  // ---------------------------------------------------------------------------
-  // CALEB → CHRISTABELLE
-  // ---------------------------------------------------------------------------
+  /* ------------------------------------------------------------------------ */
+  /* CORE STAFF RELATIONSHIPS                                                  */
+  /* ------------------------------------------------------------------------ */
   {
-    id: '50000000-0000-0000-0000-000000000004',
-    userId: '00000000-0000-0000-0000-000000000001', // caleb
-    contactId: '00000000-0000-0000-0000-000000000005', // christabelle
-    relationship: RelationshipType.FRIEND,
-    withdrawalLimit: 0,
-    emergency: false,
-    startDate: null,
-    endDate: null,
-  },
-
-  // ---------------------------------------------------------------------------
-  // SECURITY → ADMIN (COLLEAGUE)
-  // ---------------------------------------------------------------------------
-  {
-    id: '50000000-0000-0000-0000-000000000005',
-    userId: '00000000-0000-0000-0000-000000000003', // security
-    contactId: '00000000-0000-0000-0000-000000000000', // admin
+    id: 'contact-admin-security',
+    userId: ADMIN,
+    contactId: SECURITY,
     relationship: RelationshipType.COLLEAGUE,
     withdrawalLimit: 1000,
     emergency: true,
-    startDate: null,
-    endDate: null,
   },
-
-  // ---------------------------------------------------------------------------
-  // ADMIN → SECURITY
-  // ---------------------------------------------------------------------------
   {
-    id: '50000000-0000-0000-0000-000000000006',
-    userId: '00000000-0000-0000-0000-000000000000', // admin
-    contactId: '00000000-0000-0000-0000-000000000003', // security
+    id: 'contact-security-admin',
+    userId: SECURITY,
+    contactId: ADMIN,
     relationship: RelationshipType.COLLEAGUE,
     withdrawalLimit: 1000,
     emergency: true,
-    startDate: null,
-    endDate: null,
-  },
-  {
-    id: '50000000-0000-0000-0000-000000000007',
-    userId: '00000000-0000-0000-0000-000000000000',
-    contactId: '00000000-0000-0000-0000-000000000010', // jane.doe
-    relationship: RelationshipType.COLLEAGUE,
-    withdrawalLimit: 1000,
-    emergency: false,
-    startDate: new Date('2020-01-01'),
-    endDate: null,
   },
 
-  // ===========================================================================
-  // JULIA MEYER (000…001)
-  // ===========================================================================
-  {
-    id: '50000000-0000-0000-0000-000000000008',
-    userId: '00000000-0000-0000-0000-000000000001',
-    contactId: '00000000-0000-0000-0000-000000000002', // anna.schmidt
-    relationship: RelationshipType.SIBLING,
-    withdrawalLimit: null,
-    emergency: false,
-    startDate: null,
-    endDate: null,
-  },
+  /* ------------------------------------------------------------------------ */
+  /* GENERAL USER NETWORK (DETERMINISTIC, SAFE)                                */
+  /* ------------------------------------------------------------------------ */
 
-  // ===========================================================================
-  // ANNA SCHMIDT (000…002)
-  // ===========================================================================
-  {
-    id: '50000000-0000-0000-0000-000000000009',
-    userId: '00000000-0000-0000-0000-000000000002',
-    contactId: '00000000-0000-0000-0000-000000000003', // erik.schmidt
-    relationship: RelationshipType.PARTNER,
-    withdrawalLimit: 1000,
-    emergency: false,
-    startDate: new Date('2020-01-01'),
-    endDate: null,
-  },
+  ...USERS.slice(0, 15).map((userId, index) => {
+    const contactId = USERS[index + 1];
+    if (!contactId) return null;
 
-  // ===========================================================================
-  // ERIK SCHMIDT (000…003)
-  // ===========================================================================
-  {
-    id: '50000000-0000-0000-0000-000000000010',
-    userId: '00000000-0000-0000-0000-000000000003',
-    contactId: '00000000-0000-0000-0000-000000000002',
-    relationship: RelationshipType.PARTNER,
-    withdrawalLimit: 1000,
-    emergency: false,
-    startDate: new Date('2020-01-01'),
-    endDate: null,
-  },
-
-  // ===========================================================================
-  // JOHN / EMANUEL MÜLLER (000…006)
-  // ===========================================================================
-  {
-    id: '50000000-0000-0000-0000-000000000011',
-    userId: '00000000-0000-0000-0000-000000000006',
-    contactId: '00000000-0000-0000-0000-000000000007', // linh.nguyen
-    relationship: RelationshipType.COLLEAGUE,
-    withdrawalLimit: null,
-    emergency: false,
-    startDate: null,
-    endDate: null,
-  },
-
-  // ===========================================================================
-  // LINH NGUYEN (000…007)
-  // ===========================================================================
-  {
-    id: '50000000-0000-0000-0000-000000000012',
-    userId: '00000000-0000-0000-0000-000000000007',
-    contactId: '00000000-0000-0000-0000-000000000006', // john.muller
-    relationship: RelationshipType.COLLEAGUE,
-    withdrawalLimit: null,
-    emergency: false,
-    startDate: null,
-    endDate: null,
-  },
-
-  // ===========================================================================
-  // MIGUEL GARCIA (000…008)
-  // ===========================================================================
-  {
-    id: '50000000-0000-0000-0000-000000000013',
-    userId: '00000000-0000-0000-0000-000000000008',
-    contactId: '00000000-0000-0000-0000-000000000014', // yaa.osei
-    relationship: RelationshipType.BUSINESS_PARTNER,
-    withdrawalLimit: 1000,
-    emergency: false,
-    startDate: new Date('2020-01-01'),
-    endDate: null,
-  },
-
-  // ===========================================================================
-  // DMITRY IVANOV (000…019)
-  // ===========================================================================
-  {
-    id: '50000000-0000-0000-0000-000000000014',
-    userId: '00000000-0000-0000-0000-000000000019',
-    contactId: '00000000-0000-0000-0000-000000000020', // elena.ivanova
-    relationship: RelationshipType.PARTNER,
-    withdrawalLimit: 1000,
-    emergency: false,
-    startDate: new Date('2020-01-01'),
-    endDate: null,
-  },
-
-  // ===========================================================================
-  // JOHAN ANDERSSON (000…021)
-  // ===========================================================================
-  {
-    id: '50000000-0000-0000-0000-000000000015',
-    userId: '00000000-0000-0000-0000-000000000021',
-    contactId: '00000000-0000-0000-0000-000000000022', // anna.andersson
-    relationship: RelationshipType.PARTNER,
-    withdrawalLimit: 1000,
-    emergency: false,
-    startDate: new Date('2020-01-01'),
-    endDate: null,
-  },
-] as const;
+    return {
+      id: `contact-auto-${index}`,
+      userId,
+      contactId,
+      relationship:
+        index % 4 === 0
+          ? RelationshipType.FAMILY
+          : index % 4 === 1
+            ? RelationshipType.FRIEND
+            : index % 4 === 2
+              ? RelationshipType.COLLEAGUE
+              : RelationshipType.BUSINESS_PARTNER,
+      withdrawalLimit: (index % 5) * 500,
+      emergency: index % 7 === 0,
+    };
+  }),
+].filter(Boolean);

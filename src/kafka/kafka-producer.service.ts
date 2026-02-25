@@ -19,6 +19,7 @@ import {
   setGlobalKafkaProducer,
 } from '../logger/logger-plus.service.js';
 import type { TraceContext } from '../trace/trace-context.util.js';
+import { KCSignUpDTO } from '../user/models/dto/kc-sign-up.dto.js';
 import {
   PasswordResetRequestDTO,
   SecurityPasswordResetAlertDTO,
@@ -86,6 +87,21 @@ export class KafkaProducerService implements OnModuleInit, OnModuleDestroy {
     void this.producer.send(record).catch((err) => {
       this.logger.error('Kafka send failed for topic %s → %o', topic, err);
     });
+  }
+
+  async createKcUser(
+    payload: KCSignUpDTO,
+    service: string,
+    trace?: TraceContext,
+  ): Promise<void> {
+    const envelope: KafkaEnvelope<typeof payload> = {
+      event: 'createKcUser',
+      service,
+      version: 'v1',
+      trace,
+      payload,
+    };
+    await this.send(KafkaTopics.auth.createUser, envelope, trace);
   }
 
   async addInvitation(

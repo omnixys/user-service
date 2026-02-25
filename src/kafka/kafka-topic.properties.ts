@@ -30,6 +30,10 @@ export const KafkaTopics = {
     updateUser: `${SERVICE}.update.authentication`,
     deleteUser: `${SERVICE}.delete.authentication`,
     addTicket: `ticket.add.${SERVICE}`,
+    addUserId: `${SERVICE}.addId.authentication`,
+  },
+  auth: {
+    createUser: `authentication.create2.${SERVICE}`,
   },
   ticket: {
     deleteTickets: `ticket.delete.${SERVICE}`,

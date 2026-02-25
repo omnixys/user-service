@@ -20,12 +20,14 @@
 name: Docker Build & Push – Omnixys
 
 on:
-  # workflow_dispatch:
   # push:
-  #   branches: [main]
+  #   branches:
+  #     - main
   workflow_run:
-    workflows: ['Release']
+    workflows: ['Continuous Integration – Omnixys']
     types: [completed]
+
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -35,8 +37,9 @@ permissions:
 
 env:
   COSIGN_EXPERIMENTAL: 'true'
-  IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}-service
+  IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ vars.SERVICE }}-service
   IMAGE_NAME_REPOSITORY: ghcr.io/${{ github.repository }}
+  CURRENT_VERSION: ${{ vars.CURRENT_VERSION }}
 
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -59,7 +62,7 @@ env:
   KC_CLIENT_SECRET: ${{ secrets.KC_CLIENT_SECRET }}
 
   KEYS_PATH: ${{ secrets.KEYS_PATH }}
-  SERVICE: ${{ secrets.SERVICE }}
+  SERVICE: ${{ vars.SERVICE }}
   PORT: ${{ secrets.PORT }}
   GRAPHQL_PLAYGROUND: ${{ secrets.GRAPHQL_PLAYGROUND }}
   NODE_ENV: ${{ secrets.NODE_ENV }}
@@ -71,13 +74,9 @@ env:
   LOG_DIRECTORY: ${{ secrets.LOG_DIRECTORY }}
   LOG_FILE_DEFAULT_NAME: ${{ secrets.LOG_FILE_DEFAULT_NAME }}
 
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
-  GH_TOKEN: ${{ github.token }}
-
 jobs:
   push-docker:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: 🐳 Build & Push Multi-Arch Images (Docker)
     runs-on: ubuntu-latest
     strategy:
@@ -85,22 +84,23 @@ jobs:
         node-version: [24.10.0]
 
     steps:
-      - name: 🚫 Abort if Release was not successful
-        if: ${{ github.event.workflow_run.conclusion != 'success' }}
-        run: |
-          echo "Release workflow was not successful. Aborting Docker build."
-          exit 1
-
       - name: 🧾 Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
-      - name: 🏷️ Resolve version from Git tag
-        id: version
+      - name: 🔎 Check if Docker tag already exists
+        id: check_tag
         run: |
-          git fetch --tags
-          VERSION=$(gh release view --json tagName -q .tagName)
-          VERSION=${VERSION#v}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          set -e
+
+          echo "Checking if tag exists: $IMAGE_NAME:${CURRENT_VERSION}"
+
+          if docker manifest inspect "$IMAGE_NAME:${CURRENT_VERSION}" > /dev/null 2>&1; then
+            echo "Tag exists → skipping build"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Tag does not exist → build required"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -115,7 +115,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Set up Docker Cache
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
           key: buildx-${{ github.sha }}
@@ -123,27 +123,26 @@ jobs:
             buildx-
 
       - name: Build and Push Docker Image (Multi-Arch)
-        uses: docker/build-push-action@v6
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
+            ${{ env.IMAGE_NAME }}:${{ env.CURRENT_VERSION }}
             ${{ env.IMAGE_NAME }}:latest
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.version=${{ steps.version.outputs.version }}
+            org.opencontainers.image.version=${{ env.CURRENT_VERSION }}
             org.opencontainers.image.description=Omnixys Microservice – ${{ env.IMAGE_NAME }}
             org.opencontainers.image.licenses=GPL-3.0-or-later
           build-args: |
             REVISION=${{ github.sha }}
             CREATED=${{ env.CURRENT_DATE }}
-            APP_VERSION=${{ steps.version.outputs.version }}
-            APP_NAME=${{ secrets.SERVICE }}
+            APP_VERSION=${{ env.CURRENT_VERSION }}
+            APP_NAME=${{ vars.SERVICE }}
             NODE_VERSION=${{ matrix.node-version }}
-            DATABASE_URL=${{ env.DATABASE_URL }}
-            SHADOW_DATABASE_URL=${{ env.SHADOW_DATABASE_URL }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
@@ -151,12 +150,13 @@ jobs:
         uses: sigstore/cosign-installer@v3
 
       - name: Sign Docker Image with cosign (OIDC/GitHub)
+        if: steps.check_tag.outputs.exists == 'false'
         run: |
-          cosign sign --yes --recursive ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
+          cosign sign --yes --recursive ${{ env.IMAGE_NAME }}:${{ env.CURRENT_VERSION }}
           cosign sign --yes --recursive ${{ env.IMAGE_NAME }}:latest
 
   push-github:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: 🐳 Build & Push Multi-Arch Images (Github)
     runs-on: ubuntu-latest
     strategy:
@@ -165,15 +165,22 @@ jobs:
 
     steps:
       - name: 🧾 Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
-      - name: 🏷️ Resolve version from Git tag
-        id: version
+      - name: 🔎 Check if Docker tag already exists
+        id: check_tag
         run: |
-          git fetch --tags
-          VERSION=$(gh release view --json tagName -q .tagName)
-          VERSION=${VERSION#v}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          set -e
+
+          echo "Checking if tag exists: $IMAGE_NAME:${CURRENT_VERSION}"
+
+          if docker manifest inspect "$IMAGE_NAME:${CURRENT_VERSION}" > /dev/null 2>&1; then
+            echo "Tag exists → skipping build"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Tag does not exist → build required"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -189,7 +196,7 @@ jobs:
           password: ${{ github.token }}
 
       - name: Set up Docker Cache
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
           key: buildx-${{ github.sha }}
@@ -197,27 +204,26 @@ jobs:
             buildx-
 
       - name: Build and Push Docker Image (GHCR)
-        uses: docker/build-push-action@v6
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ env.IMAGE_NAME_REPOSITORY }}:${{ steps.version.outputs.version }}
+            ${{ env.IMAGE_NAME_REPOSITORY }}:${{ env.CURRENT_VERSION }}
             ${{ env.IMAGE_NAME_REPOSITORY }}:latest
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.version=${{ steps.version.outputs.version }}
+            org.opencontainers.image.version=${{ env.CURRENT_VERSION }}
             org.opencontainers.image.description=Omnixys Microservice – ${{ env.IMAGE_NAME }}
             org.opencontainers.image.licenses=GPL-3.0-or-later
           build-args: |
             REVISION=${{ github.sha }}
             CREATED=${{ env.CURRENT_DATE }}
-            APP_VERSION=${{ steps.version.outputs.version }}
-            APP_NAME=${{ secrets.SERVICE }}
+            APP_VERSION=${{ env.CURRENT_VERSION }}
+            APP_NAME=${{ vars.SERVICE }}
             NODE_VERSION=${{ matrix.node-version }}
-            DATABASE_URL=${{ env.DATABASE_URL }}
-            SHADOW_DATABASE_URL=${{ env.SHADOW_DATABASE_URL }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
@@ -225,6 +231,7 @@ jobs:
         uses: sigstore/cosign-installer@v3
 
       - name: Sign Docker Image with cosign (OIDC/GitHub)
+        if: steps.check_tag.outputs.exists == 'false'
         run: |
-          cosign sign --yes --recursive ${{ env.IMAGE_NAME_REPOSITORY }}:${{ steps.version.outputs.version }}
+          cosign sign --yes --recursive ${{ env.IMAGE_NAME_REPOSITORY }}:${{ env.CURRENT_VERSION }}
           cosign sign --yes --recursive ${{ env.IMAGE_NAME_REPOSITORY }}:latest
