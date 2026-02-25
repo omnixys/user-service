@@ -49,6 +49,7 @@ export default tseslint.config(
       'release.config.js',
       './.extras/**',
       './prisma/**',
+      'typedoc.cjs',
     ],
   },
 
