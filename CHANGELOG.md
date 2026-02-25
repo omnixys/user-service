@@ -2,6 +2,12 @@
 
 All notable changes in this project will be documented in this file.
 
+## <small>2.1.4 (2026-02-25)</small>
+
+- chore(ci): update ci.yml ([386c5364c47ddf4282ebf06aa67b77255a3963de](https://github.com/omnixys/omnixys-user-service/commit/386c5364c47ddf4282ebf06aa67b77255a3963de))
+- fix(ci-docker): fix docker ci ([49b73d08ee73f884e70a902dc07ed42720feb6a7](https://github.com/omnixys/omnixys-user-service/commit/49b73d08ee73f884e70a902dc07ed42720feb6a7))
+- Merge branch 'main' of https://github.com/omnixys/omnixys-user-service ([2739aad005341b31684795ed3b543d2a7784916a](https://github.com/omnixys/omnixys-user-service/commit/2739aad005341b31684795ed3b543d2a7784916a))
+
 ## <small>2.1.3 (2026-02-25)</small>
 
 - fix(ci): change serets.SERVICE to vars.SERVICE ([e980b560ae897fdddb3b8c4566cfed538062a6d6](https://github.com/omnixys/omnixys-user-service/commit/e980b560ae897fdddb3b8c4566cfed538062a6d6))
