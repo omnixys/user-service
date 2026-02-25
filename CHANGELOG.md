@@ -2,6 +2,11 @@
 
 All notable changes in this project will be documented in this file.
 
+## 2.1.0 (2026-02-25)
+
+- feat(kafka): update kafka config ([7e684d455a5962d5ffde394f3829fd2a6563f411](https://github.com/omnixys/omnixys-user-service/commit/7e684d455a5962d5ffde394f3829fd2a6563f411))
+- breaking(prisma): changed migration ([ccbb58bfe450c2e72175ef633a187bd86881904c](https://github.com/omnixys/omnixys-user-service/commit/ccbb58bfe450c2e72175ef633a187bd86881904c))
+
 ## <small>2.0.3 (2026-02-02)</small>
 
 - fix(prisma): fix prisma service ([264f9aef7c4fb5efa8a28439bae40179ef7848a2](https://github.com/omnixys/omnixys-user-service/commit/264f9aef7c4fb5efa8a28439bae40179ef7848a2))
