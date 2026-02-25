@@ -2,6 +2,10 @@
 
 All notable changes in this project will be documented in this file.
 
+## <small>2.1.1 (2026-02-25)</small>
+
+- fix(ci): update CI ([61591d9237e94e59b6e9a4b03c5b0f909004a288](https://github.com/omnixys/omnixys-user-service/commit/61591d9237e94e59b6e9a4b03c5b0f909004a288))
+
 ## 2.1.0 (2026-02-25)
 
 - feat(kafka): update kafka config ([7e684d455a5962d5ffde394f3829fd2a6563f411](https://github.com/omnixys/omnixys-user-service/commit/7e684d455a5962d5ffde394f3829fd2a6563f411))
