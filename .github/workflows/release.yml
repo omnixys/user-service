@@ -69,7 +69,8 @@ jobs:
         run: |
           gh variable set CURRENT_DATE \
             --body "$CURRENT_DATE" \
-            --org omnixys
+            --org omnixys \
+            --visibility all
 
       - name: Debug auth
         env:
