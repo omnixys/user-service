@@ -2,6 +2,11 @@
 
 All notable changes in this project will be documented in this file.
 
+## <small>2.1.10 (2026-02-26)</small>
+
+- Merge branch 'main' of https://github.com/omnixys/omnixys-user-service ([a49909fd205d118cf668a89c78d3ba967acc3853](https://github.com/omnixys/omnixys-user-service/commit/a49909fd205d118cf668a89c78d3ba967acc3853))
+- fix(release-ci): fix Release CI Job ([ea15b0b682aefa5fd8fedab3b2312a3a8f2f8fef](https://github.com/omnixys/omnixys-user-service/commit/ea15b0b682aefa5fd8fedab3b2312a3a8f2f8fef))
+
 ## <small>2.1.9 (2026-02-26)</small>
 
 - Merge branch 'main' of https://github.com/omnixys/omnixys-user-service ([f6cf8f4bff08a976a1cc6cf8b6888d0c23634adf](https://github.com/omnixys/omnixys-user-service/commit/f6cf8f4bff08a976a1cc6cf8b6888d0c23634adf))
