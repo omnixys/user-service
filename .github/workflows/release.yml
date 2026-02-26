@@ -57,7 +57,7 @@ jobs:
 
       - name: 🔧 Update GitHub Repository Variables
         env:
-          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GH_TOKEN: ${{ secrets.OMNIXYS_TOKEN }}
         run: |
           gh variable set CURRENT_VERSION --body "$CURRENT_VERSION"
           gh variable set CURRENT_DATE --body "$CURRENT_DATE"
