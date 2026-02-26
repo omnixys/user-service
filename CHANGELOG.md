@@ -2,6 +2,10 @@
 
 All notable changes in this project will be documented in this file.
 
+## <small>2.1.5 (2026-02-26)</small>
+
+- fix(release-ci): update semantic release ([d3cb28f0df3e49b8838314b8d38af1c60d8a9600](https://github.com/omnixys/omnixys-user-service/commit/d3cb28f0df3e49b8838314b8d38af1c60d8a9600))
+
 ## <small>2.1.4 (2026-02-25)</small>
 
 - chore(ci): update ci.yml ([386c5364c47ddf4282ebf06aa67b77255a3963de](https://github.com/omnixys/omnixys-user-service/commit/386c5364c47ddf4282ebf06aa67b77255a3963de))
