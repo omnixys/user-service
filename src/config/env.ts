@@ -80,12 +80,8 @@ export const env = {
   GQL_PUBSUB_INMEMORY: process.env.GQL_PUBSUB_INMEMORY === 'true',
 
   /** Redis configuration */
-  REDIS_PC_JWE_KEY: process.env.REDIS_PC_JWE_KEY ?? '',
-  REDIS_PC_TTL_SEC: Number(process.env.REDIS_PC_TTL_SEC ?? 60 * 60 * 24 * 30),
-  REDIS_URL: process.env.REDIS_URL ?? undefined,
-  REDIS_PORT: process.env.REDIS_PORT ?? '6379',
-  REDIS_HOST: process.env.REDIS_HOST ?? 'localhost',
-  REDIS_PASSWORD: process.env.REDIS_PASSWORD ?? undefined,
+  VALKEY_URL: process.env.VALKEY_URL ?? 'valkey://localhost:6380',
+  VALKEY_PASSWORD: process.env.VALKEY_PASSWORD ?? 'DeinStarkesPasswort',
 
   DATABASE_URL: process.env.DATABASE_URL ?? 'DATABASE_URL',
   DATABASE_URL_LOCALE: process.env.DATABASE_URL_LOCALE ?? 'DATABASE_URL_LOCALE',

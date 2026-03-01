@@ -31,6 +31,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { ValkeyModule } from './valkey/valkey.module.js';
 
 const { SCHEMA_TARGET } = env;
 
@@ -42,6 +43,7 @@ const { SCHEMA_TARGET } = env;
     UserModule,
     LoggerModule,
     KafkaModule,
+    ValkeyModule,
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRootAsync<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,

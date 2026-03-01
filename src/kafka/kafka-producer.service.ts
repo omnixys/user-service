@@ -17,7 +17,7 @@
 import { KafkaCircuitBreaker } from '../config/kafka-circuit-breaker.js';
 import { setGlobalKafkaProducer } from '../logger/logger-plus.service.js';
 import type { TraceContext } from '../trace/trace-context.util.js';
-import { KCSignUpDTO } from '../user/models/dto/kc-sign-up.dto.js';
+import { MailDTO } from '../user/models/dto/mail.dto.js';
 import {
   PasswordResetRequestDTO,
   SecurityPasswordResetAlertDTO,
@@ -117,19 +117,19 @@ export class KafkaProducerService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  async createKcUser(
-    payload: KCSignUpDTO,
+  async sendCreateNotification(
+    payload: MailDTO,
     service: string,
     trace?: TraceContext,
   ): Promise<void> {
     const envelope: KafkaEnvelope<typeof payload> = {
-      event: 'createKcUser',
+      event: 'sendCreateMail',
       service,
       version: 'v1',
       trace,
       payload,
     };
-    await this.send(KafkaTopics.auth.createUser, envelope, trace);
+    await this.send(KafkaTopics.notification.createUser, envelope, trace);
   }
 
   async addInvitation(

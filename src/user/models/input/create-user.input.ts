@@ -5,7 +5,6 @@ import { CustomerInput } from './customer.input.js';
 import { EmployeeInput } from './employee.input.js';
 import { PersonalInfoInput } from './personal-info.input.js';
 import { PhoneNumberInput } from './phone-number.input.js';
-import { AddSecurityQuestionInput } from './security-question.input.js';
 import { Field, InputType } from '@nestjs/graphql';
 import { IsString, Length } from 'class-validator';
 
@@ -45,9 +44,6 @@ export class CreateUserInput {
 
   @Field(() => [ContactInput], { nullable: true })
   contacts?: ContactInput[];
-
-  @Field(() => [AddSecurityQuestionInput], { nullable: true })
-  securityQuestions?: AddSecurityQuestionInput[];
 
   @Field(() => [String], { nullable: true })
   invitationIds?: string[];

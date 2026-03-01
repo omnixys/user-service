@@ -32,9 +32,7 @@ export const KafkaTopics = {
     addTicket: `ticket.add.${SERVICE}`,
     addUserId: `${SERVICE}.addId.authentication`,
   },
-  auth: {
-    createUser: `authentication.create2.${SERVICE}`,
-  },
+  auth: {},
   ticket: {
     deleteTickets: `ticket.delete.${SERVICE}`,
   },
@@ -48,6 +46,7 @@ export const KafkaTopics = {
   notification: {
     sendSecurityAlert: `notification.sendSecurityAlert.${SERVICE}`,
     resetPassword: `notification.resetPassword.${SERVICE}`,
+    createUser: `notification.notify.${SERVICE}`,
   },
   admin: {
     restart: `${SERVICE}.restart.admin`,

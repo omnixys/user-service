@@ -100,6 +100,9 @@ importers:
       '@prisma/client':
         specifier: ^7.2.0
         version: 7.2.0(prisma@7.2.0(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(typescript@5.9.3)
+      '@valkey/client':
+        specifier: ^1.0.0
+        version: 1.0.0
       argon2:
         specifier: ^0.44.0
         version: 0.44.0
@@ -115,6 +118,11 @@ importers:
       class-validator:
         specifier: ^0.14.3
         version: 0.14.3
+      "client\n":
+        specifier: |
+          link:@valkey/client
+        version: |
+          link:@valkey/client
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -4117,6 +4125,13 @@ packages:
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
 
+  '@valkey/client@1.0.0':
+    resolution:
+      {
+        integrity: sha512-1xFYel5RA2m2GkLlDrQEyXND1ZnFw4VjZkPjKrWGUwrlsfKXaQUpujaorD4rbh9wl4PapVO/yd6EUYbotKQnHg==,
+      }
+    engines: { node: '>=14' }
+
   '@vue/compiler-core@3.5.26':
     resolution:
       {
@@ -5179,6 +5194,13 @@ packages:
         integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==,
       }
     engines: { node: '>=0.8' }
+
+  cluster-key-slot@1.1.2:
+    resolution:
+      {
+        integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==,
+      }
+    engines: { node: '>=0.10.0' }
 
   co@4.6.0:
     resolution:
@@ -6651,6 +6673,13 @@ packages:
       {
         integrity: sha512-eeB5GfMNeevm/GRYq20ShmsaGcmI81kIX2K9XQx5miC8KdHaC6Jm0qQ8ZNeGOi7wYB8OsdxKs+Y2oVuTFuVwKQ==,
       }
+
+  generic-pool@3.9.0:
+    resolution:
+      {
+        integrity: sha512-hymDOu5B53XvN4QT9dBmZxPX4CWhBPPLguTZ9MMFeFa/Kg0xWVfylOVNlJji/E7yTZWFd/q9GO5TxDLq156D7g==,
+      }
+    engines: { node: '>= 4' }
 
   gensync@1.0.0-beta.2:
     resolution:
@@ -14363,6 +14392,12 @@ snapshots:
       '@typescript-eslint/types': 8.50.1
       eslint-visitor-keys: 4.2.1
 
+  '@valkey/client@1.0.0':
+    dependencies:
+      cluster-key-slot: 1.1.2
+      generic-pool: 3.9.0
+      yallist: 4.0.0
+
   '@vue/compiler-core@3.5.26':
     dependencies:
       '@babel/parser': 7.28.5
@@ -15084,6 +15119,8 @@ snapshots:
       wrap-ansi: 9.0.2
 
   clone@1.0.4: {}
+
+  cluster-key-slot@1.1.2: {}
 
   co@4.6.0: {}
 
@@ -16016,6 +16053,8 @@ snapshots:
   generate-function@2.3.1:
     dependencies:
       is-property: 1.0.2
+
+  generic-pool@3.9.0: {}
 
   gensync@1.0.0-beta.2: {}
 
