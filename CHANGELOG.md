@@ -2,6 +2,10 @@
 
 All notable changes in this project will be documented in this file.
 
+## 2.2.0 (2026-03-01)
+
+- feat(register): add register flow ([5cc4d9ea85f76f79431743d521c1605ff29b6b29](https://github.com/omnixys/omnixys-user-service/commit/5cc4d9ea85f76f79431743d521c1605ff29b6b29))
+
 ## <small>2.1.10 (2026-02-26)</small>
 
 - Merge branch 'main' of https://github.com/omnixys/omnixys-user-service ([a49909fd205d118cf668a89c78d3ba967acc3853](https://github.com/omnixys/omnixys-user-service/commit/a49909fd205d118cf668a89c78d3ba967acc3853))
