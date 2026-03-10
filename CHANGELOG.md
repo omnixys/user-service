@@ -2,6 +2,11 @@
 
 All notable changes in this project will be documented in this file.
 
+## 2.3.0 (2026-03-10)
+
+- Merge branch 'main' of https://github.com/omnixys/omnixys-user-service ([605eb9c653634215e10413a22e3bfe45b2be8cbb](https://github.com/omnixys/user-service/commit/605eb9c653634215e10413a22e3bfe45b2be8cbb))
+- feat(schema): extract interests seed and refactor seeds ([bd68e725406823ec54509f62da3fa0b2456e7ff7](https://github.com/omnixys/user-service/commit/bd68e725406823ec54509f62da3fa0b2456e7ff7))
+
 ## 2.2.0 (2026-03-01)
 
 - feat(register): add register flow ([5cc4d9ea85f76f79431743d521c1605ff29b6b29](https://github.com/omnixys/omnixys-user-service/commit/5cc4d9ea85f76f79431743d521c1605ff29b6b29))
