@@ -20,7 +20,10 @@ CREATE TYPE "MaritalStatusType" AS ENUM ('SINGLE', 'MARRIED', 'DIVORCED', 'WIDOW
 CREATE TYPE "StatusType" AS ENUM ('ACTIVE', 'INACTIVE', 'BLOCKED', 'PENDING', 'SUSPENDED', 'CLOSED');
 
 -- CreateEnum
-CREATE TYPE "InterestType" AS ENUM ('SPORTS', 'MUSIC', 'TRAVEL', 'TECHNOLOGY', 'OTHER', 'INVESTMENTS', 'SAVING_AND_FINANCE', 'CREDIT_AND_DEBT', 'BANK_PRODUCTS_AND_SERVICES', 'FINANCIAL_EDUCATION_AND_COUNSELING', 'REAL_ESTATE', 'INSURANCE', 'SUSTAINABLE_FINANCE', 'TECHNOLOGY_AND_INNOVATION');
+CREATE TYPE "interest_key" AS ENUM ('BANK_PRODUCTS_AND_SERVICES', 'TECHNOLOGY_AND_INNOVATION', 'FINANCIAL_EDUCATION_AND_COUNSELING', 'SUSTAINABLE_FINANCE', 'INVESTMENTS', 'SAVING_AND_FINANCE', 'CREDIT_AND_DEBT', 'REAL_ESTATE', 'INSURANCE', 'TRAVEL', 'CLASSIC', 'ROCK', 'HIPHOP', 'RAP', 'FOOTBALL', 'SOCCER', 'RUGBY', 'BASKETBALL');
+
+-- CreateEnum
+CREATE TYPE "InterestCategoryKey" AS ENUM ('SPORTS', 'MUSIC', 'FINANCE', 'REAL_ASSETS', 'TECHNOLOGY', 'LIFESTYLE');
 
 -- CreateEnum
 CREATE TYPE "ContactOptionsType" AS ENUM ('EMAIL', 'PHONE', 'SMS', 'WHATSAPP', 'LETTER');
@@ -29,8 +32,6 @@ CREATE TYPE "ContactOptionsType" AS ENUM ('EMAIL', 'PHONE', 'SMS', 'WHATSAPP', '
 CREATE TABLE "user" (
     "id" TEXT NOT NULL,
     "username" TEXT NOT NULL,
-    "ticket_ids" TEXT[],
-    "invitation_ids" TEXT[],
     "user_type" "UserType" NOT NULL,
     "status" "PersonStatus" NOT NULL DEFAULT 'ACTIVE',
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -55,30 +56,10 @@ CREATE TABLE "personal_info" (
 );
 
 -- CreateTable
-CREATE TABLE "address" (
-    "id" TEXT NOT NULL,
-    "user_id" TEXT NOT NULL,
-    "street" TEXT NOT NULL,
-    "house_number" TEXT NOT NULL,
-    "zip_code" TEXT NOT NULL,
-    "city" TEXT NOT NULL,
-    "state" TEXT,
-    "country" TEXT NOT NULL,
-    "additional_info" TEXT,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "address_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "customer" (
     "id" TEXT NOT NULL,
-    "tier_level" INTEGER NOT NULL,
     "subscribed" BOOLEAN NOT NULL DEFAULT false,
-    "maritalStatus" "MaritalStatusType",
     "customer_state" "StatusType" NOT NULL,
-    "interests" "InterestType"[],
     "contact_options" "ContactOptionsType"[],
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -109,37 +90,11 @@ CREATE TABLE "phone_number" (
     "type" "PhoneNumberType" NOT NULL,
     "label" TEXT,
     "is_primary" BOOLEAN NOT NULL DEFAULT false,
+    "country_code" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "phone_number_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "security_question" (
-    "id" TEXT NOT NULL,
-    "question" TEXT NOT NULL,
-    "answer_hash" TEXT NOT NULL,
-    "attempts" INTEGER NOT NULL DEFAULT 0,
-    "locked_at" TIMESTAMP(3),
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "user_id" TEXT NOT NULL,
-
-    CONSTRAINT "security_question_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "password_reset" (
-    "id" TEXT NOT NULL,
-    "user_id" TEXT NOT NULL,
-    "user_email" TEXT NOT NULL,
-    "token" TEXT NOT NULL,
-    "expires_at" TIMESTAMP(3) NOT NULL,
-    "used_at" TIMESTAMP(3),
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "password_reset_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -156,6 +111,44 @@ CREATE TABLE "contact" (
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "contact_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "interest_category" (
+    "id" TEXT NOT NULL,
+    "key" "InterestCategoryKey" NOT NULL,
+    "name" TEXT NOT NULL,
+    "icon" TEXT,
+    "description" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "interest_category_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "interest" (
+    "id" TEXT NOT NULL,
+    "key" "interest_key" NOT NULL,
+    "name" TEXT NOT NULL,
+    "categoryId" TEXT NOT NULL,
+    "icon" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "interest_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "customer_interest" (
+    "id" TEXT NOT NULL,
+    "customerId" TEXT NOT NULL,
+    "interestId" TEXT NOT NULL,
+    "level" INTEGER,
+    "isPrimary" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "customer_interest_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -183,25 +176,10 @@ CREATE INDEX "personal_info_last_name_idx" ON "personal_info"("last_name");
 CREATE INDEX "personal_info_first_name_last_name_idx" ON "personal_info"("first_name", "last_name");
 
 -- CreateIndex
-CREATE INDEX "address_user_id_idx" ON "address"("user_id");
-
--- CreateIndex
-CREATE INDEX "address_country_city_idx" ON "address"("country", "city");
-
--- CreateIndex
-CREATE INDEX "address_zip_code_idx" ON "address"("zip_code");
-
--- CreateIndex
-CREATE INDEX "customer_tier_level_idx" ON "customer"("tier_level");
-
--- CreateIndex
 CREATE INDEX "customer_customer_state_idx" ON "customer"("customer_state");
 
 -- CreateIndex
 CREATE INDEX "customer_subscribed_idx" ON "customer"("subscribed");
-
--- CreateIndex
-CREATE INDEX "customer_tier_level_customer_state_idx" ON "customer"("tier_level", "customer_state");
 
 -- CreateIndex
 CREATE INDEX "employee_department_idx" ON "employee"("department");
@@ -219,19 +197,7 @@ CREATE INDEX "phone_number_info_id_idx" ON "phone_number"("info_id");
 CREATE INDEX "phone_number_info_id_is_primary_idx" ON "phone_number"("info_id", "is_primary");
 
 -- CreateIndex
-CREATE INDEX "security_question_user_id_idx" ON "security_question"("user_id");
-
--- CreateIndex
-CREATE INDEX "security_question_locked_at_idx" ON "security_question"("locked_at");
-
--- CreateIndex
-CREATE UNIQUE INDEX "security_question_user_id_question_key" ON "security_question"("user_id", "question");
-
--- CreateIndex
-CREATE UNIQUE INDEX "password_reset_token_key" ON "password_reset"("token");
-
--- CreateIndex
-CREATE INDEX "password_reset_token_idx" ON "password_reset"("token");
+CREATE UNIQUE INDEX "phone_number_country_code_number_key" ON "phone_number"("country_code", "number");
 
 -- CreateIndex
 CREATE INDEX "contact_user_id_idx" ON "contact"("user_id");
@@ -242,11 +208,23 @@ CREATE INDEX "contact_emergency_idx" ON "contact"("emergency");
 -- CreateIndex
 CREATE UNIQUE INDEX "contact_user_id_contact_id_key" ON "contact"("user_id", "contact_id");
 
--- AddForeignKey
-ALTER TABLE "personal_info" ADD CONSTRAINT "personal_info_id_fkey" FOREIGN KEY ("id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "interest_category_key_key" ON "interest_category"("key");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "interest_key_key" ON "interest"("key");
+
+-- CreateIndex
+CREATE INDEX "interest_categoryId_idx" ON "interest"("categoryId");
+
+-- CreateIndex
+CREATE INDEX "customer_interest_interestId_idx" ON "customer_interest"("interestId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "customer_interest_customerId_interestId_key" ON "customer_interest"("customerId", "interestId");
 
 -- AddForeignKey
-ALTER TABLE "address" ADD CONSTRAINT "address_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "personal_info" ADD CONSTRAINT "personal_info_id_fkey" FOREIGN KEY ("id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "customer" ADD CONSTRAINT "customer_id_fkey" FOREIGN KEY ("id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -258,7 +236,13 @@ ALTER TABLE "employee" ADD CONSTRAINT "employee_id_fkey" FOREIGN KEY ("id") REFE
 ALTER TABLE "phone_number" ADD CONSTRAINT "phone_number_info_id_fkey" FOREIGN KEY ("info_id") REFERENCES "personal_info"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "security_question" ADD CONSTRAINT "security_question_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "contact" ADD CONSTRAINT "contact_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "contact" ADD CONSTRAINT "contact_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "interest" ADD CONSTRAINT "interest_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "interest_category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "customer_interest" ADD CONSTRAINT "customer_interest_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "customer_interest" ADD CONSTRAINT "customer_interest_interestId_fkey" FOREIGN KEY ("interestId") REFERENCES "interest"("id") ON DELETE CASCADE ON UPDATE CASCADE;

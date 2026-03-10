@@ -4,15 +4,14 @@
 
 import { KafkaProducerService } from '../../kafka/kafka-producer.service.js';
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
-import type { User } from '../../prisma/generated/client.js';
+import { type User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { withSpan } from '../../trace/utils/span.utils.js';
 import { ValkeyService } from '../../valkey/valkey.service.js';
 import { UserIdDTO } from '../models/dto/kc-sign-up.dto.js';
-import { StatusType } from '../models/enums/status-type.enum.js';
-import { UserType } from '../models/enums/user-type.enum.js';
-import type { CreateUserInput } from '../models/input/create-user.input.js';
 import { Injectable } from '@nestjs/common';
+import { StatusType, UserType } from '@omnixys/contracts';
+import { CreateUserInput } from '@omnixys/graphql';
 import { trace } from '@opentelemetry/api';
 
 @Injectable()
@@ -67,8 +66,6 @@ export class RegisterService {
             username: input.username,
             userType: input.userType,
             status: 'ACTIVE',
-            invitationIds: input.invitationIds ?? [],
-            ticketIds: [],
           },
         });
 
@@ -98,25 +95,10 @@ export class RegisterService {
               type: p.type,
               label: p.label,
               isPrimary: p.isPrimary ?? false,
+              countryCode: p.countryCode,
             })),
           });
         }
-
-        /* ------------------------------------------------------------
-         * 4. Addresses (mandatory)
-         * ------------------------------------------------------------ */
-        await tx.address.createMany({
-          data: input.addresses.map((a) => ({
-            userId: user.id,
-            street: a.street,
-            houseNumber: a.houseNumber,
-            zipCode: a.zipCode,
-            city: a.city,
-            state: a.state,
-            country: a.country,
-            additionalInfo: a.additionalInfo,
-          })),
-        });
 
         /* ------------------------------------------------------------
          * 5. Customer OR Employee (exclusive)
@@ -125,10 +107,8 @@ export class RegisterService {
           await tx.customer.create({
             data: {
               id: user.id,
-              tierLevel: input.customer.tierLevel,
               subscribed: input.customer.subscribed,
               state: input.customer.state ?? StatusType.ACTIVE,
-              interests: input.customer.interests,
               contactOptions: input.customer.contactOptions,
             },
           });
@@ -198,9 +178,7 @@ export class RegisterService {
             id,
             username: input.username,
             userType: input.userType,
-            status: 'ACTIVE',
-            invitationIds: input.invitationIds ?? [],
-            ticketIds: [],
+            status: StatusType.ACTIVE,
           },
         });
 
@@ -216,38 +194,18 @@ export class RegisterService {
             birthDate: input.personalInfo.birthDate,
             gender: input.personalInfo.gender,
             maritalStatus: input.personalInfo.maritalStatus,
+
+            phoneNumbers: {
+              create:
+                input.phoneNumbers?.map((p) => ({
+                  number: p.number,
+                  type: p.type,
+                  label: p.label,
+                  isPrimary: p.isPrimary ?? false,
+                  countryCode: p.countryCode,
+                })) ?? [],
+            },
           },
-        });
-
-        /* ------------------------------------------------------------
-         * 3. PhoneNumbers (optional)
-         * ------------------------------------------------------------ */
-        if (input.phoneNumbers?.length) {
-          await tx.phoneNumber.createMany({
-            data: input.phoneNumbers.map((p) => ({
-              infoId: id,
-              number: p.number,
-              type: p.type,
-              label: p.label,
-              isPrimary: p.isPrimary ?? false,
-            })),
-          });
-        }
-
-        /* ------------------------------------------------------------
-         * 4. Addresses (mandatory)
-         * ------------------------------------------------------------ */
-        await tx.address.createMany({
-          data: input.addresses.map((a) => ({
-            userId: id,
-            street: a.street,
-            houseNumber: a.houseNumber,
-            zipCode: a.zipCode,
-            city: a.city,
-            state: a.state,
-            country: a.country,
-            additionalInfo: a.additionalInfo,
-          })),
         });
 
         /* ------------------------------------------------------------
@@ -257,11 +215,17 @@ export class RegisterService {
           await tx.customer.create({
             data: {
               id,
-              tierLevel: input.customer.tierLevel,
               subscribed: input.customer.subscribed,
               state: input.customer.state ?? StatusType.ACTIVE,
-              interests: input.customer.interests,
               contactOptions: input.customer.contactOptions,
+
+              customerInterests: {
+                createMany: {
+                  data: input.customer.interestIds.map((interestId) => ({
+                    interestId,
+                  })),
+                },
+              },
             },
           });
         }
@@ -318,17 +282,28 @@ export class RegisterService {
     );
   }
 
-  // async addUserId(input: UserIdDTO): Promise<void> {
-  //   this.logger.debug('addUserId: id received: %s', input);
-
-  //   await this.prisma.user.update({
-  //     where: { id: input.oldId },
-  //     data: { id: input.newId },
-  //   });
-  // }
-
   async addUserId(input: UserIdDTO): Promise<void> {
     await this.verifySignup(input.newId, input.token);
+  }
+
+  async createProviderUser(input: {
+    userId: string;
+    email?: string;
+    username?: string;
+  }): Promise<void> {
+    await this.prisma.$transaction(async (tx) => {
+      /* ------------------------------------------------------------
+       * 1. User (technical root)
+       * ------------------------------------------------------------ */
+      await tx.user.create({
+        data: {
+          id: input.userId,
+          username: input.username ?? input.email ?? '',
+          userType: UserType.CUSTOMER,
+          status: 'ACTIVE',
+        },
+      });
+    });
   }
 
   async checkUsername(username: string): Promise<boolean> {

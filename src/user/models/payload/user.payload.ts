@@ -1,7 +1,6 @@
-import { PersonStatus } from '../enums/person-status.enum.js';
-import { RealmRole } from '../enums/role-type.enum.js';
-import { UserType } from '../enums/user-type.enum.js';
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { PersonStatus, UserType } from '@omnixys/contracts';
+import { RealmRole } from '../enums/role-type.enum.js';
 
 /**
  * Represents a user entity in the GraphQL schema.
@@ -20,14 +19,6 @@ export class UserPayload {
 
   @Field(() => PersonStatus)
   status!: PersonStatus;
-
-  // Ticket IDs stored as string array (references external Ticket microservice)
-  @Field(() => [String], { nullable: 'itemsAndList' })
-  ticketIds?: string[];
-
-  // Invitation IDs stored as string array (references external Invitation microservice)
-  @Field(() => [String], { nullable: 'itemsAndList' })
-  invitationIds?: string[];
 
   @Field(() => GraphQLISODateTime)
   createdAt!: Date;

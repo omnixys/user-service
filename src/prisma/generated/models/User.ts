@@ -47,8 +47,6 @@ export type UserMaxAggregateOutputType = {
 export type UserCountAggregateOutputType = {
   id: number;
   username: number;
-  ticketIds: number;
-  invitationIds: number;
   userType: number;
   status: number;
   createdAt: number;
@@ -77,8 +75,6 @@ export type UserMaxAggregateInputType = {
 export type UserCountAggregateInputType = {
   id?: true;
   username?: true;
-  ticketIds?: true;
-  invitationIds?: true;
   userType?: true;
   status?: true;
   createdAt?: true;
@@ -168,8 +164,6 @@ export type UserGroupByArgs<
 export type UserGroupByOutputType = {
   id: string;
   username: string;
-  ticketIds: string[];
-  invitationIds: string[];
   userType: $Enums.UserType;
   status: $Enums.PersonStatus;
   createdAt: Date;
@@ -197,8 +191,6 @@ export type UserWhereInput = {
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
   id?: Prisma.StringFilter<'User'> | string;
   username?: Prisma.StringFilter<'User'> | string;
-  ticketIds?: Prisma.StringNullableListFilter<'User'>;
-  invitationIds?: Prisma.StringNullableListFilter<'User'>;
   userType?: Prisma.EnumUserTypeFilter<'User'> | $Enums.UserType;
   status?: Prisma.EnumPersonStatusFilter<'User'> | $Enums.PersonStatus;
   createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
@@ -215,16 +207,12 @@ export type UserWhereInput = {
     Prisma.PersonalInfoNullableScalarRelationFilter,
     Prisma.PersonalInfoWhereInput
   > | null;
-  addresses?: Prisma.AddressListRelationFilter;
   contacts?: Prisma.ContactListRelationFilter;
-  securityQuestions?: Prisma.SecurityQuestionListRelationFilter;
 };
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder;
   username?: Prisma.SortOrder;
-  ticketIds?: Prisma.SortOrder;
-  invitationIds?: Prisma.SortOrder;
   userType?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
@@ -232,9 +220,7 @@ export type UserOrderByWithRelationInput = {
   customer?: Prisma.CustomerOrderByWithRelationInput;
   employee?: Prisma.EmployeeOrderByWithRelationInput;
   personalInfo?: Prisma.PersonalInfoOrderByWithRelationInput;
-  addresses?: Prisma.AddressOrderByRelationAggregateInput;
   contacts?: Prisma.ContactOrderByRelationAggregateInput;
-  securityQuestions?: Prisma.SecurityQuestionOrderByRelationAggregateInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -244,8 +230,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
     OR?: Prisma.UserWhereInput[];
     NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
-    ticketIds?: Prisma.StringNullableListFilter<'User'>;
-    invitationIds?: Prisma.StringNullableListFilter<'User'>;
     userType?: Prisma.EnumUserTypeFilter<'User'> | $Enums.UserType;
     status?: Prisma.EnumPersonStatusFilter<'User'> | $Enums.PersonStatus;
     createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
@@ -262,9 +246,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
       Prisma.PersonalInfoNullableScalarRelationFilter,
       Prisma.PersonalInfoWhereInput
     > | null;
-    addresses?: Prisma.AddressListRelationFilter;
     contacts?: Prisma.ContactListRelationFilter;
-    securityQuestions?: Prisma.SecurityQuestionListRelationFilter;
   },
   'id' | 'username'
 >;
@@ -272,8 +254,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder;
   username?: Prisma.SortOrder;
-  ticketIds?: Prisma.SortOrder;
-  invitationIds?: Prisma.SortOrder;
   userType?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
@@ -293,8 +273,6 @@ export type UserScalarWhereWithAggregatesInput = {
     | Prisma.UserScalarWhereWithAggregatesInput[];
   id?: Prisma.StringWithAggregatesFilter<'User'> | string;
   username?: Prisma.StringWithAggregatesFilter<'User'> | string;
-  ticketIds?: Prisma.StringNullableListFilter<'User'>;
-  invitationIds?: Prisma.StringNullableListFilter<'User'>;
   userType?: Prisma.EnumUserTypeWithAggregatesFilter<'User'> | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusWithAggregatesFilter<'User'>
@@ -306,8 +284,6 @@ export type UserScalarWhereWithAggregatesInput = {
 export type UserCreateInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
@@ -315,16 +291,12 @@ export type UserCreateInput = {
   customer?: Prisma.CustomerCreateNestedOneWithoutUserInput;
   employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput;
   personalInfo?: Prisma.PersonalInfoCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressCreateNestedManyWithoutUserInput;
   contacts?: Prisma.ContactCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
@@ -332,16 +304,12 @@ export type UserUncheckedCreateInput = {
   customer?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput;
   employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput;
   personalInfo?: Prisma.PersonalInfoUncheckedCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressUncheckedCreateNestedManyWithoutUserInput;
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -351,16 +319,12 @@ export type UserUpdateInput = {
   customer?: Prisma.CustomerUpdateOneWithoutUserNestedInput;
   employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput;
   personalInfo?: Prisma.PersonalInfoUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUpdateManyWithoutUserNestedInput;
   contacts?: Prisma.ContactUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -370,16 +334,12 @@ export type UserUncheckedUpdateInput = {
   customer?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput;
   employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput;
   personalInfo?: Prisma.PersonalInfoUncheckedUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUncheckedUpdateManyWithoutUserNestedInput;
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateManyInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
@@ -389,8 +349,6 @@ export type UserCreateManyInput = {
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -402,8 +360,6 @@ export type UserUpdateManyMutationInput = {
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -412,19 +368,9 @@ export type UserUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null;
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null;
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
-  isEmpty?: boolean;
-};
-
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   username?: Prisma.SortOrder;
-  ticketIds?: Prisma.SortOrder;
-  invitationIds?: Prisma.SortOrder;
   userType?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
@@ -454,26 +400,8 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput;
 };
 
-export type UserCreateticketIdsInput = {
-  set: string[];
-};
-
-export type UserCreateinvitationIdsInput = {
-  set: string[];
-};
-
 export type StringFieldUpdateOperationsInput = {
   set?: string;
-};
-
-export type UserUpdateticketIdsInput = {
-  set?: string[];
-  push?: string | string[];
-};
-
-export type UserUpdateinvitationIdsInput = {
-  set?: string[];
-  push?: string | string[];
 };
 
 export type EnumUserTypeFieldUpdateOperationsInput = {
@@ -511,32 +439,6 @@ export type UserUpdateOneRequiredWithoutPersonalInfoNestedInput = {
       Prisma.UserUpdateWithoutPersonalInfoInput
     >,
     Prisma.UserUncheckedUpdateWithoutPersonalInfoInput
-  >;
-};
-
-export type UserCreateNestedOneWithoutAddressesInput = {
-  create?: Prisma.XOR<
-    Prisma.UserCreateWithoutAddressesInput,
-    Prisma.UserUncheckedCreateWithoutAddressesInput
-  >;
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAddressesInput;
-  connect?: Prisma.UserWhereUniqueInput;
-};
-
-export type UserUpdateOneRequiredWithoutAddressesNestedInput = {
-  create?: Prisma.XOR<
-    Prisma.UserCreateWithoutAddressesInput,
-    Prisma.UserUncheckedCreateWithoutAddressesInput
-  >;
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAddressesInput;
-  upsert?: Prisma.UserUpsertWithoutAddressesInput;
-  connect?: Prisma.UserWhereUniqueInput;
-  update?: Prisma.XOR<
-    Prisma.XOR<
-      Prisma.UserUpdateToOneWithWhereWithoutAddressesInput,
-      Prisma.UserUpdateWithoutAddressesInput
-    >,
-    Prisma.UserUncheckedUpdateWithoutAddressesInput
   >;
 };
 
@@ -592,32 +494,6 @@ export type UserUpdateOneRequiredWithoutEmployeeNestedInput = {
   >;
 };
 
-export type UserCreateNestedOneWithoutSecurityQuestionsInput = {
-  create?: Prisma.XOR<
-    Prisma.UserCreateWithoutSecurityQuestionsInput,
-    Prisma.UserUncheckedCreateWithoutSecurityQuestionsInput
-  >;
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSecurityQuestionsInput;
-  connect?: Prisma.UserWhereUniqueInput;
-};
-
-export type UserUpdateOneRequiredWithoutSecurityQuestionsNestedInput = {
-  create?: Prisma.XOR<
-    Prisma.UserCreateWithoutSecurityQuestionsInput,
-    Prisma.UserUncheckedCreateWithoutSecurityQuestionsInput
-  >;
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSecurityQuestionsInput;
-  upsert?: Prisma.UserUpsertWithoutSecurityQuestionsInput;
-  connect?: Prisma.UserWhereUniqueInput;
-  update?: Prisma.XOR<
-    Prisma.XOR<
-      Prisma.UserUpdateToOneWithWhereWithoutSecurityQuestionsInput,
-      Prisma.UserUpdateWithoutSecurityQuestionsInput
-    >,
-    Prisma.UserUncheckedUpdateWithoutSecurityQuestionsInput
-  >;
-};
-
 export type UserCreateNestedOneWithoutContactsInput = {
   create?: Prisma.XOR<
     Prisma.UserCreateWithoutContactsInput,
@@ -647,33 +523,25 @@ export type UserUpdateOneRequiredWithoutContactsNestedInput = {
 export type UserCreateWithoutPersonalInfoInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   customer?: Prisma.CustomerCreateNestedOneWithoutUserInput;
   employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressCreateNestedManyWithoutUserInput;
   contacts?: Prisma.ContactCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutPersonalInfoInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   customer?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput;
   employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressUncheckedCreateNestedManyWithoutUserInput;
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutPersonalInfoInput = {
@@ -707,8 +575,6 @@ export type UserUpdateToOneWithWhereWithoutPersonalInfoInput = {
 export type UserUpdateWithoutPersonalInfoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -717,16 +583,12 @@ export type UserUpdateWithoutPersonalInfoInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   customer?: Prisma.CustomerUpdateOneWithoutUserNestedInput;
   employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUpdateManyWithoutUserNestedInput;
   contacts?: Prisma.ContactUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutPersonalInfoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -735,137 +597,31 @@ export type UserUncheckedUpdateWithoutPersonalInfoInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   customer?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput;
   employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUncheckedUpdateManyWithoutUserNestedInput;
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput;
-};
-
-export type UserCreateWithoutAddressesInput = {
-  id?: string;
-  username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
-  userType: $Enums.UserType;
-  status?: $Enums.PersonStatus;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
-  customer?: Prisma.CustomerCreateNestedOneWithoutUserInput;
-  employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput;
-  personalInfo?: Prisma.PersonalInfoCreateNestedOneWithoutUserInput;
-  contacts?: Prisma.ContactCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionCreateNestedManyWithoutUserInput;
-};
-
-export type UserUncheckedCreateWithoutAddressesInput = {
-  id?: string;
-  username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
-  userType: $Enums.UserType;
-  status?: $Enums.PersonStatus;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
-  customer?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput;
-  employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput;
-  personalInfo?: Prisma.PersonalInfoUncheckedCreateNestedOneWithoutUserInput;
-  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedCreateNestedManyWithoutUserInput;
-};
-
-export type UserCreateOrConnectWithoutAddressesInput = {
-  where: Prisma.UserWhereUniqueInput;
-  create: Prisma.XOR<
-    Prisma.UserCreateWithoutAddressesInput,
-    Prisma.UserUncheckedCreateWithoutAddressesInput
-  >;
-};
-
-export type UserUpsertWithoutAddressesInput = {
-  update: Prisma.XOR<
-    Prisma.UserUpdateWithoutAddressesInput,
-    Prisma.UserUncheckedUpdateWithoutAddressesInput
-  >;
-  create: Prisma.XOR<
-    Prisma.UserCreateWithoutAddressesInput,
-    Prisma.UserUncheckedCreateWithoutAddressesInput
-  >;
-  where?: Prisma.UserWhereInput;
-};
-
-export type UserUpdateToOneWithWhereWithoutAddressesInput = {
-  where?: Prisma.UserWhereInput;
-  data: Prisma.XOR<
-    Prisma.UserUpdateWithoutAddressesInput,
-    Prisma.UserUncheckedUpdateWithoutAddressesInput
-  >;
-};
-
-export type UserUpdateWithoutAddressesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string;
-  username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
-  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
-  status?:
-    | Prisma.EnumPersonStatusFieldUpdateOperationsInput
-    | $Enums.PersonStatus;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneWithoutUserNestedInput;
-  employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput;
-  personalInfo?: Prisma.PersonalInfoUpdateOneWithoutUserNestedInput;
-  contacts?: Prisma.ContactUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUpdateManyWithoutUserNestedInput;
-};
-
-export type UserUncheckedUpdateWithoutAddressesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string;
-  username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
-  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
-  status?:
-    | Prisma.EnumPersonStatusFieldUpdateOperationsInput
-    | $Enums.PersonStatus;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput;
-  employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput;
-  personalInfo?: Prisma.PersonalInfoUncheckedUpdateOneWithoutUserNestedInput;
-  contacts?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCustomerInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput;
   personalInfo?: Prisma.PersonalInfoCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressCreateNestedManyWithoutUserInput;
   contacts?: Prisma.ContactCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCustomerInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput;
   personalInfo?: Prisma.PersonalInfoUncheckedCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressUncheckedCreateNestedManyWithoutUserInput;
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCustomerInput = {
@@ -899,8 +655,6 @@ export type UserUpdateToOneWithWhereWithoutCustomerInput = {
 export type UserUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -909,16 +663,12 @@ export type UserUpdateWithoutCustomerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput;
   personalInfo?: Prisma.PersonalInfoUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUpdateManyWithoutUserNestedInput;
   contacts?: Prisma.ContactUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -927,41 +677,31 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput;
   personalInfo?: Prisma.PersonalInfoUncheckedUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUncheckedUpdateManyWithoutUserNestedInput;
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutEmployeeInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   customer?: Prisma.CustomerCreateNestedOneWithoutUserInput;
   personalInfo?: Prisma.PersonalInfoCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressCreateNestedManyWithoutUserInput;
   contacts?: Prisma.ContactCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutEmployeeInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   customer?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput;
   personalInfo?: Prisma.PersonalInfoUncheckedCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressUncheckedCreateNestedManyWithoutUserInput;
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutEmployeeInput = {
@@ -995,8 +735,6 @@ export type UserUpdateToOneWithWhereWithoutEmployeeInput = {
 export type UserUpdateWithoutEmployeeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -1005,16 +743,12 @@ export type UserUpdateWithoutEmployeeInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   customer?: Prisma.CustomerUpdateOneWithoutUserNestedInput;
   personalInfo?: Prisma.PersonalInfoUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUpdateManyWithoutUserNestedInput;
   contacts?: Prisma.ContactUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutEmployeeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -1023,112 +757,12 @@ export type UserUncheckedUpdateWithoutEmployeeInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   customer?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput;
   personalInfo?: Prisma.PersonalInfoUncheckedUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUncheckedUpdateManyWithoutUserNestedInput;
-  contacts?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput;
-};
-
-export type UserCreateWithoutSecurityQuestionsInput = {
-  id?: string;
-  username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
-  userType: $Enums.UserType;
-  status?: $Enums.PersonStatus;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
-  customer?: Prisma.CustomerCreateNestedOneWithoutUserInput;
-  employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput;
-  personalInfo?: Prisma.PersonalInfoCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressCreateNestedManyWithoutUserInput;
-  contacts?: Prisma.ContactCreateNestedManyWithoutUserInput;
-};
-
-export type UserUncheckedCreateWithoutSecurityQuestionsInput = {
-  id?: string;
-  username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
-  userType: $Enums.UserType;
-  status?: $Enums.PersonStatus;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
-  customer?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput;
-  employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput;
-  personalInfo?: Prisma.PersonalInfoUncheckedCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressUncheckedCreateNestedManyWithoutUserInput;
-  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput;
-};
-
-export type UserCreateOrConnectWithoutSecurityQuestionsInput = {
-  where: Prisma.UserWhereUniqueInput;
-  create: Prisma.XOR<
-    Prisma.UserCreateWithoutSecurityQuestionsInput,
-    Prisma.UserUncheckedCreateWithoutSecurityQuestionsInput
-  >;
-};
-
-export type UserUpsertWithoutSecurityQuestionsInput = {
-  update: Prisma.XOR<
-    Prisma.UserUpdateWithoutSecurityQuestionsInput,
-    Prisma.UserUncheckedUpdateWithoutSecurityQuestionsInput
-  >;
-  create: Prisma.XOR<
-    Prisma.UserCreateWithoutSecurityQuestionsInput,
-    Prisma.UserUncheckedCreateWithoutSecurityQuestionsInput
-  >;
-  where?: Prisma.UserWhereInput;
-};
-
-export type UserUpdateToOneWithWhereWithoutSecurityQuestionsInput = {
-  where?: Prisma.UserWhereInput;
-  data: Prisma.XOR<
-    Prisma.UserUpdateWithoutSecurityQuestionsInput,
-    Prisma.UserUncheckedUpdateWithoutSecurityQuestionsInput
-  >;
-};
-
-export type UserUpdateWithoutSecurityQuestionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string;
-  username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
-  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
-  status?:
-    | Prisma.EnumPersonStatusFieldUpdateOperationsInput
-    | $Enums.PersonStatus;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneWithoutUserNestedInput;
-  employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput;
-  personalInfo?: Prisma.PersonalInfoUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUpdateManyWithoutUserNestedInput;
-  contacts?: Prisma.ContactUpdateManyWithoutUserNestedInput;
-};
-
-export type UserUncheckedUpdateWithoutSecurityQuestionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string;
-  username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
-  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
-  status?:
-    | Prisma.EnumPersonStatusFieldUpdateOperationsInput
-    | $Enums.PersonStatus;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput;
-  employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput;
-  personalInfo?: Prisma.PersonalInfoUncheckedUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUncheckedUpdateManyWithoutUserNestedInput;
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutContactsInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
@@ -1136,15 +770,11 @@ export type UserCreateWithoutContactsInput = {
   customer?: Prisma.CustomerCreateNestedOneWithoutUserInput;
   employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput;
   personalInfo?: Prisma.PersonalInfoCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutContactsInput = {
   id?: string;
   username: string;
-  ticketIds?: Prisma.UserCreateticketIdsInput | string[];
-  invitationIds?: Prisma.UserCreateinvitationIdsInput | string[];
   userType: $Enums.UserType;
   status?: $Enums.PersonStatus;
   createdAt?: Date | string;
@@ -1152,8 +782,6 @@ export type UserUncheckedCreateWithoutContactsInput = {
   customer?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput;
   employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput;
   personalInfo?: Prisma.PersonalInfoUncheckedCreateNestedOneWithoutUserInput;
-  addresses?: Prisma.AddressUncheckedCreateNestedManyWithoutUserInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutContactsInput = {
@@ -1187,8 +815,6 @@ export type UserUpdateToOneWithWhereWithoutContactsInput = {
 export type UserUpdateWithoutContactsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -1198,15 +824,11 @@ export type UserUpdateWithoutContactsInput = {
   customer?: Prisma.CustomerUpdateOneWithoutUserNestedInput;
   employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput;
   personalInfo?: Prisma.PersonalInfoUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutContactsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   username?: Prisma.StringFieldUpdateOperationsInput | string;
-  ticketIds?: Prisma.UserUpdateticketIdsInput | string[];
-  invitationIds?: Prisma.UserUpdateinvitationIdsInput | string[];
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
   status?:
     | Prisma.EnumPersonStatusFieldUpdateOperationsInput
@@ -1216,8 +838,6 @@ export type UserUncheckedUpdateWithoutContactsInput = {
   customer?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput;
   employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput;
   personalInfo?: Prisma.PersonalInfoUncheckedUpdateOneWithoutUserNestedInput;
-  addresses?: Prisma.AddressUncheckedUpdateManyWithoutUserNestedInput;
-  securityQuestions?: Prisma.SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 /**
@@ -1225,18 +845,14 @@ export type UserUncheckedUpdateWithoutContactsInput = {
  */
 
 export type UserCountOutputType = {
-  addresses: number;
   contacts: number;
-  securityQuestions: number;
 };
 
 export type UserCountOutputTypeSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  addresses?: boolean | UserCountOutputTypeCountAddressesArgs;
   contacts?: boolean | UserCountOutputTypeCountContactsArgs;
-  securityQuestions?: boolean | UserCountOutputTypeCountSecurityQuestionsArgs;
 };
 
 /**
@@ -1255,31 +871,11 @@ export type UserCountOutputTypeDefaultArgs<
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountAddressesArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.AddressWhereInput;
-};
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountContactsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   where?: Prisma.ContactWhereInput;
-};
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountSecurityQuestionsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.SecurityQuestionWhereInput;
 };
 
 export type UserSelect<
@@ -1289,8 +885,6 @@ export type UserSelect<
   {
     id?: boolean;
     username?: boolean;
-    ticketIds?: boolean;
-    invitationIds?: boolean;
     userType?: boolean;
     status?: boolean;
     createdAt?: boolean;
@@ -1298,9 +892,7 @@ export type UserSelect<
     customer?: boolean | Prisma.User$customerArgs<ExtArgs>;
     employee?: boolean | Prisma.User$employeeArgs<ExtArgs>;
     personalInfo?: boolean | Prisma.User$personalInfoArgs<ExtArgs>;
-    addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>;
     contacts?: boolean | Prisma.User$contactsArgs<ExtArgs>;
-    securityQuestions?: boolean | Prisma.User$securityQuestionsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -1313,8 +905,6 @@ export type UserSelectCreateManyAndReturn<
   {
     id?: boolean;
     username?: boolean;
-    ticketIds?: boolean;
-    invitationIds?: boolean;
     userType?: boolean;
     status?: boolean;
     createdAt?: boolean;
@@ -1330,8 +920,6 @@ export type UserSelectUpdateManyAndReturn<
   {
     id?: boolean;
     username?: boolean;
-    ticketIds?: boolean;
-    invitationIds?: boolean;
     userType?: boolean;
     status?: boolean;
     createdAt?: boolean;
@@ -1343,8 +931,6 @@ export type UserSelectUpdateManyAndReturn<
 export type UserSelectScalar = {
   id?: boolean;
   username?: boolean;
-  ticketIds?: boolean;
-  invitationIds?: boolean;
   userType?: boolean;
   status?: boolean;
   createdAt?: boolean;
@@ -1355,14 +941,7 @@ export type UserOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  | 'id'
-  | 'username'
-  | 'ticketIds'
-  | 'invitationIds'
-  | 'userType'
-  | 'status'
-  | 'createdAt'
-  | 'updatedAt',
+  'id' | 'username' | 'userType' | 'status' | 'createdAt' | 'updatedAt',
   ExtArgs['result']['user']
 >;
 export type UserInclude<
@@ -1372,9 +951,7 @@ export type UserInclude<
   customer?: boolean | Prisma.User$customerArgs<ExtArgs>;
   employee?: boolean | Prisma.User$employeeArgs<ExtArgs>;
   personalInfo?: boolean | Prisma.User$personalInfoArgs<ExtArgs>;
-  addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>;
   contacts?: boolean | Prisma.User$contactsArgs<ExtArgs>;
-  securityQuestions?: boolean | Prisma.User$securityQuestionsArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -1395,16 +972,12 @@ export type $UserPayload<
     customer: Prisma.$CustomerPayload<ExtArgs> | null;
     employee: Prisma.$EmployeePayload<ExtArgs> | null;
     personalInfo: Prisma.$PersonalInfoPayload<ExtArgs> | null;
-    addresses: Prisma.$AddressPayload<ExtArgs>[];
     contacts: Prisma.$ContactPayload<ExtArgs>[];
-    securityQuestions: Prisma.$SecurityQuestionPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
       id: string;
       username: string;
-      ticketIds: string[];
-      invitationIds: string[];
       userType: $Enums.UserType;
       status: $Enums.PersonStatus;
       createdAt: Date;
@@ -1998,33 +1571,11 @@ export interface Prisma__UserClient<
     ExtArgs,
     GlobalOmitOptions
   >;
-  addresses<T extends Prisma.User$addressesArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.User$addressesArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$AddressPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
   contacts<T extends Prisma.User$contactsArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.User$contactsArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
         Prisma.$ContactPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
-  securityQuestions<T extends Prisma.User$securityQuestionsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.User$securityQuestionsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$SecurityQuestionPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -2075,8 +1626,6 @@ export interface Prisma__UserClient<
 export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<'User', 'String'>;
   readonly username: Prisma.FieldRef<'User', 'String'>;
-  readonly ticketIds: Prisma.FieldRef<'User', 'String[]'>;
-  readonly invitationIds: Prisma.FieldRef<'User', 'String[]'>;
   readonly userType: Prisma.FieldRef<'User', 'UserType'>;
   readonly status: Prisma.FieldRef<'User', 'PersonStatus'>;
   readonly createdAt: Prisma.FieldRef<'User', 'DateTime'>;
@@ -2588,35 +2137,6 @@ export type User$personalInfoArgs<
 };
 
 /**
- * User.addresses
- */
-export type User$addressesArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the Address
-   */
-  select?: Prisma.AddressSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the Address
-   */
-  omit?: Prisma.AddressOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AddressInclude<ExtArgs> | null;
-  where?: Prisma.AddressWhereInput;
-  orderBy?:
-    | Prisma.AddressOrderByWithRelationInput
-    | Prisma.AddressOrderByWithRelationInput[];
-  cursor?: Prisma.AddressWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?: Prisma.AddressScalarFieldEnum | Prisma.AddressScalarFieldEnum[];
-};
-
-/**
  * User.contacts
  */
 export type User$contactsArgs<
@@ -2643,37 +2163,6 @@ export type User$contactsArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.ContactScalarFieldEnum | Prisma.ContactScalarFieldEnum[];
-};
-
-/**
- * User.securityQuestions
- */
-export type User$securityQuestionsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the SecurityQuestion
-   */
-  select?: Prisma.SecurityQuestionSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the SecurityQuestion
-   */
-  omit?: Prisma.SecurityQuestionOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SecurityQuestionInclude<ExtArgs> | null;
-  where?: Prisma.SecurityQuestionWhereInput;
-  orderBy?:
-    | Prisma.SecurityQuestionOrderByWithRelationInput
-    | Prisma.SecurityQuestionOrderByWithRelationInput[];
-  cursor?: Prisma.SecurityQuestionWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?:
-    | Prisma.SecurityQuestionScalarFieldEnum
-    | Prisma.SecurityQuestionScalarFieldEnum[];
 };
 
 /**

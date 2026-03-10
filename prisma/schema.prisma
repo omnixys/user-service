@@ -15,18 +15,13 @@ model User {
   id       String @id @default(cuid()) @map("id")
   username String @unique @map("username")
 
-  ticketIds     String[] @map("ticket_ids")
-  invitationIds String[] @map("invitation_ids")
-
   userType     UserType      @map("user_type")
   status       PersonStatus  @default(ACTIVE) @map("status")
   customer     Customer?
   employee     Employee?
   personalInfo PersonalInfo?
 
-  addresses         Address[]
-  contacts          Contact[]
-  securityQuestions SecurityQuestion[]
+  contacts Contact[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -66,56 +61,25 @@ model PersonalInfo {
 }
 
 /// ------------------------------------------------------------
-/// ADDRESS
-/// ------------------------------------------------------------
-model Address {
-  id     String @id @default(cuid()) @map("id")
-  userId String @map("user_id")
-
-  street         String  @map("street")
-  houseNumber    String  @map("house_number")
-  zipCode        String  @map("zip_code")
-  city           String  @map("city")
-  state          String? @map("state")
-  country        String  @map("country")
-  additionalInfo String? @map("additional_info")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@index([userId])
-  @@index([country, city])
-  @@index([zipCode])
-  @@map("address")
-  @@schema("user")
-}
-
-/// ------------------------------------------------------------
 /// CUSTOMER (FACHLICHE ERWEITERUNG)
 /// ------------------------------------------------------------
 
 model Customer {
   id String @id @map("id")
 
-  tierLevel     Int                @map("tier_level")
-  subscribed    Boolean            @default(false)
-  maritalStatus MaritalStatusType?
-  state         StatusType         @map("customer_state")
+  subscribed Boolean    @default(false)
+  state      StatusType @map("customer_state")
 
-  interests      InterestType[]       @map("interests")
   contactOptions ContactOptionsType[] @map("contact_options")
 
   user User @relation(fields: [id], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+  customerInterests CustomerInterest[]
 
-  @@index([tierLevel])
   @@index([state])
   @@index([subscribed])
-  @@index([tierLevel, state])
   @@map("customer")
   @@schema("user")
 }
@@ -150,56 +114,21 @@ model PhoneNumber {
   id     String @id @default(cuid()) @map("id")
   infoId String @map("info_id")
 
-  number    String          @map("number")
-  type      PhoneNumberType @map("type")
-  label     String?         @map("label")
-  isPrimary Boolean         @default(false) @map("is_primary")
+  number      String          @map("number")
+  type        PhoneNumberType @map("type")
+  label       String?         @map("label")
+  isPrimary   Boolean         @default(false) @map("is_primary")
+  countryCode String          @map("country_code")
 
   user PersonalInfo @relation(fields: [infoId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@unique([countryCode, number])
   @@index([infoId])
   @@index([infoId, isPrimary])
   @@map("phone_number")
-  @@schema("user")
-}
-
-model SecurityQuestion {
-  id String @id @default(cuid()) @map("id")
-
-  question   String @map("question")
-  answerHash String @map("answer_hash")
-
-  attempts Int       @default(0) @map("attempts")
-  lockedAt DateTime? @map("locked_at")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @map("user_id")
-
-  @@unique([userId, question])
-  @@index([userId])
-  @@index([lockedAt])
-  @@map("security_question")
-  @@schema("user")
-}
-
-model PasswordReset {
-  id        String    @id @default(cuid()) @map("id")
-  userId    String    @map("user_id")
-  userEmail String    @map("user_email")
-  token     String    @unique @map("token")
-  expiresAt DateTime  @map("expires_at")
-  usedAt    DateTime? @map("used_at")
-
-  createdAt DateTime @default(now()) @map("created_at")
-
-  @@index([token])
-  @@map("password_reset")
   @@schema("user")
 }
 
@@ -228,6 +157,61 @@ model Contact {
   @@index([userId])
   @@index([emergency])
   @@map("contact")
+  @@schema("user")
+}
+
+model InterestCategory {
+  id   String              @id @default(cuid())
+  key  InterestCategoryKey @unique // e.g. FINANCE, LIFESTYLE
+  name String
+  icon String?
+
+  description String?
+  interests   Interest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("interest_category")
+  @@schema("user")
+}
+
+model Interest {
+  id         String      @id @default(cuid())
+  key        InterestKey @unique
+  name       String
+  categoryId String
+  icon       String?
+
+  category InterestCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  customers CustomerInterest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@map("interest")
+  @@schema("user")
+}
+
+model CustomerInterest {
+  id         String @id @default(cuid())
+  customerId String
+  interestId String
+
+  // Optional future attributes:
+  level     Int? // e.g. intensity 1–5
+  isPrimary Boolean @default(false)
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  interest Interest @relation(fields: [interestId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([customerId, interestId], name: "customerId_interestId")
+  @@index([interestId])
+  @@map("customer_interest")
   @@schema("user")
 }
 
@@ -309,22 +293,43 @@ enum StatusType {
   @@schema("user")
 }
 
-enum InterestType {
-  SPORTS
-  MUSIC
-  TRAVEL
-  TECHNOLOGY
-  OTHER
-
+enum InterestKey {
+  BANK_PRODUCTS_AND_SERVICES
+  TECHNOLOGY_AND_INNOVATION
+  FINANCIAL_EDUCATION_AND_COUNSELING
+  SUSTAINABLE_FINANCE
   INVESTMENTS
   SAVING_AND_FINANCE
   CREDIT_AND_DEBT
-  BANK_PRODUCTS_AND_SERVICES
-  FINANCIAL_EDUCATION_AND_COUNSELING
   REAL_ESTATE
   INSURANCE
-  SUSTAINABLE_FINANCE
-  TECHNOLOGY_AND_INNOVATION
+
+  // Lifestyle
+  TRAVEL
+
+  // Music
+  CLASSIC
+  ROCK
+  HIPHOP
+  RAP
+
+  // Sports
+  FOOTBALL
+  SOCCER
+  RUGBY
+  BASKETBALL
+
+  @@map("interest_key")
+  @@schema("user")
+}
+
+enum InterestCategoryKey {
+  SPORTS
+  MUSIC
+  FINANCE
+  REAL_ASSETS
+  TECHNOLOGY
+  LIFESTYLE
 
   @@schema("user")
 }

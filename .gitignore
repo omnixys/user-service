@@ -224,3 +224,5 @@ zookeeper-data/
 
 ## 📷 Medien-Dateien
 .extras/*.{png,jpeg,gif,mp4,mpeg,mkv,avi,ogg,webm}
+
+.npmrc

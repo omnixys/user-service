@@ -31,6 +31,7 @@ export const KafkaTopics = {
     deleteUser: `${SERVICE}.delete.authentication`,
     addTicket: `ticket.add.${SERVICE}`,
     addUserId: `${SERVICE}.addId.authentication`,
+    createProviderUser: `${SERVICE}.addProviderUser.authentication`,
   },
   auth: {},
   ticket: {

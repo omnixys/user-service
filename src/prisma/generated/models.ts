@@ -9,11 +9,11 @@
  */
 export type * from './models/User.js';
 export type * from './models/PersonalInfo.js';
-export type * from './models/Address.js';
 export type * from './models/Customer.js';
 export type * from './models/Employee.js';
 export type * from './models/PhoneNumber.js';
-export type * from './models/SecurityQuestion.js';
-export type * from './models/PasswordReset.js';
 export type * from './models/Contact.js';
+export type * from './models/InterestCategory.js';
+export type * from './models/Interest.js';
+export type * from './models/CustomerInterest.js';
 export type * from './commonInputTypes.js';

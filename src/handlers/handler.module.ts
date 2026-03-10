@@ -20,11 +20,10 @@ import { AdminHandler } from './admin.handler.js';
 import { Module } from '@nestjs/common';
 import { AuthenticationHandler } from './authentication.handler.js';
 import { UserModule } from '../user/user.module.js';
-import { TicketHandler } from './ticket.handler.js';
 
 @Module({
   imports: [AdminModule, UserModule],
-  providers: [AdminHandler, AuthenticationHandler, TicketHandler],
-  exports: [AdminHandler, AuthenticationHandler, TicketHandler],
+  providers: [AdminHandler, AuthenticationHandler],
+  exports: [AdminHandler, AuthenticationHandler],
 })
 export class HandlerModule {}

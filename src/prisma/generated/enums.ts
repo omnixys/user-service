@@ -86,24 +86,40 @@ export const StatusType = {
 
 export type StatusType = (typeof StatusType)[keyof typeof StatusType];
 
-export const InterestType = {
-  SPORTS: 'SPORTS',
-  MUSIC: 'MUSIC',
-  TRAVEL: 'TRAVEL',
-  TECHNOLOGY: 'TECHNOLOGY',
-  OTHER: 'OTHER',
+export const InterestKey = {
+  BANK_PRODUCTS_AND_SERVICES: 'BANK_PRODUCTS_AND_SERVICES',
+  TECHNOLOGY_AND_INNOVATION: 'TECHNOLOGY_AND_INNOVATION',
+  FINANCIAL_EDUCATION_AND_COUNSELING: 'FINANCIAL_EDUCATION_AND_COUNSELING',
+  SUSTAINABLE_FINANCE: 'SUSTAINABLE_FINANCE',
   INVESTMENTS: 'INVESTMENTS',
   SAVING_AND_FINANCE: 'SAVING_AND_FINANCE',
   CREDIT_AND_DEBT: 'CREDIT_AND_DEBT',
-  BANK_PRODUCTS_AND_SERVICES: 'BANK_PRODUCTS_AND_SERVICES',
-  FINANCIAL_EDUCATION_AND_COUNSELING: 'FINANCIAL_EDUCATION_AND_COUNSELING',
   REAL_ESTATE: 'REAL_ESTATE',
   INSURANCE: 'INSURANCE',
-  SUSTAINABLE_FINANCE: 'SUSTAINABLE_FINANCE',
-  TECHNOLOGY_AND_INNOVATION: 'TECHNOLOGY_AND_INNOVATION',
+  TRAVEL: 'TRAVEL',
+  CLASSIC: 'CLASSIC',
+  ROCK: 'ROCK',
+  HIPHOP: 'HIPHOP',
+  RAP: 'RAP',
+  FOOTBALL: 'FOOTBALL',
+  SOCCER: 'SOCCER',
+  RUGBY: 'RUGBY',
+  BASKETBALL: 'BASKETBALL',
 } as const;
 
-export type InterestType = (typeof InterestType)[keyof typeof InterestType];
+export type InterestKey = (typeof InterestKey)[keyof typeof InterestKey];
+
+export const InterestCategoryKey = {
+  SPORTS: 'SPORTS',
+  MUSIC: 'MUSIC',
+  FINANCE: 'FINANCE',
+  REAL_ASSETS: 'REAL_ASSETS',
+  TECHNOLOGY: 'TECHNOLOGY',
+  LIFESTYLE: 'LIFESTYLE',
+} as const;
+
+export type InterestCategoryKey =
+  (typeof InterestCategoryKey)[keyof typeof InterestCategoryKey];
 
 export const ContactOptionsType = {
   EMAIL: 'EMAIL',

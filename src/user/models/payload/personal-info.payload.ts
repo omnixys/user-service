@@ -1,6 +1,5 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { GenderType } from '../enums/gender-type.enum.js';
-import { MaritalStatusType } from '../enums/marital-status-type.enum.js';
+import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { GenderType, MaritalStatusType } from '@omnixys/contracts';
 
 @ObjectType()
 export class PersonalInfoPayload {
@@ -24,4 +23,10 @@ export class PersonalInfoPayload {
 
   @Field(() => MaritalStatusType, { nullable: true })
   maritalStatus?: MaritalStatusType;
+
+  @Field(() => GraphQLISODateTime)
+  createdAt!: Date;
+
+  @Field(() => GraphQLISODateTime)
+  updatedAt!: Date;
 }

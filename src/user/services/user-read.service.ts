@@ -1,13 +1,14 @@
 import { LoggerPlus } from '../../logger/logger-plus.js';
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
 import {
-  Address,
   Contact,
   Customer,
+  CustomerInterest,
   Employee,
+  Interest,
+  InterestCategory,
   PersonalInfo,
   PhoneNumber,
-  SecurityQuestion,
   User,
 } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
@@ -94,28 +95,6 @@ export class UserReadService {
   }
 
   /* ------------------------------------------------------------------
-   * Security Questions
-   * ------------------------------------------------------------------ */
-
-  async getSecurityInfo(userId: string): Promise<SecurityQuestion[]> {
-    return this.prisma.securityQuestion.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'asc' },
-    });
-  }
-
-  /* ------------------------------------------------------------------
-   * Addresses
-   * ------------------------------------------------------------------ */
-
-  async getAddresses(userId: string): Promise<Address[]> {
-    return this.prisma.address.findMany({
-      where: { userId },
-      orderBy: { city: 'asc' },
-    });
-  }
-
-  /* ------------------------------------------------------------------
    * Contacts (Person ↔ Person)
    * ------------------------------------------------------------------ */
 
@@ -137,12 +116,52 @@ export class UserReadService {
   }
 
   /* ------------------------------------------------------------------
+   * Customer Interest (via Customer)
+   * ------------------------------------------------------------------ */
+
+  async getCustomerInterest(customerId: string): Promise<CustomerInterest[]> {
+    return this.prisma.customerInterest.findMany({
+      where: { customerId },
+      orderBy: { createdAt: 'asc' },
+    });
+  }
+
+  async getInterestById(interestId: string): Promise<Interest | null> {
+    return this.prisma.interest.findUnique({
+      where: { id: interestId },
+    });
+  }
+
+  async getInterestByCategoryId(categoryId: string): Promise<Interest[]> {
+    return this.prisma.interest.findMany({
+      where: { categoryId },
+    });
+  }
+
+  /* ------------------------------------------------------------------
    * Employee Extension
    * ------------------------------------------------------------------ */
 
   async getEmployee(userId: string): Promise<Employee | null> {
     return this.prisma.employee.findUnique({
       where: { id: userId },
+    });
+  }
+
+  async getAllCategoriesWithInterests(): Promise<InterestCategory[]> {
+    return this.prisma.interestCategory.findMany({
+      orderBy: { key: 'asc' },
+      include: {
+        interests: {
+          orderBy: { key: 'asc' },
+        },
+      },
+    });
+  }
+
+  async getAllInterests(): Promise<Interest[]> {
+    return this.prisma.interest.findMany({
+      orderBy: { key: 'asc' },
     });
   }
 }

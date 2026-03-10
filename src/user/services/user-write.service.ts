@@ -1,19 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { KafkaProducerService } from '../../kafka/kafka-producer.service.js';
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
-import { User } from '../../prisma/generated/client.js';
+import { User, UserType } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { withSpan } from '../../trace/utils/span.utils.js';
 import { UserDTO } from '../models/dto/user.dto.js';
-import { GenderType } from '../models/enums/gender-type.enum.js';
-import { MaritalStatusType } from '../models/enums/marital-status-type.enum.js';
-import { StatusType } from '../models/enums/status-type.enum.js';
-import { UserAddressInput } from '../models/input/address.input.js';
-import { AddContactInput } from '../models/input/contact.input.js';
-import { PhoneNumberInput } from '../models/input/phone-number.input.js';
-import { AddSecurityQuestionInput } from '../models/input/security-question.input.js';
-import { UpdateUserInput } from '../models/input/update-user.input.js';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { GenderType, MaritalStatusType, StatusType } from '@omnixys/contracts';
+import {
+  AddContactInput,
+  PhoneNumberInput,
+  UpdateUserInput,
+} from '@omnixys/graphql';
 import { trace } from '@opentelemetry/api';
 
 export interface AddPhoneNumbersDTO {
@@ -50,8 +48,7 @@ export class UserWriteService {
       data: {
         id: input.id,
         username: input.username,
-        userType: input.userType,
-        invitationIds: input.invitationId ? [input.invitationId] : [],
+        userType: UserType.CUSTOMER,
         personalInfo: {
           create: {
             email: input.email,
@@ -62,6 +59,9 @@ export class UserWriteService {
                   create: input.phoneNumbers.map((p) => ({
                     number: p.number,
                     type: p.type,
+                    label: p.label,
+                    isPrimary: p.isPrimary ?? false,
+                    countryCode: p.countryCode,
                   })),
                 }
               : undefined,
@@ -95,8 +95,6 @@ export class UserWriteService {
     return this.prisma.user.update({
       where: { id },
       data: {
-        ticketIds: patch.ticketIds ?? undefined,
-        invitationIds: patch.invitationIds ?? undefined,
         status: patch.status,
         userType: patch.userType ?? undefined,
       },
@@ -152,6 +150,9 @@ export class UserWriteService {
           create: phoneNumbers.map((p) => ({
             number: p.number,
             type: p.type,
+            countryCode: p.countryCode,
+            label: p.label,
+            isPrimary: p.isPrimary,
           })),
         },
       },
@@ -166,51 +167,6 @@ export class UserWriteService {
         id: { in: ids },
         infoId: userId,
       },
-    });
-  }
-
-  /* ------------------------------------------------------------------
-   * Tickets
-   * ------------------------------------------------------------------ */
-  async addTicketId({
-    guestId,
-    ticketId,
-  }: {
-    guestId: string;
-    ticketId: string;
-  }): Promise<void> {
-    this.logger.debug('Adding ticketId %s to user %s', ticketId, guestId);
-
-    await this.prisma.user.update({
-      where: { id: guestId },
-      data: {
-        ticketIds: {
-          push: ticketId,
-        },
-      },
-    });
-  }
-
-  async addAddress(userId: string, input: UserAddressInput): Promise<void> {
-    await this.prisma.address.create({
-      data: {
-        userId,
-        ...input,
-      },
-    });
-  }
-
-  async removeAddress(userId: string, addressId: string): Promise<void> {
-    const count = await this.prisma.address.count({
-      where: { userId },
-    });
-
-    if (count <= 1) {
-      throw new Error('At least one address must remain');
-    }
-
-    await this.prisma.address.delete({
-      where: { id: addressId },
     });
   }
 
@@ -235,49 +191,6 @@ export class UserWriteService {
           userId,
           contactId,
         },
-      },
-    });
-  }
-
-  async addSecurityQuestion(
-    userId: string,
-    input: AddSecurityQuestionInput,
-  ): Promise<void> {
-    await this.prisma.securityQuestion.create({
-      data: {
-        userId,
-        question: input.question,
-        answerHash: input.answer,
-      },
-    });
-  }
-
-  async updateSecurityAnswer(
-    userId: string,
-    questionId: string,
-    newAnswerHash: string,
-  ): Promise<void> {
-    await this.prisma.securityQuestion.update({
-      where: {
-        id: questionId,
-        userId,
-      },
-      data: {
-        answerHash: newAnswerHash,
-        attempts: 0,
-        lockedAt: null,
-      },
-    });
-  }
-
-  async removeSecurityQuestion(
-    userId: string,
-    questionId: string,
-  ): Promise<void> {
-    await this.prisma.securityQuestion.delete({
-      where: {
-        id: questionId,
-        userId,
       },
     });
   }
@@ -309,7 +222,6 @@ export class UserWriteService {
   async updateCustomer(
     userId: string,
     patch: {
-      tierLevel?: number;
       subscribed?: boolean;
       maritalStatus?: MaritalStatusType;
       state?: StatusType;
@@ -320,11 +232,8 @@ export class UserWriteService {
     await this.prisma.customer.update({
       where: { id: userId },
       data: {
-        tierLevel: patch.tierLevel ?? undefined,
         subscribed: patch.subscribed ?? undefined,
-        maritalStatus: patch.maritalStatus ?? undefined,
         state: patch.state ?? undefined,
-        interests: patch.interests ?? undefined,
         contactOptions: patch.contactOptions ?? undefined,
       },
     });

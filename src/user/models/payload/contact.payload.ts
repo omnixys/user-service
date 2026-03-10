@@ -1,5 +1,5 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { RelationshipType } from '../enums/relationship-type.enum.js';
+import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { RelationshipType } from '@omnixys/contracts';
 
 @ObjectType()
 export class ContactPayload {
@@ -26,4 +26,10 @@ export class ContactPayload {
 
   @Field(() => Date, { nullable: true })
   endDate?: Date;
+
+  @Field(() => GraphQLISODateTime)
+  createdAt!: Date;
+
+  @Field(() => GraphQLISODateTime)
+  updatedAt!: Date;
 }

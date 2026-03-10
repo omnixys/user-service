@@ -12,6 +12,8 @@ export class EmployeeMapper {
       salary: n2u(employee.salary),
       hireDate: n2u(employee.hireDate),
       isExternal: employee.isExternal,
+      updatedAt: employee.updatedAt,
+      createdAt: employee.createdAt,
     };
   }
 }

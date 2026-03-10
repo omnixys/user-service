@@ -20,25 +20,13 @@ export type CustomerModel =
 
 export type AggregateCustomer = {
   _count: CustomerCountAggregateOutputType | null;
-  _avg: CustomerAvgAggregateOutputType | null;
-  _sum: CustomerSumAggregateOutputType | null;
   _min: CustomerMinAggregateOutputType | null;
   _max: CustomerMaxAggregateOutputType | null;
 };
 
-export type CustomerAvgAggregateOutputType = {
-  tierLevel: number | null;
-};
-
-export type CustomerSumAggregateOutputType = {
-  tierLevel: number | null;
-};
-
 export type CustomerMinAggregateOutputType = {
   id: string | null;
-  tierLevel: number | null;
   subscribed: boolean | null;
-  maritalStatus: $Enums.MaritalStatusType | null;
   state: $Enums.StatusType | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -46,9 +34,7 @@ export type CustomerMinAggregateOutputType = {
 
 export type CustomerMaxAggregateOutputType = {
   id: string | null;
-  tierLevel: number | null;
   subscribed: boolean | null;
-  maritalStatus: $Enums.MaritalStatusType | null;
   state: $Enums.StatusType | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -56,30 +42,17 @@ export type CustomerMaxAggregateOutputType = {
 
 export type CustomerCountAggregateOutputType = {
   id: number;
-  tierLevel: number;
   subscribed: number;
-  maritalStatus: number;
   state: number;
-  interests: number;
   contactOptions: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
 };
 
-export type CustomerAvgAggregateInputType = {
-  tierLevel?: true;
-};
-
-export type CustomerSumAggregateInputType = {
-  tierLevel?: true;
-};
-
 export type CustomerMinAggregateInputType = {
   id?: true;
-  tierLevel?: true;
   subscribed?: true;
-  maritalStatus?: true;
   state?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -87,9 +60,7 @@ export type CustomerMinAggregateInputType = {
 
 export type CustomerMaxAggregateInputType = {
   id?: true;
-  tierLevel?: true;
   subscribed?: true;
-  maritalStatus?: true;
   state?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -97,11 +68,8 @@ export type CustomerMaxAggregateInputType = {
 
 export type CustomerCountAggregateInputType = {
   id?: true;
-  tierLevel?: true;
   subscribed?: true;
-  maritalStatus?: true;
   state?: true;
-  interests?: true;
   contactOptions?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -151,18 +119,6 @@ export type CustomerAggregateArgs<
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    *
-   * Select which fields to average
-   **/
-  _avg?: CustomerAvgAggregateInputType;
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   *
-   * Select which fields to sum
-   **/
-  _sum?: CustomerSumAggregateInputType;
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   *
    * Select which fields to find the minimum value
    **/
   _min?: CustomerMinAggregateInputType;
@@ -195,25 +151,18 @@ export type CustomerGroupByArgs<
   take?: number;
   skip?: number;
   _count?: CustomerCountAggregateInputType | true;
-  _avg?: CustomerAvgAggregateInputType;
-  _sum?: CustomerSumAggregateInputType;
   _min?: CustomerMinAggregateInputType;
   _max?: CustomerMaxAggregateInputType;
 };
 
 export type CustomerGroupByOutputType = {
   id: string;
-  tierLevel: number;
   subscribed: boolean;
-  maritalStatus: $Enums.MaritalStatusType | null;
   state: $Enums.StatusType;
-  interests: $Enums.InterestType[];
   contactOptions: $Enums.ContactOptionsType[];
   createdAt: Date;
   updatedAt: Date;
   _count: CustomerCountAggregateOutputType | null;
-  _avg: CustomerAvgAggregateOutputType | null;
-  _sum: CustomerSumAggregateOutputType | null;
   _min: CustomerMinAggregateOutputType | null;
   _max: CustomerMaxAggregateOutputType | null;
 };
@@ -236,31 +185,24 @@ export type CustomerWhereInput = {
   OR?: Prisma.CustomerWhereInput[];
   NOT?: Prisma.CustomerWhereInput | Prisma.CustomerWhereInput[];
   id?: Prisma.StringFilter<'Customer'> | string;
-  tierLevel?: Prisma.IntFilter<'Customer'> | number;
   subscribed?: Prisma.BoolFilter<'Customer'> | boolean;
-  maritalStatus?:
-    | Prisma.EnumMaritalStatusTypeNullableFilter<'Customer'>
-    | $Enums.MaritalStatusType
-    | null;
   state?: Prisma.EnumStatusTypeFilter<'Customer'> | $Enums.StatusType;
-  interests?: Prisma.EnumInterestTypeNullableListFilter<'Customer'>;
   contactOptions?: Prisma.EnumContactOptionsTypeNullableListFilter<'Customer'>;
   createdAt?: Prisma.DateTimeFilter<'Customer'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Customer'> | Date | string;
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
+  customerInterests?: Prisma.CustomerInterestListRelationFilter;
 };
 
 export type CustomerOrderByWithRelationInput = {
   id?: Prisma.SortOrder;
-  tierLevel?: Prisma.SortOrder;
   subscribed?: Prisma.SortOrder;
-  maritalStatus?: Prisma.SortOrderInput | Prisma.SortOrder;
   state?: Prisma.SortOrder;
-  interests?: Prisma.SortOrder;
   contactOptions?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   user?: Prisma.UserOrderByWithRelationInput;
+  customerInterests?: Prisma.CustomerInterestOrderByRelationAggregateInput;
 };
 
 export type CustomerWhereUniqueInput = Prisma.AtLeast<
@@ -269,37 +211,27 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<
     AND?: Prisma.CustomerWhereInput | Prisma.CustomerWhereInput[];
     OR?: Prisma.CustomerWhereInput[];
     NOT?: Prisma.CustomerWhereInput | Prisma.CustomerWhereInput[];
-    tierLevel?: Prisma.IntFilter<'Customer'> | number;
     subscribed?: Prisma.BoolFilter<'Customer'> | boolean;
-    maritalStatus?:
-      | Prisma.EnumMaritalStatusTypeNullableFilter<'Customer'>
-      | $Enums.MaritalStatusType
-      | null;
     state?: Prisma.EnumStatusTypeFilter<'Customer'> | $Enums.StatusType;
-    interests?: Prisma.EnumInterestTypeNullableListFilter<'Customer'>;
     contactOptions?: Prisma.EnumContactOptionsTypeNullableListFilter<'Customer'>;
     createdAt?: Prisma.DateTimeFilter<'Customer'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Customer'> | Date | string;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
+    customerInterests?: Prisma.CustomerInterestListRelationFilter;
   },
   'id'
 >;
 
 export type CustomerOrderByWithAggregationInput = {
   id?: Prisma.SortOrder;
-  tierLevel?: Prisma.SortOrder;
   subscribed?: Prisma.SortOrder;
-  maritalStatus?: Prisma.SortOrderInput | Prisma.SortOrder;
   state?: Prisma.SortOrder;
-  interests?: Prisma.SortOrder;
   contactOptions?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.CustomerCountOrderByAggregateInput;
-  _avg?: Prisma.CustomerAvgOrderByAggregateInput;
   _max?: Prisma.CustomerMaxOrderByAggregateInput;
   _min?: Prisma.CustomerMinOrderByAggregateInput;
-  _sum?: Prisma.CustomerSumOrderByAggregateInput;
 };
 
 export type CustomerScalarWhereWithAggregatesInput = {
@@ -311,90 +243,67 @@ export type CustomerScalarWhereWithAggregatesInput = {
     | Prisma.CustomerScalarWhereWithAggregatesInput
     | Prisma.CustomerScalarWhereWithAggregatesInput[];
   id?: Prisma.StringWithAggregatesFilter<'Customer'> | string;
-  tierLevel?: Prisma.IntWithAggregatesFilter<'Customer'> | number;
   subscribed?: Prisma.BoolWithAggregatesFilter<'Customer'> | boolean;
-  maritalStatus?:
-    | Prisma.EnumMaritalStatusTypeNullableWithAggregatesFilter<'Customer'>
-    | $Enums.MaritalStatusType
-    | null;
   state?:
     | Prisma.EnumStatusTypeWithAggregatesFilter<'Customer'>
     | $Enums.StatusType;
-  interests?: Prisma.EnumInterestTypeNullableListFilter<'Customer'>;
   contactOptions?: Prisma.EnumContactOptionsTypeNullableListFilter<'Customer'>;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'Customer'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'Customer'> | Date | string;
 };
 
 export type CustomerCreateInput = {
-  tierLevel: number;
   subscribed?: boolean;
-  maritalStatus?: $Enums.MaritalStatusType | null;
   state: $Enums.StatusType;
-  interests?: Prisma.CustomerCreateinterestsInput | $Enums.InterestType[];
   contactOptions?:
     | Prisma.CustomerCreatecontactOptionsInput
     | $Enums.ContactOptionsType[];
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user: Prisma.UserCreateNestedOneWithoutCustomerInput;
+  customerInterests?: Prisma.CustomerInterestCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerUncheckedCreateInput = {
   id: string;
-  tierLevel: number;
   subscribed?: boolean;
-  maritalStatus?: $Enums.MaritalStatusType | null;
   state: $Enums.StatusType;
-  interests?: Prisma.CustomerCreateinterestsInput | $Enums.InterestType[];
   contactOptions?:
     | Prisma.CustomerCreatecontactOptionsInput
     | $Enums.ContactOptionsType[];
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  customerInterests?: Prisma.CustomerInterestUncheckedCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerUpdateInput = {
-  tierLevel?: Prisma.IntFieldUpdateOperationsInput | number;
   subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  maritalStatus?:
-    | Prisma.NullableEnumMaritalStatusTypeFieldUpdateOperationsInput
-    | $Enums.MaritalStatusType
-    | null;
   state?: Prisma.EnumStatusTypeFieldUpdateOperationsInput | $Enums.StatusType;
-  interests?: Prisma.CustomerUpdateinterestsInput | $Enums.InterestType[];
   contactOptions?:
     | Prisma.CustomerUpdatecontactOptionsInput
     | $Enums.ContactOptionsType[];
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneRequiredWithoutCustomerNestedInput;
+  customerInterests?: Prisma.CustomerInterestUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  tierLevel?: Prisma.IntFieldUpdateOperationsInput | number;
   subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  maritalStatus?:
-    | Prisma.NullableEnumMaritalStatusTypeFieldUpdateOperationsInput
-    | $Enums.MaritalStatusType
-    | null;
   state?: Prisma.EnumStatusTypeFieldUpdateOperationsInput | $Enums.StatusType;
-  interests?: Prisma.CustomerUpdateinterestsInput | $Enums.InterestType[];
   contactOptions?:
     | Prisma.CustomerUpdatecontactOptionsInput
     | $Enums.ContactOptionsType[];
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  customerInterests?: Prisma.CustomerInterestUncheckedUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerCreateManyInput = {
   id: string;
-  tierLevel: number;
   subscribed?: boolean;
-  maritalStatus?: $Enums.MaritalStatusType | null;
   state: $Enums.StatusType;
-  interests?: Prisma.CustomerCreateinterestsInput | $Enums.InterestType[];
   contactOptions?:
     | Prisma.CustomerCreatecontactOptionsInput
     | $Enums.ContactOptionsType[];
@@ -403,14 +312,8 @@ export type CustomerCreateManyInput = {
 };
 
 export type CustomerUpdateManyMutationInput = {
-  tierLevel?: Prisma.IntFieldUpdateOperationsInput | number;
   subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  maritalStatus?:
-    | Prisma.NullableEnumMaritalStatusTypeFieldUpdateOperationsInput
-    | $Enums.MaritalStatusType
-    | null;
   state?: Prisma.EnumStatusTypeFieldUpdateOperationsInput | $Enums.StatusType;
-  interests?: Prisma.CustomerUpdateinterestsInput | $Enums.InterestType[];
   contactOptions?:
     | Prisma.CustomerUpdatecontactOptionsInput
     | $Enums.ContactOptionsType[];
@@ -420,14 +323,8 @@ export type CustomerUpdateManyMutationInput = {
 
 export type CustomerUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
-  tierLevel?: Prisma.IntFieldUpdateOperationsInput | number;
   subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  maritalStatus?:
-    | Prisma.NullableEnumMaritalStatusTypeFieldUpdateOperationsInput
-    | $Enums.MaritalStatusType
-    | null;
   state?: Prisma.EnumStatusTypeFieldUpdateOperationsInput | $Enums.StatusType;
-  interests?: Prisma.CustomerUpdateinterestsInput | $Enums.InterestType[];
   contactOptions?:
     | Prisma.CustomerUpdatecontactOptionsInput
     | $Enums.ContactOptionsType[];
@@ -438,24 +335,6 @@ export type CustomerUncheckedUpdateManyInput = {
 export type CustomerNullableScalarRelationFilter = {
   is?: Prisma.CustomerWhereInput | null;
   isNot?: Prisma.CustomerWhereInput | null;
-};
-
-export type EnumInterestTypeNullableListFilter<$PrismaModel = never> = {
-  equals?:
-    | $Enums.InterestType[]
-    | Prisma.ListEnumInterestTypeFieldRefInput<$PrismaModel>
-    | null;
-  has?:
-    | $Enums.InterestType
-    | Prisma.EnumInterestTypeFieldRefInput<$PrismaModel>
-    | null;
-  hasEvery?:
-    | $Enums.InterestType[]
-    | Prisma.ListEnumInterestTypeFieldRefInput<$PrismaModel>;
-  hasSome?:
-    | $Enums.InterestType[]
-    | Prisma.ListEnumInterestTypeFieldRefInput<$PrismaModel>;
-  isEmpty?: boolean;
 };
 
 export type EnumContactOptionsTypeNullableListFilter<$PrismaModel = never> = {
@@ -478,25 +357,16 @@ export type EnumContactOptionsTypeNullableListFilter<$PrismaModel = never> = {
 
 export type CustomerCountOrderByAggregateInput = {
   id?: Prisma.SortOrder;
-  tierLevel?: Prisma.SortOrder;
   subscribed?: Prisma.SortOrder;
-  maritalStatus?: Prisma.SortOrder;
   state?: Prisma.SortOrder;
-  interests?: Prisma.SortOrder;
   contactOptions?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
 
-export type CustomerAvgOrderByAggregateInput = {
-  tierLevel?: Prisma.SortOrder;
-};
-
 export type CustomerMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder;
-  tierLevel?: Prisma.SortOrder;
   subscribed?: Prisma.SortOrder;
-  maritalStatus?: Prisma.SortOrder;
   state?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -504,16 +374,15 @@ export type CustomerMaxOrderByAggregateInput = {
 
 export type CustomerMinOrderByAggregateInput = {
   id?: Prisma.SortOrder;
-  tierLevel?: Prisma.SortOrder;
   subscribed?: Prisma.SortOrder;
-  maritalStatus?: Prisma.SortOrder;
   state?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
 
-export type CustomerSumOrderByAggregateInput = {
-  tierLevel?: Prisma.SortOrder;
+export type CustomerScalarRelationFilter = {
+  is?: Prisma.CustomerWhereInput;
+  isNot?: Prisma.CustomerWhereInput;
 };
 
 export type CustomerCreateNestedOneWithoutUserInput = {
@@ -572,20 +441,8 @@ export type CustomerUncheckedUpdateOneWithoutUserNestedInput = {
   >;
 };
 
-export type CustomerCreateinterestsInput = {
-  set: $Enums.InterestType[];
-};
-
 export type CustomerCreatecontactOptionsInput = {
   set: $Enums.ContactOptionsType[];
-};
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number;
-  increment?: number;
-  decrement?: number;
-  multiply?: number;
-  divide?: number;
 };
 
 export type BoolFieldUpdateOperationsInput = {
@@ -596,40 +453,57 @@ export type EnumStatusTypeFieldUpdateOperationsInput = {
   set?: $Enums.StatusType;
 };
 
-export type CustomerUpdateinterestsInput = {
-  set?: $Enums.InterestType[];
-  push?: $Enums.InterestType | $Enums.InterestType[];
-};
-
 export type CustomerUpdatecontactOptionsInput = {
   set?: $Enums.ContactOptionsType[];
   push?: $Enums.ContactOptionsType | $Enums.ContactOptionsType[];
 };
 
+export type CustomerCreateNestedOneWithoutCustomerInterestsInput = {
+  create?: Prisma.XOR<
+    Prisma.CustomerCreateWithoutCustomerInterestsInput,
+    Prisma.CustomerUncheckedCreateWithoutCustomerInterestsInput
+  >;
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutCustomerInterestsInput;
+  connect?: Prisma.CustomerWhereUniqueInput;
+};
+
+export type CustomerUpdateOneRequiredWithoutCustomerInterestsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.CustomerCreateWithoutCustomerInterestsInput,
+    Prisma.CustomerUncheckedCreateWithoutCustomerInterestsInput
+  >;
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutCustomerInterestsInput;
+  upsert?: Prisma.CustomerUpsertWithoutCustomerInterestsInput;
+  connect?: Prisma.CustomerWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.CustomerUpdateToOneWithWhereWithoutCustomerInterestsInput,
+      Prisma.CustomerUpdateWithoutCustomerInterestsInput
+    >,
+    Prisma.CustomerUncheckedUpdateWithoutCustomerInterestsInput
+  >;
+};
+
 export type CustomerCreateWithoutUserInput = {
-  tierLevel: number;
   subscribed?: boolean;
-  maritalStatus?: $Enums.MaritalStatusType | null;
   state: $Enums.StatusType;
-  interests?: Prisma.CustomerCreateinterestsInput | $Enums.InterestType[];
   contactOptions?:
     | Prisma.CustomerCreatecontactOptionsInput
     | $Enums.ContactOptionsType[];
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  customerInterests?: Prisma.CustomerInterestCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerUncheckedCreateWithoutUserInput = {
-  tierLevel: number;
   subscribed?: boolean;
-  maritalStatus?: $Enums.MaritalStatusType | null;
   state: $Enums.StatusType;
-  interests?: Prisma.CustomerCreateinterestsInput | $Enums.InterestType[];
   contactOptions?:
     | Prisma.CustomerCreatecontactOptionsInput
     | $Enums.ContactOptionsType[];
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  customerInterests?: Prisma.CustomerInterestUncheckedCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerCreateOrConnectWithoutUserInput = {
@@ -661,14 +535,92 @@ export type CustomerUpdateToOneWithWhereWithoutUserInput = {
 };
 
 export type CustomerUpdateWithoutUserInput = {
-  tierLevel?: Prisma.IntFieldUpdateOperationsInput | number;
   subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  maritalStatus?:
-    | Prisma.NullableEnumMaritalStatusTypeFieldUpdateOperationsInput
-    | $Enums.MaritalStatusType
-    | null;
   state?: Prisma.EnumStatusTypeFieldUpdateOperationsInput | $Enums.StatusType;
-  interests?: Prisma.CustomerUpdateinterestsInput | $Enums.InterestType[];
+  contactOptions?:
+    | Prisma.CustomerUpdatecontactOptionsInput
+    | $Enums.ContactOptionsType[];
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  customerInterests?: Prisma.CustomerInterestUpdateManyWithoutCustomerNestedInput;
+};
+
+export type CustomerUncheckedUpdateWithoutUserInput = {
+  subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  state?: Prisma.EnumStatusTypeFieldUpdateOperationsInput | $Enums.StatusType;
+  contactOptions?:
+    | Prisma.CustomerUpdatecontactOptionsInput
+    | $Enums.ContactOptionsType[];
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  customerInterests?: Prisma.CustomerInterestUncheckedUpdateManyWithoutCustomerNestedInput;
+};
+
+export type CustomerCreateWithoutCustomerInterestsInput = {
+  subscribed?: boolean;
+  state: $Enums.StatusType;
+  contactOptions?:
+    | Prisma.CustomerCreatecontactOptionsInput
+    | $Enums.ContactOptionsType[];
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  user: Prisma.UserCreateNestedOneWithoutCustomerInput;
+};
+
+export type CustomerUncheckedCreateWithoutCustomerInterestsInput = {
+  id: string;
+  subscribed?: boolean;
+  state: $Enums.StatusType;
+  contactOptions?:
+    | Prisma.CustomerCreatecontactOptionsInput
+    | $Enums.ContactOptionsType[];
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+};
+
+export type CustomerCreateOrConnectWithoutCustomerInterestsInput = {
+  where: Prisma.CustomerWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.CustomerCreateWithoutCustomerInterestsInput,
+    Prisma.CustomerUncheckedCreateWithoutCustomerInterestsInput
+  >;
+};
+
+export type CustomerUpsertWithoutCustomerInterestsInput = {
+  update: Prisma.XOR<
+    Prisma.CustomerUpdateWithoutCustomerInterestsInput,
+    Prisma.CustomerUncheckedUpdateWithoutCustomerInterestsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.CustomerCreateWithoutCustomerInterestsInput,
+    Prisma.CustomerUncheckedCreateWithoutCustomerInterestsInput
+  >;
+  where?: Prisma.CustomerWhereInput;
+};
+
+export type CustomerUpdateToOneWithWhereWithoutCustomerInterestsInput = {
+  where?: Prisma.CustomerWhereInput;
+  data: Prisma.XOR<
+    Prisma.CustomerUpdateWithoutCustomerInterestsInput,
+    Prisma.CustomerUncheckedUpdateWithoutCustomerInterestsInput
+  >;
+};
+
+export type CustomerUpdateWithoutCustomerInterestsInput = {
+  subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  state?: Prisma.EnumStatusTypeFieldUpdateOperationsInput | $Enums.StatusType;
+  contactOptions?:
+    | Prisma.CustomerUpdatecontactOptionsInput
+    | $Enums.ContactOptionsType[];
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  user?: Prisma.UserUpdateOneRequiredWithoutCustomerNestedInput;
+};
+
+export type CustomerUncheckedUpdateWithoutCustomerInterestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  state?: Prisma.EnumStatusTypeFieldUpdateOperationsInput | $Enums.StatusType;
   contactOptions?:
     | Prisma.CustomerUpdatecontactOptionsInput
     | $Enums.ContactOptionsType[];
@@ -676,20 +628,44 @@ export type CustomerUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
-export type CustomerUncheckedUpdateWithoutUserInput = {
-  tierLevel?: Prisma.IntFieldUpdateOperationsInput | number;
-  subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  maritalStatus?:
-    | Prisma.NullableEnumMaritalStatusTypeFieldUpdateOperationsInput
-    | $Enums.MaritalStatusType
-    | null;
-  state?: Prisma.EnumStatusTypeFieldUpdateOperationsInput | $Enums.StatusType;
-  interests?: Prisma.CustomerUpdateinterestsInput | $Enums.InterestType[];
-  contactOptions?:
-    | Prisma.CustomerUpdatecontactOptionsInput
-    | $Enums.ContactOptionsType[];
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+/**
+ * Count Type CustomerCountOutputType
+ */
+
+export type CustomerCountOutputType = {
+  customerInterests: number;
+};
+
+export type CustomerCountOutputTypeSelect<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  customerInterests?:
+    | boolean
+    | CustomerCountOutputTypeCountCustomerInterestsArgs;
+};
+
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeDefaultArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the CustomerCountOutputType
+   */
+  select?: Prisma.CustomerCountOutputTypeSelect<ExtArgs> | null;
+};
+
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountCustomerInterestsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.CustomerInterestWhereInput;
 };
 
 export type CustomerSelect<
@@ -698,15 +674,16 @@ export type CustomerSelect<
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
-    tierLevel?: boolean;
     subscribed?: boolean;
-    maritalStatus?: boolean;
     state?: boolean;
-    interests?: boolean;
     contactOptions?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    customerInterests?:
+      | boolean
+      | Prisma.Customer$customerInterestsArgs<ExtArgs>;
+    _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['customer']
 >;
@@ -717,11 +694,8 @@ export type CustomerSelectCreateManyAndReturn<
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
-    tierLevel?: boolean;
     subscribed?: boolean;
-    maritalStatus?: boolean;
     state?: boolean;
-    interests?: boolean;
     contactOptions?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -736,11 +710,8 @@ export type CustomerSelectUpdateManyAndReturn<
 > = runtime.Types.Extensions.GetSelect<
   {
     id?: boolean;
-    tierLevel?: boolean;
     subscribed?: boolean;
-    maritalStatus?: boolean;
     state?: boolean;
-    interests?: boolean;
     contactOptions?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -751,11 +722,8 @@ export type CustomerSelectUpdateManyAndReturn<
 
 export type CustomerSelectScalar = {
   id?: boolean;
-  tierLevel?: boolean;
   subscribed?: boolean;
-  maritalStatus?: boolean;
   state?: boolean;
-  interests?: boolean;
   contactOptions?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
@@ -765,15 +733,7 @@ export type CustomerOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  | 'id'
-  | 'tierLevel'
-  | 'subscribed'
-  | 'maritalStatus'
-  | 'state'
-  | 'interests'
-  | 'contactOptions'
-  | 'createdAt'
-  | 'updatedAt',
+  'id' | 'subscribed' | 'state' | 'contactOptions' | 'createdAt' | 'updatedAt',
   ExtArgs['result']['customer']
 >;
 export type CustomerInclude<
@@ -781,6 +741,8 @@ export type CustomerInclude<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+  customerInterests?: boolean | Prisma.Customer$customerInterestsArgs<ExtArgs>;
+  _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type CustomerIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
@@ -802,15 +764,13 @@ export type $CustomerPayload<
   name: 'Customer';
   objects: {
     user: Prisma.$UserPayload<ExtArgs>;
+    customerInterests: Prisma.$CustomerInterestPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
       id: string;
-      tierLevel: number;
       subscribed: boolean;
-      maritalStatus: $Enums.MaritalStatusType | null;
       state: $Enums.StatusType;
-      interests: $Enums.InterestType[];
       contactOptions: $Enums.ContactOptionsType[];
       createdAt: Date;
       updatedAt: Date;
@@ -1378,6 +1338,19 @@ export interface Prisma__CustomerClient<
     ExtArgs,
     GlobalOmitOptions
   >;
+  customerInterests<
+    T extends Prisma.Customer$customerInterestsArgs<ExtArgs> = {},
+  >(
+    args?: Prisma.Subset<T, Prisma.Customer$customerInterestsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$CustomerInterestPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1421,11 +1394,8 @@ export interface Prisma__CustomerClient<
  */
 export interface CustomerFieldRefs {
   readonly id: Prisma.FieldRef<'Customer', 'String'>;
-  readonly tierLevel: Prisma.FieldRef<'Customer', 'Int'>;
   readonly subscribed: Prisma.FieldRef<'Customer', 'Boolean'>;
-  readonly maritalStatus: Prisma.FieldRef<'Customer', 'MaritalStatusType'>;
   readonly state: Prisma.FieldRef<'Customer', 'StatusType'>;
-  readonly interests: Prisma.FieldRef<'Customer', 'InterestType[]'>;
   readonly contactOptions: Prisma.FieldRef<'Customer', 'ContactOptionsType[]'>;
   readonly createdAt: Prisma.FieldRef<'Customer', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'Customer', 'DateTime'>;
@@ -1887,6 +1857,37 @@ export type CustomerDeleteManyArgs<
    * Limit how many Customers to delete.
    */
   limit?: number;
+};
+
+/**
+ * Customer.customerInterests
+ */
+export type Customer$customerInterestsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the CustomerInterest
+   */
+  select?: Prisma.CustomerInterestSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the CustomerInterest
+   */
+  omit?: Prisma.CustomerInterestOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CustomerInterestInclude<ExtArgs> | null;
+  where?: Prisma.CustomerInterestWhereInput;
+  orderBy?:
+    | Prisma.CustomerInterestOrderByWithRelationInput
+    | Prisma.CustomerInterestOrderByWithRelationInput[];
+  cursor?: Prisma.CustomerInterestWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.CustomerInterestScalarFieldEnum
+    | Prisma.CustomerInterestScalarFieldEnum[];
 };
 
 /**

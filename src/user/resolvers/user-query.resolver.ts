@@ -7,7 +7,11 @@ import { Roles } from '../../auth/decorators/roles.decorator.js';
 import { CookieAuthGuard } from '../../auth/guards/cookie-auth.guard.js';
 import { RoleGuard } from '../../auth/guards/role.guard.js';
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
+import { InterestCategoryMapper } from '../models/mapper/interest-category.mapper.js';
+import { InterestMapper } from '../models/mapper/interest.mapper.js';
 import { userMapper } from '../models/mapper/user.mapper.js';
+import { InterestCategoryPayload } from '../models/payload/interest-category.payload.js';
+import { InterestPayload } from '../models/payload/interest.payload.js';
 import { UserPayload } from '../models/payload/user.payload.js';
 import { UserReadService } from '../services/user-read.service.js';
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
@@ -77,5 +81,19 @@ export class UserQueryResolver {
   ): Promise<UserPayload[]> {
     const users = await this.service.findByIds(userIds);
     return userMapper.toPayloadList(users);
+  }
+
+  @Query(() => [InterestCategoryPayload], {
+    name: 'getAllInterestCategories',
+  })
+  async getAllInterestCategories(): Promise<InterestCategoryPayload[]> {
+    const entities = await this.service.getAllCategoriesWithInterests();
+    return InterestCategoryMapper.toPayloadList(entities);
+  }
+
+  @Query(() => [InterestPayload])
+  async getAllInterests(): Promise<InterestPayload[]> {
+    const interests = await this.service.getAllInterests();
+    return InterestMapper.toPayloadList(interests);
   }
 }

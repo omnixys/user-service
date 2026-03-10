@@ -56,13 +56,13 @@ export const AnyNull = runtime.AnyNull;
 export const ModelName = {
   User: 'User',
   PersonalInfo: 'PersonalInfo',
-  Address: 'Address',
   Customer: 'Customer',
   Employee: 'Employee',
   PhoneNumber: 'PhoneNumber',
-  SecurityQuestion: 'SecurityQuestion',
-  PasswordReset: 'PasswordReset',
   Contact: 'Contact',
+  InterestCategory: 'InterestCategory',
+  Interest: 'Interest',
+  CustomerInterest: 'CustomerInterest',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -71,12 +71,12 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName];
  * Enums
  */
 
-export const TransactionIsolationLevel = {
+export const TransactionIsolationLevel = runtime.makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable',
-} as const;
+} as const);
 
 export type TransactionIsolationLevel =
   (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
@@ -84,8 +84,6 @@ export type TransactionIsolationLevel =
 export const UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
-  ticketIds: 'ticketIds',
-  invitationIds: 'invitationIds',
   userType: 'userType',
   status: 'status',
   createdAt: 'createdAt',
@@ -110,30 +108,10 @@ export const PersonalInfoScalarFieldEnum = {
 export type PersonalInfoScalarFieldEnum =
   (typeof PersonalInfoScalarFieldEnum)[keyof typeof PersonalInfoScalarFieldEnum];
 
-export const AddressScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  street: 'street',
-  houseNumber: 'houseNumber',
-  zipCode: 'zipCode',
-  city: 'city',
-  state: 'state',
-  country: 'country',
-  additionalInfo: 'additionalInfo',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-} as const;
-
-export type AddressScalarFieldEnum =
-  (typeof AddressScalarFieldEnum)[keyof typeof AddressScalarFieldEnum];
-
 export const CustomerScalarFieldEnum = {
   id: 'id',
-  tierLevel: 'tierLevel',
   subscribed: 'subscribed',
-  maritalStatus: 'maritalStatus',
   state: 'state',
-  interests: 'interests',
   contactOptions: 'contactOptions',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -164,39 +142,13 @@ export const PhoneNumberScalarFieldEnum = {
   type: 'type',
   label: 'label',
   isPrimary: 'isPrimary',
+  countryCode: 'countryCode',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;
 
 export type PhoneNumberScalarFieldEnum =
   (typeof PhoneNumberScalarFieldEnum)[keyof typeof PhoneNumberScalarFieldEnum];
-
-export const SecurityQuestionScalarFieldEnum = {
-  id: 'id',
-  question: 'question',
-  answerHash: 'answerHash',
-  attempts: 'attempts',
-  lockedAt: 'lockedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  userId: 'userId',
-} as const;
-
-export type SecurityQuestionScalarFieldEnum =
-  (typeof SecurityQuestionScalarFieldEnum)[keyof typeof SecurityQuestionScalarFieldEnum];
-
-export const PasswordResetScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  userEmail: 'userEmail',
-  token: 'token',
-  expiresAt: 'expiresAt',
-  usedAt: 'usedAt',
-  createdAt: 'createdAt',
-} as const;
-
-export type PasswordResetScalarFieldEnum =
-  (typeof PasswordResetScalarFieldEnum)[keyof typeof PasswordResetScalarFieldEnum];
 
 export const ContactScalarFieldEnum = {
   id: 'id',
@@ -213,6 +165,44 @@ export const ContactScalarFieldEnum = {
 
 export type ContactScalarFieldEnum =
   (typeof ContactScalarFieldEnum)[keyof typeof ContactScalarFieldEnum];
+
+export const InterestCategoryScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  name: 'name',
+  icon: 'icon',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type InterestCategoryScalarFieldEnum =
+  (typeof InterestCategoryScalarFieldEnum)[keyof typeof InterestCategoryScalarFieldEnum];
+
+export const InterestScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  name: 'name',
+  categoryId: 'categoryId',
+  icon: 'icon',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type InterestScalarFieldEnum =
+  (typeof InterestScalarFieldEnum)[keyof typeof InterestScalarFieldEnum];
+
+export const CustomerInterestScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  interestId: 'interestId',
+  level: 'level',
+  isPrimary: 'isPrimary',
+  createdAt: 'createdAt',
+} as const;
+
+export type CustomerInterestScalarFieldEnum =
+  (typeof CustomerInterestScalarFieldEnum)[keyof typeof CustomerInterestScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

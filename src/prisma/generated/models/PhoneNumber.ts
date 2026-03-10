@@ -31,6 +31,7 @@ export type PhoneNumberMinAggregateOutputType = {
   type: $Enums.PhoneNumberType | null;
   label: string | null;
   isPrimary: boolean | null;
+  countryCode: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -42,6 +43,7 @@ export type PhoneNumberMaxAggregateOutputType = {
   type: $Enums.PhoneNumberType | null;
   label: string | null;
   isPrimary: boolean | null;
+  countryCode: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -53,6 +55,7 @@ export type PhoneNumberCountAggregateOutputType = {
   type: number;
   label: number;
   isPrimary: number;
+  countryCode: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
@@ -65,6 +68,7 @@ export type PhoneNumberMinAggregateInputType = {
   type?: true;
   label?: true;
   isPrimary?: true;
+  countryCode?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -76,6 +80,7 @@ export type PhoneNumberMaxAggregateInputType = {
   type?: true;
   label?: true;
   isPrimary?: true;
+  countryCode?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -87,6 +92,7 @@ export type PhoneNumberCountAggregateInputType = {
   type?: true;
   label?: true;
   isPrimary?: true;
+  countryCode?: true;
   createdAt?: true;
   updatedAt?: true;
   _all?: true;
@@ -178,6 +184,7 @@ export type PhoneNumberGroupByOutputType = {
   type: $Enums.PhoneNumberType;
   label: string | null;
   isPrimary: boolean;
+  countryCode: string;
   createdAt: Date;
   updatedAt: Date;
   _count: PhoneNumberCountAggregateOutputType | null;
@@ -210,6 +217,7 @@ export type PhoneNumberWhereInput = {
     | $Enums.PhoneNumberType;
   label?: Prisma.StringNullableFilter<'PhoneNumber'> | string | null;
   isPrimary?: Prisma.BoolFilter<'PhoneNumber'> | boolean;
+  countryCode?: Prisma.StringFilter<'PhoneNumber'> | string;
   createdAt?: Prisma.DateTimeFilter<'PhoneNumber'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'PhoneNumber'> | Date | string;
   user?: Prisma.XOR<
@@ -225,6 +233,7 @@ export type PhoneNumberOrderByWithRelationInput = {
   type?: Prisma.SortOrder;
   label?: Prisma.SortOrderInput | Prisma.SortOrder;
   isPrimary?: Prisma.SortOrder;
+  countryCode?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   user?: Prisma.PersonalInfoOrderByWithRelationInput;
@@ -233,6 +242,7 @@ export type PhoneNumberOrderByWithRelationInput = {
 export type PhoneNumberWhereUniqueInput = Prisma.AtLeast<
   {
     id?: string;
+    countryCode_number?: Prisma.PhoneNumberCountryCodeNumberCompoundUniqueInput;
     AND?: Prisma.PhoneNumberWhereInput | Prisma.PhoneNumberWhereInput[];
     OR?: Prisma.PhoneNumberWhereInput[];
     NOT?: Prisma.PhoneNumberWhereInput | Prisma.PhoneNumberWhereInput[];
@@ -243,6 +253,7 @@ export type PhoneNumberWhereUniqueInput = Prisma.AtLeast<
       | $Enums.PhoneNumberType;
     label?: Prisma.StringNullableFilter<'PhoneNumber'> | string | null;
     isPrimary?: Prisma.BoolFilter<'PhoneNumber'> | boolean;
+    countryCode?: Prisma.StringFilter<'PhoneNumber'> | string;
     createdAt?: Prisma.DateTimeFilter<'PhoneNumber'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'PhoneNumber'> | Date | string;
     user?: Prisma.XOR<
@@ -250,7 +261,7 @@ export type PhoneNumberWhereUniqueInput = Prisma.AtLeast<
       Prisma.PersonalInfoWhereInput
     >;
   },
-  'id'
+  'id' | 'countryCode_number'
 >;
 
 export type PhoneNumberOrderByWithAggregationInput = {
@@ -260,6 +271,7 @@ export type PhoneNumberOrderByWithAggregationInput = {
   type?: Prisma.SortOrder;
   label?: Prisma.SortOrderInput | Prisma.SortOrder;
   isPrimary?: Prisma.SortOrder;
+  countryCode?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.PhoneNumberCountOrderByAggregateInput;
@@ -286,6 +298,7 @@ export type PhoneNumberScalarWhereWithAggregatesInput = {
     | string
     | null;
   isPrimary?: Prisma.BoolWithAggregatesFilter<'PhoneNumber'> | boolean;
+  countryCode?: Prisma.StringWithAggregatesFilter<'PhoneNumber'> | string;
   createdAt?:
     | Prisma.DateTimeWithAggregatesFilter<'PhoneNumber'>
     | Date
@@ -302,6 +315,7 @@ export type PhoneNumberCreateInput = {
   type: $Enums.PhoneNumberType;
   label?: string | null;
   isPrimary?: boolean;
+  countryCode: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user: Prisma.PersonalInfoCreateNestedOneWithoutPhoneNumbersInput;
@@ -314,6 +328,7 @@ export type PhoneNumberUncheckedCreateInput = {
   type: $Enums.PhoneNumberType;
   label?: string | null;
   isPrimary?: boolean;
+  countryCode: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -326,6 +341,7 @@ export type PhoneNumberUpdateInput = {
     | $Enums.PhoneNumberType;
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.PersonalInfoUpdateOneRequiredWithoutPhoneNumbersNestedInput;
@@ -340,6 +356,7 @@ export type PhoneNumberUncheckedUpdateInput = {
     | $Enums.PhoneNumberType;
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -351,6 +368,7 @@ export type PhoneNumberCreateManyInput = {
   type: $Enums.PhoneNumberType;
   label?: string | null;
   isPrimary?: boolean;
+  countryCode: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -363,6 +381,7 @@ export type PhoneNumberUpdateManyMutationInput = {
     | $Enums.PhoneNumberType;
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -376,6 +395,7 @@ export type PhoneNumberUncheckedUpdateManyInput = {
     | $Enums.PhoneNumberType;
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -390,6 +410,11 @@ export type PhoneNumberOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder;
 };
 
+export type PhoneNumberCountryCodeNumberCompoundUniqueInput = {
+  countryCode: string;
+  number: string;
+};
+
 export type PhoneNumberCountOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   infoId?: Prisma.SortOrder;
@@ -397,6 +422,7 @@ export type PhoneNumberCountOrderByAggregateInput = {
   type?: Prisma.SortOrder;
   label?: Prisma.SortOrder;
   isPrimary?: Prisma.SortOrder;
+  countryCode?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -408,6 +434,7 @@ export type PhoneNumberMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder;
   label?: Prisma.SortOrder;
   isPrimary?: Prisma.SortOrder;
+  countryCode?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -419,6 +446,7 @@ export type PhoneNumberMinOrderByAggregateInput = {
   type?: Prisma.SortOrder;
   label?: Prisma.SortOrder;
   isPrimary?: Prisma.SortOrder;
+  countryCode?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -543,6 +571,7 @@ export type PhoneNumberCreateWithoutUserInput = {
   type: $Enums.PhoneNumberType;
   label?: string | null;
   isPrimary?: boolean;
+  countryCode: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -553,6 +582,7 @@ export type PhoneNumberUncheckedCreateWithoutUserInput = {
   type: $Enums.PhoneNumberType;
   label?: string | null;
   isPrimary?: boolean;
+  countryCode: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -616,6 +646,7 @@ export type PhoneNumberScalarWhereInput = {
     | $Enums.PhoneNumberType;
   label?: Prisma.StringNullableFilter<'PhoneNumber'> | string | null;
   isPrimary?: Prisma.BoolFilter<'PhoneNumber'> | boolean;
+  countryCode?: Prisma.StringFilter<'PhoneNumber'> | string;
   createdAt?: Prisma.DateTimeFilter<'PhoneNumber'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'PhoneNumber'> | Date | string;
 };
@@ -626,6 +657,7 @@ export type PhoneNumberCreateManyUserInput = {
   type: $Enums.PhoneNumberType;
   label?: string | null;
   isPrimary?: boolean;
+  countryCode: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -638,6 +670,7 @@ export type PhoneNumberUpdateWithoutUserInput = {
     | $Enums.PhoneNumberType;
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -650,6 +683,7 @@ export type PhoneNumberUncheckedUpdateWithoutUserInput = {
     | $Enums.PhoneNumberType;
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -662,6 +696,7 @@ export type PhoneNumberUncheckedUpdateManyWithoutUserInput = {
     | $Enums.PhoneNumberType;
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -677,6 +712,7 @@ export type PhoneNumberSelect<
     type?: boolean;
     label?: boolean;
     isPrimary?: boolean;
+    countryCode?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.PersonalInfoDefaultArgs<ExtArgs>;
@@ -695,6 +731,7 @@ export type PhoneNumberSelectCreateManyAndReturn<
     type?: boolean;
     label?: boolean;
     isPrimary?: boolean;
+    countryCode?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.PersonalInfoDefaultArgs<ExtArgs>;
@@ -713,6 +750,7 @@ export type PhoneNumberSelectUpdateManyAndReturn<
     type?: boolean;
     label?: boolean;
     isPrimary?: boolean;
+    countryCode?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.PersonalInfoDefaultArgs<ExtArgs>;
@@ -727,6 +765,7 @@ export type PhoneNumberSelectScalar = {
   type?: boolean;
   label?: boolean;
   isPrimary?: boolean;
+  countryCode?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
 };
@@ -741,6 +780,7 @@ export type PhoneNumberOmit<
   | 'type'
   | 'label'
   | 'isPrimary'
+  | 'countryCode'
   | 'createdAt'
   | 'updatedAt',
   ExtArgs['result']['phoneNumber']
@@ -780,6 +820,7 @@ export type $PhoneNumberPayload<
       type: $Enums.PhoneNumberType;
       label: string | null;
       isPrimary: boolean;
+      countryCode: string;
       createdAt: Date;
       updatedAt: Date;
     },
@@ -1397,6 +1438,7 @@ export interface PhoneNumberFieldRefs {
   readonly type: Prisma.FieldRef<'PhoneNumber', 'PhoneNumberType'>;
   readonly label: Prisma.FieldRef<'PhoneNumber', 'String'>;
   readonly isPrimary: Prisma.FieldRef<'PhoneNumber', 'Boolean'>;
+  readonly countryCode: Prisma.FieldRef<'PhoneNumber', 'String'>;
   readonly createdAt: Prisma.FieldRef<'PhoneNumber', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'PhoneNumber', 'DateTime'>;
 }

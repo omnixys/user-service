@@ -1,4 +1,4 @@
-import { CreateUserInput } from '../models/input/create-user.input.js';
+import { CreateUserInput } from '@omnixys/graphql';
 import { userMapper } from '../models/mapper/user.mapper.js';
 import { UserPayload } from '../models/payload/user.payload.js';
 import { RegisterService } from '../services/register.service.js';

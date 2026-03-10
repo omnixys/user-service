@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
  * @license GPL-3.0-or-later
@@ -73,7 +74,7 @@ export class AuthenticationHandler implements KafkaEventHandler {
   )
   async handle(
     topic: string,
-    data: { payload: UserDTO | UserUpdateDTO | UserIdDTO },
+    data: { payload: any },
     context: KafkaEventContext,
   ): Promise<void> {
     this.logger.warn(`User command received: ${topic}`);
@@ -96,6 +97,14 @@ export class AuthenticationHandler implements KafkaEventHandler {
         await this.addUserId(data as { payload: UserIdDTO });
         break;
 
+      case getTopic('createProviderUser'):
+        await this.createProviderUser(
+          data as {
+            payload: { userId: string; email?: string; username?: string };
+          },
+        );
+        break;
+
       default:
         this.logger.warn(`Unknown authentication topic: ${topic}`);
     }
@@ -115,5 +124,11 @@ export class AuthenticationHandler implements KafkaEventHandler {
 
   private async addUserId(data: { payload: UserIdDTO }) {
     await this.registerService.addUserId(data.payload);
+  }
+
+  private async createProviderUser(data: {
+    payload: { userId: string; email?: string; username?: string };
+  }) {
+    await this.registerService.createProviderUser(data.payload);
   }
 }

@@ -1,17 +1,20 @@
 import type { PhoneNumber } from '../../../prisma/generated/client.js';
 import { n2u } from '../../utils/null-to-undefined.js';
-import type { PhoneNumberType } from '../enums/phone-number-type.enum.js';
 import type { PhoneNumberPayload } from '../payload/phone-number.payload.js';
+import type { PhoneNumberType } from '@omnixys/contracts';
 
 export class PhoneNumberMapper {
-  static toPayload(user: PhoneNumber): PhoneNumberPayload {
+  static toPayload(phoneNumber: PhoneNumber): PhoneNumberPayload {
     return {
-      id: user.id,
-      number: user.number,
-      type: user.type as PhoneNumberType,
-      infoId: user.infoId,
-      label: n2u(user.label),
-      isPrimary: user.isPrimary,
+      id: phoneNumber.id,
+      number: phoneNumber.number,
+      type: phoneNumber.type as PhoneNumberType,
+      infoId: phoneNumber.infoId,
+      label: n2u(phoneNumber.label),
+      isPrimary: phoneNumber.isPrimary,
+      countryCode: phoneNumber.countryCode,
+      updatedAt: phoneNumber.updatedAt,
+      createdAt: phoneNumber.createdAt,
     };
   }
 

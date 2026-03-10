@@ -1,5 +1,5 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { PhoneNumberType } from '../enums/phone-number-type.enum.js';
+import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { PhoneNumberType } from '@omnixys/contracts';
 import { IsOptional, IsString } from 'class-validator';
 
 /**
@@ -27,4 +27,14 @@ export class PhoneNumberPayload {
   @Field(() => Boolean, { nullable: true })
   @IsOptional()
   isPrimary!: boolean;
+
+  @Field(() => String)
+  @IsString()
+  countryCode!: string;
+
+  @Field(() => GraphQLISODateTime)
+  createdAt!: Date;
+
+  @Field(() => GraphQLISODateTime)
+  updatedAt!: Date;
 }

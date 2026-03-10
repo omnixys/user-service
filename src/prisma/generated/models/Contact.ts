@@ -640,6 +640,14 @@ export type EnumRelationshipTypeFieldUpdateOperationsInput = {
   set?: $Enums.RelationshipType;
 };
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number;
+  increment?: number;
+  decrement?: number;
+  multiply?: number;
+  divide?: number;
+};
+
 export type ContactCreateWithoutUserInput = {
   id?: string;
   contactId: string;
