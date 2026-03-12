@@ -132,7 +132,7 @@ jobs:
 
       - name: Build and Push Docker Image (Multi-Arch)
         if: steps.check_tag.outputs.exists == 'false'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           secrets: |
             omnixys_token=${{ env.OMNIXYS_TOKEN }}
@@ -215,7 +215,7 @@ jobs:
 
       - name: Build and Push Docker Image (GHCR)
         if: steps.check_tag.outputs.exists == 'false'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           secrets: |
             omnixys_token=${{ env.OMNIXYS_TOKEN }}
