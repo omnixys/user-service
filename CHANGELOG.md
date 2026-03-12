@@ -2,6 +2,10 @@
 
 All notable changes in this project will be documented in this file.
 
+## <small>2.3.1 (2026-03-12)</small>
+
+- fix(role-type): update roltype enum ([bed45e3a6a6f30e35745eeb5dd7b713f4bd7edb4](https://github.com/omnixys/user-service/commit/bed45e3a6a6f30e35745eeb5dd7b713f4bd7edb4))
+
 ## 2.3.0 (2026-03-10)
 
 - Merge branch 'main' of https://github.com/omnixys/omnixys-user-service ([605eb9c653634215e10413a22e3bfe45b2be8cbb](https://github.com/omnixys/user-service/commit/605eb9c653634215e10413a22e3bfe45b2be8cbb))
