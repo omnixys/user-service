@@ -1,6 +1,5 @@
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
-import { PersonStatus, UserType } from '@omnixys/contracts';
-import { RealmRole } from '../enums/role-type.enum.js';
+import { PersonStatus, RealmRole, UserType } from '@omnixys/contracts';
 
 /**
  * Represents a user entity in the GraphQL schema.
