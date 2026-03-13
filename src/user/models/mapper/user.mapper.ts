@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { PersonStatus, UserType } from '@omnixys/contracts';
+import {
+  resolveEffectiveRole,
+  type PersonStatusType,
+  type UserType,
+} from '@omnixys/contracts';
 import type { User } from '../../../prisma/generated/client.js';
-import { resolveEffectiveRole } from '../enums/role-type.enum.js';
 import type { UserPayload } from '../payload/user.payload.js';
 
 export class userMapper {
@@ -64,7 +67,7 @@ export class userMapper {
       id: user.id,
       username: user.username,
       userType: user.userType as UserType,
-      status: user.status as PersonStatus,
+      status: user.status as PersonStatusType,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
       role: resolveEffectiveRole(true, roles),

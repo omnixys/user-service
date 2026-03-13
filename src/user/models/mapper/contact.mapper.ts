@@ -1,7 +1,6 @@
 import type { Contact } from '../../../prisma/generated/client.js';
-import { n2u } from '../../utils/null-to-undefined.js';
 import type { ContactPayload } from '../payload/contact.payload.js';
-import type { RelationshipType } from '@omnixys/contracts';
+import { n2u, type RelationshipType } from '@omnixys/contracts';
 
 export class ContactMapper {
   static toPayload(contact: Contact): ContactPayload {

@@ -1,5 +1,5 @@
+import { n2u } from '@omnixys/contracts';
 import type { Employee } from '../../../prisma/generated/client.js';
-import { n2u } from '../../utils/null-to-undefined.js';
 import type { EmployeePayload } from '../payload/employee.payload.js';
 
 export class EmployeeMapper {

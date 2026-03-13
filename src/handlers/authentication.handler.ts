@@ -17,6 +17,7 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
+import { KcSignUpUserDTO } from '@omnixys/contracts';
 import {
   KafkaEvent,
   KafkaHandler,
@@ -27,7 +28,6 @@ import {
 } from '../kafka/interface/kafka-event.interface.js';
 import { getTopic, getTopics } from '../kafka/kafka-topic.properties.js';
 import { LoggerPlusService } from '../logger/logger-plus.service.js';
-import { UserIdDTO } from '../user/models/dto/kc-sign-up.dto.js';
 import { UserDTO, UserUpdateDTO } from '../user/models/dto/user.dto.js';
 import { RegisterService } from '../user/services/register.service.js';
 import { UserWriteService } from '../user/services/user-write.service.js';
@@ -94,7 +94,7 @@ export class AuthenticationHandler implements KafkaEventHandler {
         break;
 
       case getTopic('addUserId'):
-        await this.addUserId(data as { payload: UserIdDTO });
+        await this.addUserId(data as { payload: KcSignUpUserDTO });
         break;
 
       case getTopic('createProviderUser'):
@@ -122,7 +122,7 @@ export class AuthenticationHandler implements KafkaEventHandler {
     await this.userWriteService.delete(data.payload.id);
   }
 
-  private async addUserId(data: { payload: UserIdDTO }) {
+  private async addUserId(data: { payload: KcSignUpUserDTO }) {
     await this.registerService.addUserId(data.payload);
   }
 

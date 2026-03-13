@@ -1,5 +1,5 @@
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
-import { PersonStatus, RealmRole, UserType } from '@omnixys/contracts';
+import { PersonStatusType, RealmRoleType, UserType } from '@omnixys/contracts';
 
 /**
  * Represents a user entity in the GraphQL schema.
@@ -16,8 +16,8 @@ export class UserPayload {
   @Field(() => UserType)
   userType!: UserType;
 
-  @Field(() => PersonStatus)
-  status!: PersonStatus;
+  @Field(() => PersonStatusType)
+  status!: PersonStatusType;
 
   @Field(() => GraphQLISODateTime)
   createdAt!: Date;
@@ -25,6 +25,6 @@ export class UserPayload {
   @Field(() => GraphQLISODateTime)
   updatedAt!: Date;
 
-  @Field(() => RealmRole, { nullable: true })
-  role?: RealmRole;
+  @Field(() => RealmRoleType, { nullable: true })
+  role?: RealmRoleType;
 }

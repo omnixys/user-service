@@ -1,11 +1,11 @@
 import {
+  CookieAuthGuard,
   CurrentUser,
   CurrentUserData,
-} from '../../auth/decorators/current-user.decorator.js';
-import { Public } from '../../auth/decorators/public.decorator.js';
-import { Roles } from '../../auth/decorators/roles.decorator.js';
-import { CookieAuthGuard } from '../../auth/guards/cookie-auth.guard.js';
-import { RoleGuard } from '../../auth/guards/role.guard.js';
+  Public,
+  RoleGuard,
+  Roles,
+} from '@omnixys/auth';
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
 import { InterestCategoryMapper } from '../models/mapper/interest-category.mapper.js';
 import { InterestMapper } from '../models/mapper/interest.mapper.js';
@@ -16,6 +16,7 @@ import { UserPayload } from '../models/payload/user.payload.js';
 import { UserReadService } from '../services/user-read.service.js';
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, ID, Query, Resolver } from '@nestjs/graphql';
+import { RealmRoleType } from '@omnixys/contracts';
 
 @Resolver(() => UserPayload)
 export class UserQueryResolver {
@@ -32,7 +33,7 @@ export class UserQueryResolver {
    * ADMIN / SERVICE QUERY – all users
    * ------------------------------------------------------------------ */
   @UseGuards(CookieAuthGuard, RoleGuard)
-  @Roles('ADMIN')
+  @Roles(RealmRoleType.ADMIN)
   @Query(() => [UserPayload], { name: 'users' })
   async getAll(): Promise<UserPayload[]> {
     const users = await this.service.findAll();
@@ -44,7 +45,7 @@ export class UserQueryResolver {
    * Single user by ID (internal / admin use)
    * ------------------------------------------------------------------ */
   @UseGuards(CookieAuthGuard, RoleGuard)
-  @Roles('ADMIN', 'USER')
+  @Roles(RealmRoleType.ADMIN, RealmRoleType.USER)
   @Query(() => UserPayload, { name: 'user' })
   async getById(
     @Args('id', { type: () => ID }) id: string,
@@ -74,7 +75,7 @@ export class UserQueryResolver {
    * Batch user lookup (internal, e.g. Event / Invitation service)
    * ------------------------------------------------------------------ */
   @UseGuards(CookieAuthGuard, RoleGuard)
-  @Roles('ADMIN', 'USER')
+  @Roles(RealmRoleType.ADMIN, RealmRoleType.USER)
   @Query(() => [UserPayload], { name: 'getUserList' })
   async getUserList(
     @Args('userIds', { type: () => [ID] }) userIds: string[],

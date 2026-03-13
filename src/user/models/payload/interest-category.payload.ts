@@ -1,13 +1,13 @@
-import { InterestCategoryEnum } from '../enums/interest-category.enum.js';
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { InterestCategoryType } from '@omnixys/contracts';
 
 @ObjectType()
 export class InterestCategoryPayload {
   @Field(() => ID)
   id!: string;
 
-  @Field(() => InterestCategoryEnum)
-  key!: InterestCategoryEnum;
+  @Field(() => InterestCategoryType)
+  key!: InterestCategoryType;
 
   @Field()
   name!: string;

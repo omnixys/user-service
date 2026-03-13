@@ -1,5 +1,5 @@
+import { n2u } from '@omnixys/contracts';
 import type { CustomerInterest } from '../../../prisma/generated/client.js';
-import { n2u } from '../../utils/null-to-undefined.js';
 import type { CustomerInterestPayload } from '../payload/customer-interest.payload.js';
 
 export class CustomerInterestMapper {

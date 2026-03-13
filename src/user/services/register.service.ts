@@ -8,9 +8,8 @@ import { type User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { withSpan } from '../../trace/utils/span.utils.js';
 import { ValkeyService } from '../../valkey/valkey.service.js';
-import { UserIdDTO } from '../models/dto/kc-sign-up.dto.js';
 import { Injectable } from '@nestjs/common';
-import { StatusType, UserType } from '@omnixys/contracts';
+import { KcSignUpUserDTO, StatusType, UserType } from '@omnixys/contracts';
 import { CreateUserInput } from '@omnixys/graphql';
 import { trace } from '@opentelemetry/api';
 
@@ -282,7 +281,7 @@ export class RegisterService {
     );
   }
 
-  async addUserId(input: UserIdDTO): Promise<void> {
+  async addUserId(input: KcSignUpUserDTO): Promise<void> {
     await this.verifySignup(input.newId, input.token);
   }
 

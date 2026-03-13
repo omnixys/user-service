@@ -4,7 +4,6 @@ import { LoggerPlusService } from '../../logger/logger-plus.service.js';
 import { User, UserType } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { withSpan } from '../../trace/utils/span.utils.js';
-import { UserDTO } from '../models/dto/user.dto.js';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { GenderType, MaritalStatusType, StatusType } from '@omnixys/contracts';
 import {
@@ -13,6 +12,7 @@ import {
   UpdateUserInput,
 } from '@omnixys/graphql';
 import { trace } from '@opentelemetry/api';
+import { UserDTO } from '../models/dto/user.dto.js';
 
 export interface AddPhoneNumbersDTO {
   userId: string;
