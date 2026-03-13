@@ -2,6 +2,11 @@
 
 All notable changes in this project will be documented in this file.
 
+## 2.4.0 (2026-03-13)
+
+- Merge branch 'main' of https://github.com/omnixys/user-service ([9d2b4aa7d7f80eb32214286276d708ae59ea7ae0](https://github.com/omnixys/user-service/commit/9d2b4aa7d7f80eb32214286276d708ae59ea7ae0))
+- feat(update): add omnixys packages ([b75774d1545f6e602ae0c036e5fa1b7f803d57c9](https://github.com/omnixys/user-service/commit/b75774d1545f6e602ae0c036e5fa1b7f803d57c9))
+
 ## <small>2.3.1 (2026-03-12)</small>
 
 - fix(role-type): update roltype enum ([bed45e3a6a6f30e35745eeb5dd7b713f4bd7edb4](https://github.com/omnixys/user-service/commit/bed45e3a6a6f30e35745eeb5dd7b713f4bd7edb4))
