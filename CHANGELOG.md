@@ -2,6 +2,10 @@
 
 All notable changes in this project will be documented in this file.
 
+## <small>2.4.2 (2026-03-13)</small>
+
+- fix(service): major Service update ([03672c926f88853b9a1c5329831a8547b2135628](https://github.com/omnixys/user-service/commit/03672c926f88853b9a1c5329831a8547b2135628))
+
 ## <small>2.4.1 (2026-03-13)</small>
 
 - Merge branch 'main' of https://github.com/omnixys/user-service ([f01518b45d6f2cf1b8033864bb11883820fa177d](https://github.com/omnixys/user-service/commit/f01518b45d6f2cf1b8033864bb11883820fa177d))
