@@ -17,21 +17,12 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { KcSignUpUserDTO } from '@omnixys/contracts';
-import {
-  KafkaEvent,
-  KafkaHandler,
-} from '../kafka/decorators/kafka-event.decorator.js';
-import {
-  type KafkaEventContext,
-  KafkaEventHandler,
-} from '../kafka/interface/kafka-event.interface.js';
-import { getTopic, getTopics } from '../kafka/kafka-topic.properties.js';
+import { Injectable } from '@nestjs/common';
+import { KcSignUpUserDTO } from '@omnixys/shared';
 import { LoggerPlusService } from '../logger/logger-plus.service.js';
-import { UserDTO, UserUpdateDTO } from '../user/models/dto/user.dto.js';
 import { RegisterService } from '../user/services/register.service.js';
 import { UserWriteService } from '../user/services/user-write.service.js';
-import { Injectable } from '@nestjs/common';
+import { KafkaEvent, KafkaEventContext, KafkaEventHandler, KafkaHandler, KafkaTopics } from '@omnixys/kafka';
 
 /**
  * Kafka event handler responsible for useristrative commands such as
@@ -70,7 +61,9 @@ export class AuthenticationHandler implements KafkaEventHandler {
    * @returns A Promise that resolves once the command has been processed.
    */
   @KafkaEvent(
-    ...getTopics('createUser', 'updateUser', 'deleteUser', 'addUserId'),
+    KafkaTopics.user.addId,
+    KafkaTopics.user.createProviderUser,
+    KafkaTopics.user.deleteUser,
   )
   async handle(
     topic: string,
@@ -81,23 +74,15 @@ export class AuthenticationHandler implements KafkaEventHandler {
     this.logger.debug('Kafka context: %o', context);
 
     switch (topic) {
-      case getTopic('createUser'):
-        await this.createUserWithId(data as { payload: UserDTO });
-        break;
-
-      case getTopic('updateUser'):
-        await this.updateUser(data as { payload: UserUpdateDTO });
-        break;
-
-      case getTopic('deleteUser'):
+      case KafkaTopics.user.deleteUser:
         await this.deleteUser(data as { payload: { id: string } });
         break;
 
-      case getTopic('addUserId'):
+      case KafkaTopics.user.addId:
         await this.addUserId(data as { payload: KcSignUpUserDTO });
         break;
 
-      case getTopic('createProviderUser'):
+      case KafkaTopics.user.createProviderUser:
         await this.createProviderUser(
           data as {
             payload: { userId: string; email?: string; username?: string };
@@ -109,14 +94,9 @@ export class AuthenticationHandler implements KafkaEventHandler {
         this.logger.warn(`Unknown authentication topic: ${topic}`);
     }
   }
-
-  private async createUserWithId(data: { payload: UserDTO }) {
-    await this.userWriteService.createWithId(data.payload);
-  }
-
-  private async updateUser(data: { payload: UserUpdateDTO }) {
-    await this.userWriteService.update(data.payload);
-  }
+  // private async updateUser(data: { payload: UserUpdateDTO }) {
+  //   await this.userWriteService.update(data.payload);
+  // }
 
   private async deleteUser(data: { payload: { id: string } }) {
     await this.userWriteService.delete(data.payload.id);

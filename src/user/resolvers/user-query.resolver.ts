@@ -16,7 +16,8 @@ import { UserPayload } from '../models/payload/user.payload.js';
 import { UserReadService } from '../services/user-read.service.js';
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, ID, Query, Resolver } from '@nestjs/graphql';
-import { RealmRoleType } from '@omnixys/contracts';
+import { RealmRoleType } from '@omnixys/shared';
+
 
 @Resolver(() => UserPayload)
 export class UserQueryResolver {

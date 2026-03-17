@@ -1,5 +1,5 @@
-import type { InterestType } from '@omnixys/contracts';
-import { n2u } from '@omnixys/contracts';
+import type { InterestType } from '@omnixys/shared';
+import { n2u } from '@omnixys/shared';
 import type { Interest } from '../../../prisma/generated/client.js';
 import type { InterestPayload } from '../payload/interest.payload.js';
 

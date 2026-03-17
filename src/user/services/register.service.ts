@@ -2,16 +2,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { KafkaProducerService } from '../../kafka/kafka-producer.service.js';
+import { Injectable } from '@nestjs/common';
+import { CreateUserInput } from '@omnixys/graphql';
+import { KcSignUpUserDTO, StatusType, UserType } from '@omnixys/shared';
+import { trace } from '@opentelemetry/api';
 import { LoggerPlusService } from '../../logger/logger-plus.service.js';
 import { type User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { withSpan } from '../../trace/utils/span.utils.js';
 import { ValkeyService } from '../../valkey/valkey.service.js';
-import { Injectable } from '@nestjs/common';
-import { KcSignUpUserDTO, StatusType, UserType } from '@omnixys/contracts';
-import { CreateUserInput } from '@omnixys/graphql';
-import { trace } from '@opentelemetry/api';
+// import { KafkaProducerService, KafkaTopics } from '@omnixys/kafka';
 
 @Injectable()
 export class RegisterService {
@@ -20,7 +20,7 @@ export class RegisterService {
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly kafkaProducerService: KafkaProducerService,
+    // private readonly kafkaProducerService: KafkaProducerService,
     private readonly loggerService: LoggerPlusService,
     private readonly valkey: ValkeyService,
   ) {
@@ -71,7 +71,7 @@ export class RegisterService {
         /* ------------------------------------------------------------
          * 2. PersonalInfo
          * ------------------------------------------------------------ */
-        const personalInfo = await tx.personalInfo.create({
+        await tx.personalInfo.create({
           data: {
             id: user.id,
             email: input.personalInfo.email,
@@ -144,21 +144,21 @@ export class RegisterService {
           });
         }
 
-        const sc = span.spanContext();
+        span.spanContext();
 
-        void this.kafkaProducerService.sendCreateNotification(
-          {
-            username: user.username,
-            firstName: personalInfo.firstName,
-            lastName: personalInfo.lastName,
-            email: personalInfo.email,
-          },
-          'user.register-service',
-          {
-            traceId: sc.traceId,
-            spanId: sc.spanId,
-          },
-        );
+        // void this.kafkaProducerService.sendCreateNotification(
+        //   {
+        //     username: user.username,
+        //     firstName: personalInfo.firstName,
+        //     lastName: personalInfo.lastName,
+        //     email: personalInfo.email,
+        //   },
+        //   'user.register-service',
+        //   {
+        //     traceId: sc.traceId,
+        //     spanId: sc.spanId,
+        //   },
+        // );
 
         return user;
       }),
@@ -184,7 +184,7 @@ export class RegisterService {
         /* ------------------------------------------------------------
          * 2. PersonalInfo
          * ------------------------------------------------------------ */
-        const personalInfo = await tx.personalInfo.create({
+        await tx.personalInfo.create({
           data: {
             id,
             email: input.personalInfo.email,
@@ -260,21 +260,24 @@ export class RegisterService {
           });
         }
 
-        const sc = span.spanContext();
+        span.spanContext();
 
-        void this.kafkaProducerService.sendCreateNotification(
-          {
-            username: user.username,
-            firstName: personalInfo.firstName,
-            lastName: personalInfo.lastName,
-            email: personalInfo.email,
-          },
-          'user.register-service',
-          {
-            traceId: sc.traceId,
-            spanId: sc.spanId,
-          },
-        );
+        // void this.kafkaProducerService.send<
+        //   typeof KafkaTopics.notification.createUser
+        //   >(
+        // KafkaTopics.notification.createUser,
+        //   {
+        //     username: user.username,
+        //     firstName: personalInfo.firstName,
+        //     lastName: personalInfo.lastName,
+        //     email: personalInfo.email,
+        //   },
+        //   'user-service',
+        //   {
+        //     traceId: sc.traceId,
+        //     spanId: sc.spanId,
+        //   },
+        // );
 
         return user;
       }),

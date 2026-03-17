@@ -1,4 +1,4 @@
-import { n2u } from '@omnixys/contracts';
+import { n2u } from '@omnixys/shared';
 import type { CustomerInterest } from '../../../prisma/generated/client.js';
 import type { CustomerInterestPayload } from '../payload/customer-interest.payload.js';
 

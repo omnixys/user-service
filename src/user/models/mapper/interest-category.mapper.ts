@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import type { InterestCategoryType } from '@omnixys/contracts';
+import type { InterestCategoryType } from '@omnixys/shared';
 import type { InterestCategory } from '../../../prisma/generated/client.js';
 import type { InterestCategoryPayload } from '../payload/interest-category.payload.js';
 

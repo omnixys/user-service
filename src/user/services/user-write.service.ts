@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { KafkaProducerService } from '../../kafka/kafka-producer.service.js';
-import { LoggerPlusService } from '../../logger/logger-plus.service.js';
-import { User, UserType } from '../../prisma/generated/client.js';
-import { PrismaService } from '../../prisma/prisma.service.js';
-import { withSpan } from '../../trace/utils/span.utils.js';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { GenderType, MaritalStatusType, StatusType } from '@omnixys/contracts';
 import {
   AddContactInput,
   PhoneNumberInput,
   UpdateUserInput,
 } from '@omnixys/graphql';
+import { GenderType, MaritalStatusType, StatusType } from '@omnixys/shared';
 import { trace } from '@opentelemetry/api';
-import { UserDTO } from '../models/dto/user.dto.js';
+import { LoggerPlusService } from '../../logger/logger-plus.service.js';
+import { User } from '../../prisma/generated/client.js';
+import { PrismaService } from '../../prisma/prisma.service.js';
+import { withSpan } from '../../trace/utils/span.utils.js';
+// import { KafkaProducerService } from '@omnixys/kafka';
 
 export interface AddPhoneNumbersDTO {
   userId: string;
@@ -31,55 +30,13 @@ export class UserWriteService {
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly kafkaProducerService: KafkaProducerService,
+    // private readonly kafkaProducerService: KafkaProducerService,
     private readonly loggerService: LoggerPlusService,
   ) {
     this.tracer = trace.getTracer(UserWriteService.name);
     this.logger = this.loggerService.getLogger(UserWriteService.name);
   }
 
-  /* ------------------------------------------------------------------
-   * Create user from Identity Provider (ID is known)
-   * ------------------------------------------------------------------ */
-  async createWithId(input: UserDTO): Promise<void> {
-    this.logger.debug('Persisting user from IdP: %o', input);
-
-    await this.prisma.user.create({
-      data: {
-        id: input.id,
-        username: input.username,
-        userType: UserType.CUSTOMER,
-        personalInfo: {
-          create: {
-            email: input.email,
-            firstName: input.firstName,
-            lastName: input.lastName,
-            phoneNumbers: input.phoneNumbers?.length
-              ? {
-                  create: input.phoneNumbers.map((p) => ({
-                    number: p.number,
-                    type: p.type,
-                    label: p.label,
-                    isPrimary: p.isPrimary ?? false,
-                    countryCode: p.countryCode,
-                  })),
-                }
-              : undefined,
-          },
-        },
-      },
-    });
-
-    if (input.invitationId) {
-      void this.kafkaProducerService.addInvitation(
-        {
-          invitationId: input.invitationId,
-          guestId: input.id,
-        },
-        'user.write-service',
-      );
-    }
-  }
 
   /* ------------------------------------------------------------------
    * Update technical user data
@@ -113,25 +70,25 @@ export class UserWriteService {
 
       await this.prisma.user.delete({ where: { id } });
 
-      const sc = span.spanContext();
+      span.spanContext();
 
-      void this.kafkaProducerService.deleteInvitations(
-        { guestId: id },
-        'user.write-service',
-        {
-          traceId: sc.traceId,
-          spanId: sc.spanId,
-        },
-      );
+      // void this.kafkaProducerService.deleteInvitations(
+      //   { guestId: id },
+      //   'user.write-service',
+      //   {
+      //     traceId: sc.traceId,
+      //     spanId: sc.spanId,
+      //   },
+      // );
 
-      void this.kafkaProducerService.deleteTickets(
-        { guestId: id },
-        'user.write-service',
-        {
-          traceId: sc.traceId,
-          spanId: sc.spanId,
-        },
-      );
+      // void this.kafkaProducerService.deleteTickets(
+      //   { guestId: id },
+      //   'user.write-service',
+      //   {
+      //     traceId: sc.traceId,
+      //     spanId: sc.spanId,
+      //   },
+      // );
 
       return true;
     });

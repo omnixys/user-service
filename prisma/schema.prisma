@@ -125,7 +125,7 @@ model PhoneNumber {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@unique([countryCode, number])
+  @@index([countryCode, number])
   @@index([infoId])
   @@index([infoId, isPrimary])
   @@map("phone_number")

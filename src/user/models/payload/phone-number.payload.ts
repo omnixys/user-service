@@ -1,5 +1,5 @@
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
-import { PhoneNumberType } from '@omnixys/contracts';
+import { PhoneNumberType } from '@omnixys/shared';
 import { IsOptional, IsString } from 'class-validator';
 
 /**

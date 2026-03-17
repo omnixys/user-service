@@ -3,7 +3,7 @@ import {
   resolveEffectiveRole,
   type PersonStatusType,
   type UserType,
-} from '@omnixys/contracts';
+} from '@omnixys/shared';
 import type { User } from '../../../prisma/generated/client.js';
 import type { UserPayload } from '../payload/user.payload.js';
 

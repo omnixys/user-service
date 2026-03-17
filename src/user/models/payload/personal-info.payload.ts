@@ -1,5 +1,5 @@
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
-import { GenderType, MaritalStatusType } from '@omnixys/contracts';
+import { GenderType, MaritalStatusType } from '@omnixys/shared';
 
 @ObjectType()
 export class PersonalInfoPayload {

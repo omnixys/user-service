@@ -115,24 +115,24 @@ export const CONTACTS = [
   /* GENERAL USER NETWORK (DETERMINISTIC, SAFE)                                */
   /* ------------------------------------------------------------------------ */
 
-  ...USERS.slice(0, 15).map((userId, index) => {
-    const contactId = USERS[index + 1];
-    if (!contactId) return null;
+...USERS.slice(0, USERS.length - 1).map((userId, index) => {
+  const contactId = USERS[index + 1];
 
-    return {
-      id: `contact-auto-${index}`,
-      userId,
-      contactId,
-      relationship:
-        index % 4 === 0
-          ? RelationshipType.FAMILY
-          : index % 4 === 1
-            ? RelationshipType.FRIEND
-            : index % 4 === 2
-              ? RelationshipType.COLLEAGUE
-              : RelationshipType.BUSINESS_PARTNER,
-      withdrawalLimit: (index % 5) * 500,
-      emergency: index % 7 === 0,
-    };
-  }),
-].filter(Boolean);
+  return {
+    id: `contact-auto-${index}`,
+    userId,
+    contactId,
+    relationship:
+      index % 4 === 0
+        ? RelationshipType.FAMILY
+        : index % 4 === 1
+          ? RelationshipType.FRIEND
+          : index % 4 === 2
+            ? RelationshipType.COLLEAGUE
+            : RelationshipType.BUSINESS_PARTNER,
+    withdrawalLimit: (index % 5) * 500,
+    emergency: index % 7 === 0,
+  };
+}),
+
+];
