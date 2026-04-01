@@ -9,6 +9,7 @@ import 'dotenv/config';
 
 import { env } from '../config/env.js';
 import { PrismaClient } from './generated/client.js';
+import { setupPrismaSpans } from '@omnixys/observability';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 const { DATABASE_URL } = env;
@@ -25,10 +26,17 @@ export class PrismaService
       connectionString: DATABASE_URL,
     });
 
-    super({ adapter });
+    super({
+      adapter,
+      log: [
+        { emit: 'event', level: 'query' },
+      ],
+    });
   }
 
   async onModuleInit(): Promise<void> {
+     setupPrismaSpans(this); 
+
     await this.$connect();
     console.log('📦 Prisma connected');
   }

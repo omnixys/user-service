@@ -32,7 +32,7 @@
 // @KafkaHandler('admin')
 // @Injectable()
 // export class AdminHandler implements KafkaEventHandler {
-//   private readonly logger;
+//   private readonly log;
 
 //   /**
 //    * Creates a new instance of {@link AdminHandler}.
@@ -41,7 +41,7 @@
 //    * @param adminService - The service responsible for handling system-level admin operations.
 //    */
 //   constructor(
-//     private readonly loggerService: LoggerPlusService,
+//     private readonly logger: OmnixysLogger,
 //     private readonly adminService: AdminService,
 //   ) {
 //     this.logger = this.loggerService.getLogger(AdminHandler.name);
@@ -67,8 +67,8 @@
 //   //   _data: unknown,
 //   //   context: KafkaEventContext,
 //   // ): Promise<void> {
-//   //   this.logger.warn(`Admin command received: ${topic}`);
-//   //   this.logger.debug('Kafka context: %o', context);
+//   //   this.log.warn(`Admin command received: ${topic}`);
+//   //   this.log.debug('Kafka context: %o', context);
 
 //   //   switch (topic) {
 //   //     case KafkaTopics.admin.shutdown:
@@ -88,7 +88,7 @@
 //   //       break;
 
 //   //     default:
-//   //       this.logger.warn(`Unknown admin topic: ${topic}`);
+//   //       this.log.warn(`Unknown admin topic: ${topic}`);
 //   //   }
 //   // }
 
@@ -99,7 +99,7 @@
 //    * @returns A Promise that resolves when the shutdown process has been initiated.
 //    */
 //   private async handleShutdown(global: boolean): Promise<void> {
-//     this.logger.warn(
+//     this.log.warn(
 //       global ? 'Global shutdown triggered' : 'Local shutdown triggered',
 //     );
 //     await this.adminService.shutdown();
@@ -112,7 +112,7 @@
 //    * @returns A Promise that resolves when the restart process has been initiated.
 //    */
 //   private async handleRestart(global: boolean): Promise<void> {
-//     this.logger.warn(
+//     this.log.warn(
 //       global ? 'Global restart triggered' : 'Local restart triggered',
 //     );
 //     await this.adminService.restart();

@@ -5,12 +5,10 @@ import {
   PhoneNumberInput,
   UpdateUserInput,
 } from '@omnixys/graphql';
+import { OmnixysLogger } from '@omnixys/logger';
 import { GenderType, MaritalStatusType, StatusType } from '@omnixys/shared';
-import { trace } from '@opentelemetry/api';
-import { LoggerPlusService } from '../../logger/logger-plus.service.js';
 import { User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
-import { withSpan } from '../../trace/utils/span.utils.js';
 // import { KafkaProducerService } from '@omnixys/kafka';
 
 export interface AddPhoneNumbersDTO {
@@ -25,18 +23,15 @@ export interface RemovePhoneNumbersDTO {
 
 @Injectable()
 export class UserWriteService {
-  private readonly tracer;
-  private readonly logger;
+  private readonly log;
 
   constructor(
     private readonly prisma: PrismaService,
     // private readonly kafkaProducerService: KafkaProducerService,
-    private readonly loggerService: LoggerPlusService,
+    private readonly logger: OmnixysLogger,
   ) {
-    this.tracer = trace.getTracer(UserWriteService.name);
-    this.logger = this.loggerService.getLogger(UserWriteService.name);
+    this.log = this.logger.log(this.constructor.name);
   }
-
 
   /* ------------------------------------------------------------------
    * Update technical user data
@@ -62,36 +57,33 @@ export class UserWriteService {
    * Delete user
    * ------------------------------------------------------------------ */
   async delete(id: string): Promise<boolean> {
-    return withSpan(this.tracer, this.logger, 'user.delete', async (span) => {
-      const exists = await this.prisma.user.findUnique({ where: { id } });
-      if (!exists) {
-        throw new NotFoundException('User nicht gefunden');
-      }
+    this.log.debug('deleteing User');
+    const exists = await this.prisma.user.findUnique({ where: { id } });
+    if (!exists) {
+      throw new NotFoundException('User nicht gefunden');
+    }
 
-      await this.prisma.user.delete({ where: { id } });
+    await this.prisma.user.delete({ where: { id } });
 
-      span.spanContext();
+    // void this.kafkaProducerService.deleteInvitations(
+    //   { guestId: id },
+    //   'user.write-service',
+    //   {
+    //     traceId: sc.traceId,
+    //     spanId: sc.spanId,
+    //   },
+    // );
 
-      // void this.kafkaProducerService.deleteInvitations(
-      //   { guestId: id },
-      //   'user.write-service',
-      //   {
-      //     traceId: sc.traceId,
-      //     spanId: sc.spanId,
-      //   },
-      // );
+    // void this.kafkaProducerService.deleteTickets(
+    //   { guestId: id },
+    //   'user.write-service',
+    //   {
+    //     traceId: sc.traceId,
+    //     spanId: sc.spanId,
+    //   },
+    // );
 
-      // void this.kafkaProducerService.deleteTickets(
-      //   { guestId: id },
-      //   'user.write-service',
-      //   {
-      //     traceId: sc.traceId,
-      //     spanId: sc.spanId,
-      //   },
-      // );
-
-      return true;
-    });
+    return true;
   }
 
   /* ------------------------------------------------------------------

@@ -38,17 +38,11 @@ import { UserWriteService } from '../user/services/user-write.service.js';
  * @category Messaging
  * @since 1.0.0
  */
-@KafkaEventHandler('authentication')
+@KafkaEventHandler('invitation')
 @Injectable()
-export class AuthenticationHandler implements IKafkaEventHandler {
+export class InvitationHandler implements IKafkaEventHandler {
   private readonly log;
 
-  /**
-   * Creates a new instance of {@link UserHandler}.
-   *
-   * @param loggerService - The central logger service used for structured logging.
-   * @param userService - The service responsible for handling system-level user operations.
-   */
   constructor(
     private readonly logger: OmnixysLogger,
     private readonly registerService: RegisterService,

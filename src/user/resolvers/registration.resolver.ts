@@ -1,12 +1,14 @@
-import { CreateUserInput } from '@omnixys/graphql';
 import { userMapper } from '../models/mapper/user.mapper.js';
 import { UserPayload } from '../models/payload/user.payload.js';
 import { RegisterService } from '../services/register.service.js';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { CreateUserInput } from '@omnixys/graphql';
 
 @Resolver()
 export class RegisterResolver {
-  constructor(private readonly service: RegisterService) {}
+  constructor(
+    private readonly service: RegisterService,
+  ){}
 
   /* ------------------------------------------------------------------
    * Create
@@ -19,7 +21,7 @@ export class RegisterResolver {
 
   @Query(() => Boolean)
   async checkUsername(@Args('username') username: string): Promise<boolean> {
-    return this.service.checkUsername(username);
+    return this.service.isUsernameAvailable(username);
   }
 
   @Query(() => Boolean)

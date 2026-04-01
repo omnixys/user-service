@@ -21,9 +21,9 @@
  * Dieser Service gibt beim Start der Anwendung ein Banner und wichtige Anwendungsinformationen aus.
  */
 
-import { env } from '../config/env.js';
-import { nodeConfig } from '../config/node.js';
-import { getLogger } from './get-logger.js';
+import { getLogger } from '@omnixys/logger';
+import { env } from './config/env.js';
+import { nodeConfig } from './config/node.js';
 import { Injectable, type OnApplicationBootstrap } from '@nestjs/common';
 import cFonts from 'cfonts';
 import chalk from 'chalk';

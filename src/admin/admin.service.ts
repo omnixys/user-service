@@ -16,15 +16,15 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { LoggerPlusService } from '../logger/logger-plus.service.js';
 import { Injectable } from '@nestjs/common';
+import { OmnixysLogger } from '@omnixys/logger';
 
 @Injectable()
 export class AdminService {
-  private readonly logger;
+  private readonly log;
 
-  constructor(private readonly loggerService: LoggerPlusService) {
-    this.logger = this.loggerService.getLogger(AdminService.name);
+  constructor(private readonly logger: OmnixysLogger) {
+    this.log = this.logger.log(this.constructor.name);
   }
 
   /**
@@ -47,7 +47,7 @@ export class AdminService {
    * @returns A Promise that resolves once the shutdown has been triggered.
    */
   shutdown(): void {
-    this.logger.warn('Shutdown signal received — initiating graceful exit...');
+    this.log.warn('Shutdown signal received — initiating graceful exit...');
     setTimeout(() => process.exit(0), 1000);
   }
 
@@ -81,7 +81,7 @@ export class AdminService {
    * @returns A Promise that resolves once the restart has been initiated.
    */
   restart(): void {
-    this.logger.warn(
+    this.log.warn(
       'Restart requested — exiting process so container supervisor restarts it...',
     );
     setTimeout(() => process.exit(1), 1000);
@@ -103,7 +103,7 @@ export class AdminService {
    */
   getHealth(): { status: string; uptime: number } {
     const health = { status: 'ok', uptime: process.uptime() };
-    this.logger.debug(`Health check: ${JSON.stringify(health)}`);
+    this.log.debug(`Health check: ${JSON.stringify(health)}`);
     return health;
   }
 }

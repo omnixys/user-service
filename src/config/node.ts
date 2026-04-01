@@ -17,7 +17,6 @@
 
 import { env } from './env.js';
 import { httpsOptions } from './https.js';
-import { keycloakConfig } from './keycloak.js';
 import type { HttpsOptions } from '@nestjs/common/interfaces/external/https-options.interface.js';
 import { hostname } from 'node:os';
 
@@ -56,8 +55,18 @@ const {
   LOG_LEVEL,
   SERVICE,
   KAFKA_BROKER,
+  KC_CLIENT_ID,
+  KC_REALM,
+  KC_URL,
+  KC_CLIENT_SECRET,
 } = env;
 
+export const keycloakConfig = {
+  url: KC_URL,
+  realm: KC_REALM,
+  clientId: KC_CLIENT_ID,
+  clientSecret: KC_CLIENT_SECRET,
+};
 /**
  * Die Konfiguration für den _Node_-basierten Server:
  * - Rechnername

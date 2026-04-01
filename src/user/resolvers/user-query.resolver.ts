@@ -1,3 +1,5 @@
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Args, ID, Query, Resolver } from '@nestjs/graphql';
 import {
   CookieAuthGuard,
   CurrentUser,
@@ -5,8 +7,9 @@ import {
   Public,
   RoleGuard,
   Roles,
-} from '@omnixys/auth';
-import { LoggerPlusService } from '../../logger/logger-plus.service.js';
+} from '@omnixys/security';
+import { OmnixysLogger } from '@omnixys/logger';
+import { RealmRoleType } from '@omnixys/shared';
 import { InterestCategoryMapper } from '../models/mapper/interest-category.mapper.js';
 import { InterestMapper } from '../models/mapper/interest.mapper.js';
 import { userMapper } from '../models/mapper/user.mapper.js';
@@ -14,20 +17,16 @@ import { InterestCategoryPayload } from '../models/payload/interest-category.pay
 import { InterestPayload } from '../models/payload/interest.payload.js';
 import { UserPayload } from '../models/payload/user.payload.js';
 import { UserReadService } from '../services/user-read.service.js';
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
-import { Args, ID, Query, Resolver } from '@nestjs/graphql';
-import { RealmRoleType } from '@omnixys/shared';
-
 
 @Resolver(() => UserPayload)
 export class UserQueryResolver {
-  private readonly logger;
+  private readonly log;
 
   constructor(
-    private readonly loggerService: LoggerPlusService,
+    private readonly logger: OmnixysLogger,
     private readonly service: UserReadService,
   ) {
-    this.logger = this.loggerService.getLogger(UserQueryResolver.name);
+    this.log = this.logger.log(this.constructor.name);
   }
 
   /* ------------------------------------------------------------------
@@ -38,7 +37,7 @@ export class UserQueryResolver {
   @Query(() => [UserPayload], { name: 'users' })
   async getAll(): Promise<UserPayload[]> {
     const users = await this.service.findAll();
-    this.logger.debug('getAll: found %d users', users.length);
+    this.log.debug('getAll: found %d users', users.length);
     return userMapper.toPayloadList(users);
   }
 
@@ -51,7 +50,7 @@ export class UserQueryResolver {
   async getById(
     @Args('id', { type: () => ID }) id: string,
   ): Promise<UserPayload> {
-    this.logger.debug('getById: id=%s', id);
+    this.log.debug('getById: id=%s', id);
     const user = await this.service.findById(id);
     return userMapper.toPayload(user);
   }

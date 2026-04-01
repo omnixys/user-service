@@ -15,14 +15,14 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { AppModule } from './app.module.js';
-import { corsOptions } from './config/cors.js';
-import { startOtelSDK } from './config/otel.js';
 import compress from '@fastify/compress';
 import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
+import '@omnixys/graphql';
+import { AppModule } from './app.module.js';
+import { corsOptions } from './config/cors.js';
 // import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -31,6 +31,7 @@ import {
   type NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import 'reflect-metadata';
+import { registerFastifyTracing } from '@omnixys/observability';
 
 /**
  * @file main.ts
@@ -62,7 +63,6 @@ import 'reflect-metadata';
  * Startet den Backend-Server auf dem konfigurierten Port (Standard: `4000`).
  */
 async function bootstrap(): Promise<void> {
-  await startOtelSDK(); // 🔥 OTel aktivieren
   /**
    * @constant app
    * @description Erstellt die NestJS-Applikation auf Basis von Fastify.
@@ -84,6 +84,9 @@ async function bootstrap(): Promise<void> {
       },
     }),
   );
+
+  const fastify = app.getHttpAdapter().getInstance();
+  registerFastifyTracing(fastify);
 
   // const loggerService = app.get(LoggerPlusService);
   // logger = loggerService.getLogger('Bootstrap');
@@ -152,7 +155,7 @@ async function bootstrap(): Promise<void> {
 
   /** Port-Definition (Standard: 4000) */
   const port = Number(config.get('PORT') ?? 4000);
-  const service = Number(config.get('SERVICE') ?? 'N/A');
+  const service = config.get('SERVICE');
 
   // ======================================================
   // 🧩 VALIDATION
@@ -208,4 +211,5 @@ async function bootstrap(): Promise<void> {
  * Wird asynchron aufgerufen und ignoriert Rückgabewerte,
  * da NestJS den Event-Loop selbst verwaltet.
  */
+
 void bootstrap();

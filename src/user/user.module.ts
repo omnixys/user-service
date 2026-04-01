@@ -1,6 +1,3 @@
-import { AuthModule } from '@omnixys/auth';
-import { PrismaModule } from '../prisma/prisma.module.js';
-import { ValkeyModule } from '../valkey/valkey.module.js';
 import { CustomerFieldsResolver } from './resolvers/customer-field.resolver.js';
 import { CustomerInterestFieldsResolver } from './resolvers/customer-interest-field.resolver.js';
 import { InteresCategoryFieldsResolver } from './resolvers/interest-category-field.resolver.js';
@@ -15,7 +12,7 @@ import { UserWriteService } from './services/user-write.service.js';
 import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [AuthModule, PrismaModule, ValkeyModule],
+  imports: [],
   providers: [
     RegisterResolver,
     UserMutationResolver,

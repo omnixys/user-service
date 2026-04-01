@@ -1,5 +1,5 @@
-import { LoggerPlus } from '../../logger/logger-plus.js';
-import { LoggerPlusService } from '../../logger/logger-plus.service.js';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { OmnixysLogger } from '@omnixys/logger';
 import {
   Contact,
   Customer,
@@ -12,7 +12,6 @@ import {
   User,
 } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
-import { Injectable, NotFoundException } from '@nestjs/common';
 
 /**
  * userReadService
@@ -22,17 +21,17 @@ import { Injectable, NotFoundException } from '@nestjs/common';
  */
 @Injectable()
 export class UserReadService {
-  private readonly logger: LoggerPlus;
+  private readonly log;
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly loggerService: LoggerPlusService,
+    private readonly logger: OmnixysLogger,
   ) {
-    this.logger = this.loggerService.getLogger(UserReadService.name);
+    this.log = this.logger.log(this.constructor.name);
   }
 
   async findAll(): Promise<User[]> {
-    this.logger.debug('findAll: loading all users');
+    this.log.debug('findAll: loading all users');
 
     return this.prisma.user.findMany({
       orderBy: { createdAt: 'asc' },
@@ -41,7 +40,7 @@ export class UserReadService {
 
   // Returns a single user by its ID or throws if not found
   async findById(id: string): Promise<User> {
-    this.logger.debug('findById: looking up user id=%s', id);
+    this.log.debug('findById: looking up user id=%s', id);
 
     const user = await this.prisma.user.findUnique({
       where: { id },
