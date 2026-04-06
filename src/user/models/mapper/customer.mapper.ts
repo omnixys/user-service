@@ -1,6 +1,6 @@
-import type { ContactOptionsType, StatusType } from '@omnixys/shared';
 import { Customer } from '../../../prisma/generated/client.js';
 import { CustomerPayload } from '../payload/customer.payload.js';
+import type { ContactOptionsType, StatusType } from '@omnixys/shared';
 
 export class CustomerMapper {
   static toPayload(customer: Customer): CustomerPayload {

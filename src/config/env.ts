@@ -90,6 +90,8 @@ export const env = {
   DATABASE_URL: process.env.DATABASE_URL ?? 'DATABASE_URL',
   DATABASE_URL_LOCALE: process.env.DATABASE_URL_LOCALE ?? 'DATABASE_URL_LOCALE',
   SHADOW_DATABASE_URL: process.env.SHADOW_DATABASE_URL ?? 'SHADOW_DATABASE_URL',
+
+  ENCRYPTION_KEY: process.env.ENCRYPTION_KEY ?? 'omnixys-encryption-key',
 } as const;
 
 // /**

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import type { User } from '../../../prisma/generated/client.js';
+import type { UserPayload } from '../payload/user.payload.js';
 import {
   resolveEffectiveRole,
   type PersonStatusType,
   type UserType,
 } from '@omnixys/shared';
-import type { User } from '../../../prisma/generated/client.js';
-import type { UserPayload } from '../payload/user.payload.js';
 
 export class userMapper {
   /**

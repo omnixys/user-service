@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Injectable, NotFoundException } from '@nestjs/common';
-import {
-  AddContactInput,
-  PhoneNumberInput,
-  UpdateUserInput,
-} from '@omnixys/graphql';
-import { OmnixysLogger } from '@omnixys/logger';
-import { GenderType, MaritalStatusType, StatusType } from '@omnixys/shared';
 import { User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { AddContactInput, PhoneNumberInput, UpdateUserInput } from '@omnixys/graphql';
+import { OmnixysLogger } from '@omnixys/logger';
+import { GenderType, MaritalStatusType, StatusType } from '@omnixys/shared';
 // import { KafkaProducerService } from '@omnixys/kafka';
 
 export interface AddPhoneNumbersDTO {
@@ -57,10 +53,11 @@ export class UserWriteService {
    * Delete user
    * ------------------------------------------------------------------ */
   async delete(id: string): Promise<boolean> {
-    this.log.debug('deleteing User');
+    this.log.debug('deleting User');
     const exists = await this.prisma.user.findUnique({ where: { id } });
     if (!exists) {
-      throw new NotFoundException('User nicht gefunden');
+      this.log.debug('User nicht gefunden');
+      return false;
     }
 
     await this.prisma.user.delete({ where: { id } });

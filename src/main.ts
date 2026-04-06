@@ -15,14 +15,13 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
+import { AppModule } from './app.module.js';
+import { corsOptions } from './config/cors.js';
 import compress from '@fastify/compress';
 import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
-import '@omnixys/graphql';
-import { AppModule } from './app.module.js';
-import { corsOptions } from './config/cors.js';
 // import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -30,8 +29,9 @@ import {
   FastifyAdapter,
   type NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import 'reflect-metadata';
+import '@omnixys/graphql';
 import { registerFastifyTracing } from '@omnixys/observability';
+import 'reflect-metadata';
 
 /**
  * @file main.ts

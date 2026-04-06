@@ -1,17 +1,21 @@
+import { userMapper } from '../models/mapper/user.mapper.js';
 import {
   AddContactInput,
   PhoneNumberInput,
   UpdateMeInput,
   UpdateUserInput,
 } from '@omnixys/graphql';
-import { userMapper } from '../models/mapper/user.mapper.js';
 
 import { UserPayload } from '../models/payload/user.payload.js';
 import { UserWriteService } from '../services/user-write.service.js';
 
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
-import { CookieAuthGuard, CurrentUser, CurrentUserData } from '@omnixys/security';
+import {
+  CookieAuthGuard,
+  CurrentUser,
+  CurrentUserData,
+} from '@omnixys/security';
 
 @Resolver(() => UserPayload)
 export class UserMutationResolver {

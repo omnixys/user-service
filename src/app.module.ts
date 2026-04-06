@@ -15,6 +15,7 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
+import { ValkeyAdapterModule } from './adapter/valkey-adapter.module.js';
 import { AdminModule } from './admin/admin.module.js';
 import { BannerService } from './banner.service.js';
 import { env } from './config/env.js';
@@ -38,11 +39,9 @@ const {
   TEMPO_URI,
   VALKEY_URL,
   VALKEY_PASSWORD,
-  PC_JWE_KEY,
-  PC_JWE_KEY_2,
-  PC_TTL_SEC,
   KC_URL,
   KC_REALM,
+  ENCRYPTION_KEY,
 } = env;
 
 @Module({
@@ -53,41 +52,20 @@ const {
         jwksUri: `${KC_URL}/realms/${KC_REALM}/protocol/openid-connect/certs`,
       },
 
-      jwe: {
-        keys: [
-          {
-            kid: 'v1',
-            value: PC_JWE_KEY!,
-          },
-          {
-            kid: 'v2',
-            value: PC_JWE_KEY_2!,
-          },
-        ],
-        defaultTtlSec: PC_TTL_SEC,
-      },
-
-      session: {
-        ttlMs: PC_TTL_SEC,
-      },
-
       rateLimit: {
         enabled: true,
         defaultLimit: 100,
         defaultWindowMs: 60000,
+        imports: [ValkeyAdapterModule],
       },
 
-      // cookie: {
-      //   secure: true,
-      //   sameSite: 'none',
-      //   domain: '.omnixys.com',
-      // },
-
-      globalGuards: false,
+      hash: {
+        encryptionKey: ENCRYPTION_KEY,
+      },
     }),
-    
+
     ValkeyModule.forRoot({
-      serviceName: `${SERVICE}-service`,
+      serviceName: SERVICE,
       url: VALKEY_URL,
       password: VALKEY_PASSWORD,
 
@@ -106,10 +84,12 @@ const {
     }),
 
     KafkaModule.forRoot({
-      clientId: `${SERVICE}-service`,
+      clientId: SERVICE,
       brokers: [KAFKA_BROKER],
-      groupId: `${SERVICE}-consumer`,
+      groupId: `${SERVICE}-group`,
+      serviceName: SERVICE,
     }),
+
     ObservabilityModule.forRoot({
       serviceName: SERVICE,
 

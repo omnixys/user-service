@@ -1,6 +1,6 @@
-import { n2u } from '@omnixys/shared';
 import type { Employee } from '../../../prisma/generated/client.js';
 import type { EmployeePayload } from '../payload/employee.payload.js';
+import { n2u } from '@omnixys/shared';
 
 export class EmployeeMapper {
   static toPayload(employee: Employee): EmployeePayload {

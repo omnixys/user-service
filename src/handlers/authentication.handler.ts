@@ -17,18 +17,32 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@nestjs/common';
 import {
-  KafkaEvent,
+  CreateGuestUserDTO,
+  RegisterService,
+} from '../user/services/register.service.js';
+import { UserWriteService } from '../user/services/user-write.service.js';
+import { Injectable } from '@nestjs/common';
+import { ValkeyKey, ValkeyService } from '@omnixys/cache';
+import { CreateUserInput } from '@omnixys/graphql';
+import {
   IKafkaEventContext,
+  KafkaEvent,
   KafkaEventHandler,
   KafkaTopics,
-  IKafkaEventHandler,
 } from '@omnixys/kafka';
 import { OmnixysLogger } from '@omnixys/logger';
-import { KcSignUpUserDTO } from '@omnixys/shared';
-import { RegisterService } from '../user/services/register.service.js';
-import { UserWriteService } from '../user/services/user-write.service.js';
+import { TraceRunner } from '@omnixys/observability';
+import { EncryptionService } from '@omnixys/security';
+import {
+  CreateGuestDTO,
+  CreateUserProviderDTO,
+  GuestSignUpTokenPayload,
+  GuestUserKey,
+  SignUpTokenPayload,
+  UserActionDTO,
+  UserTokenDTO,
+} from '@omnixys/shared';
 
 /**
  * Kafka event handler responsible for useristrative commands such as
@@ -40,7 +54,7 @@ import { UserWriteService } from '../user/services/user-write.service.js';
  */
 @KafkaEventHandler('authentication')
 @Injectable()
-export class AuthenticationHandler implements IKafkaEventHandler {
+export class AuthenticationHandler {
   private readonly log;
 
   /**
@@ -53,68 +67,108 @@ export class AuthenticationHandler implements IKafkaEventHandler {
     private readonly logger: OmnixysLogger,
     private readonly registerService: RegisterService,
     private readonly userWriteService: UserWriteService,
+    private readonly cache: ValkeyService,
+    private readonly encryptionService: EncryptionService,
   ) {
     this.log = this.logger.log(this.constructor.name);
   }
 
-  /**
-   * Handles incoming Kafka user events and executes the appropriate useristrative command.
-   *
-   * @param topic - The Kafka topic representing the user command (e.g. shutdown, restart).
-   * @param data - The payload associated with the Kafka message.
-   * @param context - The Kafka context metadata containing headers and partition info.
-   *
-   * @returns A Promise that resolves once the command has been processed.
-   */
-  @KafkaEvent(
-    KafkaTopics.user.addId,
-    KafkaTopics.user.createProviderUser,
-    KafkaTopics.user.deleteUser,
-  )
-  async handle(
-    topic: string,
-    data: { payload: any },
-    context: IKafkaEventContext,
+  @KafkaEvent(KafkaTopics.user.createGuest)
+  async handleCreateGuest(
+    payload: CreateGuestDTO,
+    _context: IKafkaEventContext,
   ): Promise<void> {
-    this.log.warn(`User command received: ${topic}`);
-    this.log.debug('Kafka context: %o', context);
+    return TraceRunner.run('[HANDLER] createGuest', async () => {
+      const { token, userId, username, email, invitationId } = payload;
 
-    switch (topic) {
-      case KafkaTopics.user.deleteUser:
-        await this.deleteUser(data as { payload: { id: string } });
-        break;
+      const decrypted = this.encryptionService.decrypt(token, true);
+      const { userKey } = JSON.parse(decrypted) as GuestSignUpTokenPayload;
 
-      case KafkaTopics.user.addId:
-        await this.addUserId(data as { payload: KcSignUpUserDTO });
-        break;
+      const raw = await this.cache.get(
+        ValkeyKey.guestVerificationUser,
+        userKey,
+      );
+      if (!raw) throw new Error('Token invalid or expired');
 
-      case KafkaTopics.user.createProviderUser:
-        await this.createProviderUser(
-          data as {
-            payload: { userId: string; email?: string; username?: string };
-          },
-        );
-        break;
+      const parsed = JSON.parse(raw) as GuestUserKey;
 
-      default:
-        this.log.warn(`Unknown authentication topic: ${topic}`);
-    }
+      /**
+       * 🔥 IMPORTANT: find correct invitee
+       */
+      const invitee = parsed.users.find((u) => u.invitationId === invitationId);
+
+      if (!invitee) {
+        throw new Error('Invitee not found for invitationId');
+      }
+
+      const finalInput: CreateGuestUserDTO = {
+        userId,
+        username,
+        email,
+        firstName: invitee.firstName,
+        lastName: invitee.lastName,
+        phoneNumbers: invitee.phoneNumbers,
+        actorId: parsed.actorId,
+      };
+
+      await this.registerService.createGuest(finalInput);
+
+    });
   }
-  // private async updateUser(data: { payload: UserUpdateDTO }) {
-  //   await this.userWriteService.update(data.payload);
-  // }
 
-  private async deleteUser(data: { payload: { id: string } }) {
-    await this.userWriteService.delete(data.payload.id);
+  @KafkaEvent(KafkaTopics.user.deleteUser)
+  async handleDeleteUser(
+    payload: UserActionDTO,
+    _context: IKafkaEventContext,
+  ): Promise<void> {
+    this.log.warn('DeleteUser event received');
+    this.log.debug('Payload: %o', payload);
+
+    await this.userWriteService.delete(payload.userId);
   }
 
-  private async addUserId(data: { payload: KcSignUpUserDTO }) {
-    await this.registerService.addUserId(data.payload);
+  @KafkaEvent(KafkaTopics.user.createUser)
+  async handleCreateUser(
+    payload: UserTokenDTO,
+    _context: IKafkaEventContext,
+  ): Promise<void> {
+    this.log.warn('CreateUser event received');
+    this.log.debug('Payload: %o', payload);
+
+    return TraceRunner.run('[HANDLER] createUser', async () => {
+      const { token, userId } = payload;
+
+      if (!token) {
+        throw new Error('TOKEN FEHLT!');
+      }
+
+      const decryptedToken = this.encryptionService.decrypt(token, true);
+      const { userKey } = JSON.parse(decryptedToken) as SignUpTokenPayload;
+
+      const raw = await this.cache.get(
+        ValkeyKey.signupVerificationUser,
+        userKey,
+      );
+
+      if (!raw) {
+        throw new Error('Token invalid or expired');
+      }
+
+      const parsed = JSON.parse(raw);
+      const input = parsed.userData as CreateUserInput;
+
+      await this.registerService.create(input, userId);
+    });
   }
 
-  private async createProviderUser(data: {
-    payload: { userId: string; email?: string; username?: string };
-  }) {
-    await this.registerService.createProviderUser(data.payload);
+  @KafkaEvent(KafkaTopics.user.createProviderUser)
+  async handleCreateProviderUser(
+    payload: CreateUserProviderDTO,
+    _context: IKafkaEventContext,
+  ): Promise<void> {
+    this.log.warn('CreateProviderUser event received');
+    this.log.debug('Payload: %o', payload);
+
+    await this.registerService.createProviderUser(payload);
   }
 }

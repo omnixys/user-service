@@ -1,5 +1,13 @@
+import { InterestCategoryMapper } from '../models/mapper/interest-category.mapper.js';
+import { InterestMapper } from '../models/mapper/interest.mapper.js';
+import { userMapper } from '../models/mapper/user.mapper.js';
+import { InterestCategoryPayload } from '../models/payload/interest-category.payload.js';
+import { InterestPayload } from '../models/payload/interest.payload.js';
+import { UserPayload } from '../models/payload/user.payload.js';
+import { UserReadService } from '../services/user-read.service.js';
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, ID, Query, Resolver } from '@nestjs/graphql';
+import { OmnixysLogger } from '@omnixys/logger';
 import {
   CookieAuthGuard,
   CurrentUser,
@@ -8,15 +16,7 @@ import {
   RoleGuard,
   Roles,
 } from '@omnixys/security';
-import { OmnixysLogger } from '@omnixys/logger';
 import { RealmRoleType } from '@omnixys/shared';
-import { InterestCategoryMapper } from '../models/mapper/interest-category.mapper.js';
-import { InterestMapper } from '../models/mapper/interest.mapper.js';
-import { userMapper } from '../models/mapper/user.mapper.js';
-import { InterestCategoryPayload } from '../models/payload/interest-category.payload.js';
-import { InterestPayload } from '../models/payload/interest.payload.js';
-import { UserPayload } from '../models/payload/user.payload.js';
-import { UserReadService } from '../services/user-read.service.js';
 
 @Resolver(() => UserPayload)
 export class UserQueryResolver {

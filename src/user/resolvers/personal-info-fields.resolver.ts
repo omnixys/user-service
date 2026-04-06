@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { Resolver, ResolveField, Parent } from '@nestjs/graphql';
+import { PhoneNumberMapper } from '../models/mapper/phone-number.mapper.js';
 import { PersonalInfoPayload } from '../models/payload/personal-info.payload.js';
 import { PhoneNumberPayload } from '../models/payload/phone-number.payload.js';
 import { UserReadService } from '../services/user-read.service.js';
-import { PhoneNumberMapper } from '../models/mapper/phone-number.mapper.js';
+import { Resolver, ResolveField, Parent } from '@nestjs/graphql';
 
 @Resolver(() => PersonalInfoPayload)
 export class PersonalInfoFieldsResolver {

@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Resolver, ResolveField, Parent } from '@nestjs/graphql';
 
+import { ContactMapper } from '../models/mapper/contact.mapper.js';
+import { CustomerMapper } from '../models/mapper/customer.mapper.js';
+import { EmployeeMapper } from '../models/mapper/employee.mapper.js';
+import { PersonalInfoMapper } from '../models/mapper/personal-info.mapper.js';
 import { ContactPayload } from '../models/payload/contact.payload.js';
 import { CustomerPayload } from '../models/payload/customer.payload.js';
 import { EmployeePayload } from '../models/payload/employee.payload.js';
 import { PersonalInfoPayload } from '../models/payload/personal-info.payload.js';
 import { UserPayload } from '../models/payload/user.payload.js';
 import { UserReadService } from '../services/user-read.service.js';
-import { ContactMapper } from '../models/mapper/contact.mapper.js';
-import { CustomerMapper } from '../models/mapper/customer.mapper.js';
-import { EmployeeMapper } from '../models/mapper/employee.mapper.js';
-import { PersonalInfoMapper } from '../models/mapper/personal-info.mapper.js';
 
 @Resolver(() => UserPayload)
 export class UserFieldsResolver {

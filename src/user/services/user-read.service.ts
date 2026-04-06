@@ -1,5 +1,3 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { OmnixysLogger } from '@omnixys/logger';
 import {
   Contact,
   Customer,
@@ -12,6 +10,8 @@ import {
   User,
 } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { OmnixysLogger } from '@omnixys/logger';
 
 /**
  * userReadService

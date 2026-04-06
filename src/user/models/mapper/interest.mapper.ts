@@ -1,7 +1,7 @@
-import type { InterestType } from '@omnixys/shared';
-import { n2u } from '@omnixys/shared';
 import type { Interest } from '../../../prisma/generated/client.js';
 import type { InterestPayload } from '../payload/interest.payload.js';
+import type { InterestType } from '@omnixys/shared';
+import { n2u } from '@omnixys/shared';
 
 export class InterestMapper {
   static toPayload(interest: Interest): InterestPayload {

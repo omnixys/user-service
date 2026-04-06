@@ -16,10 +16,7 @@ const { DATABASE_URL } = env;
 // const { DATABASE_URL_LOCALE } = env;
 
 @Injectable()
-export class PrismaService
-  extends PrismaClient
-  implements OnModuleInit, OnModuleDestroy
-{
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   constructor() {
     const adapter = new PrismaPg({
       // connectionString: DATABASE_URL_LOCALE,
@@ -28,14 +25,12 @@ export class PrismaService
 
     super({
       adapter,
-      log: [
-        { emit: 'event', level: 'query' },
-      ],
+      log: [{ emit: 'event', level: 'query' }],
     });
   }
 
   async onModuleInit(): Promise<void> {
-     setupPrismaSpans(this); 
+    setupPrismaSpans(this);
 
     await this.$connect();
     console.log('📦 Prisma connected');

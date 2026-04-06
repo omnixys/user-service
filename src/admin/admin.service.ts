@@ -81,9 +81,7 @@ export class AdminService {
    * @returns A Promise that resolves once the restart has been initiated.
    */
   restart(): void {
-    this.log.warn(
-      'Restart requested — exiting process so container supervisor restarts it...',
-    );
+    this.log.warn('Restart requested — exiting process so container supervisor restarts it...');
     setTimeout(() => process.exit(1), 1000);
   }
 
