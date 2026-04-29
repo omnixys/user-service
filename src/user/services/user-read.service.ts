@@ -57,6 +57,7 @@ export class UserReadService {
     if (userIds.length === 0) {
       return [];
     }
+    this.log.debug('findByIds: userIds=%o', userIds);
 
     return this.prisma.user.findMany({
       where: {

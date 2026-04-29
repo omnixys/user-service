@@ -2,7 +2,7 @@
 import type { User } from '../../../prisma/generated/client.js';
 import type { UserPayload } from '../payload/user.payload.js';
 import {
-  resolveEffectiveRole,
+  RealmRoleType,
   type PersonStatusType,
   type UserType,
 } from '@omnixys/shared';
@@ -62,7 +62,7 @@ export class userMapper {
     return out;
   }
 
-  static toPayload(user: User, roles: string[] = []): UserPayload {
+  static toPayload(user: User, role?: RealmRoleType): UserPayload {
     return {
       id: user.id,
       username: user.username,
@@ -70,7 +70,7 @@ export class userMapper {
       status: user.status as PersonStatusType,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-      role: resolveEffectiveRole(true, roles),
+      role: role,
     };
   }
 

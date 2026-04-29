@@ -30,7 +30,7 @@ CREATE TYPE "ContactOptionsType" AS ENUM ('EMAIL', 'PHONE', 'SMS', 'WHATSAPP', '
 
 -- CreateTable
 CREATE TABLE "user" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "username" TEXT NOT NULL,
     "user_type" "UserType" NOT NULL,
     "status" "PersonStatus" NOT NULL DEFAULT 'ACTIVE',
@@ -42,7 +42,7 @@ CREATE TABLE "user" (
 
 -- CreateTable
 CREATE TABLE "personal_info" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "email" TEXT NOT NULL,
     "first_name" TEXT NOT NULL,
     "last_name" TEXT NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE "personal_info" (
 
 -- CreateTable
 CREATE TABLE "customer" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "subscribed" BOOLEAN NOT NULL DEFAULT false,
     "customer_state" "StatusType" NOT NULL,
     "contact_options" "ContactOptionsType"[],
@@ -69,7 +69,7 @@ CREATE TABLE "customer" (
 
 -- CreateTable
 CREATE TABLE "employee" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "department" TEXT,
     "position" TEXT,
     "role" TEXT,
@@ -84,8 +84,8 @@ CREATE TABLE "employee" (
 
 -- CreateTable
 CREATE TABLE "phone_number" (
-    "id" TEXT NOT NULL,
-    "info_id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "info_id" UUID NOT NULL,
     "number" TEXT NOT NULL,
     "type" "PhoneNumberType" NOT NULL,
     "label" TEXT,
@@ -99,9 +99,9 @@ CREATE TABLE "phone_number" (
 
 -- CreateTable
 CREATE TABLE "contact" (
-    "id" TEXT NOT NULL,
-    "user_id" TEXT NOT NULL,
-    "contact_id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "user_id" UUID NOT NULL,
+    "contact_id" UUID NOT NULL,
     "relationship" "RelationshipType" NOT NULL,
     "withdrawalLimit" INTEGER NOT NULL DEFAULT 0,
     "emergency" BOOLEAN NOT NULL DEFAULT false,
@@ -115,7 +115,7 @@ CREATE TABLE "contact" (
 
 -- CreateTable
 CREATE TABLE "interest_category" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "key" "InterestCategoryKey" NOT NULL,
     "name" TEXT NOT NULL,
     "icon" TEXT,
@@ -128,10 +128,10 @@ CREATE TABLE "interest_category" (
 
 -- CreateTable
 CREATE TABLE "interest" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "key" "interest_key" NOT NULL,
     "name" TEXT NOT NULL,
-    "categoryId" TEXT NOT NULL,
+    "categoryId" UUID NOT NULL,
     "icon" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -142,8 +142,8 @@ CREATE TABLE "interest" (
 -- CreateTable
 CREATE TABLE "customer_interest" (
     "id" TEXT NOT NULL,
-    "customerId" TEXT NOT NULL,
-    "interestId" TEXT NOT NULL,
+    "customerId" UUID NOT NULL,
+    "interestId" UUID NOT NULL,
     "level" INTEGER,
     "isPrimary" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

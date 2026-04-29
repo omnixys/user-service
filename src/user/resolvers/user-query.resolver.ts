@@ -68,7 +68,7 @@ export class UserQueryResolver {
       throw new UnauthorizedException('Not authenticated');
     }
     const user = await this.service.findById(currentUser.id);
-    return userMapper.toPayload(user, currentUser.roles);
+    return userMapper.toPayload(user, currentUser.role);
   }
 
   /* ------------------------------------------------------------------

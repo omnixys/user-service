@@ -50,7 +50,6 @@ export const CONTACTS = [
   /* CALEB – EXACTLY 5 CONTACTS (REQUIRED)                                     */
   /* ------------------------------------------------------------------------ */
   {
-    id: 'contact-caleb-01',
     userId: CALEB,
     contactId: RACHEL,
     relationship: RelationshipType.PARTNER,
@@ -59,7 +58,6 @@ export const CONTACTS = [
     startDate: new Date('2022-06-01'),
   },
   {
-    id: 'contact-caleb-02',
     userId: CALEB,
     contactId: AUDREY,
     relationship: RelationshipType.FRIEND,
@@ -67,7 +65,6 @@ export const CONTACTS = [
     emergency: false,
   },
   {
-    id: 'contact-caleb-03',
     userId: CALEB,
     contactId: CHRISTABELLE,
     relationship: RelationshipType.COLLEAGUE,
@@ -75,7 +72,6 @@ export const CONTACTS = [
     emergency: false,
   },
   {
-    id: 'contact-caleb-04',
     userId: CALEB,
     contactId: USERS[13], // kwame
     relationship: RelationshipType.RELATIVE,
@@ -83,7 +79,6 @@ export const CONTACTS = [
     emergency: true,
   },
   {
-    id: 'contact-caleb-05',
     userId: CALEB,
     contactId: USERS[14], // yaa
     relationship: RelationshipType.COUSIN,
@@ -95,7 +90,6 @@ export const CONTACTS = [
   /* CORE STAFF RELATIONSHIPS                                                  */
   /* ------------------------------------------------------------------------ */
   {
-    id: 'contact-admin-security',
     userId: ADMIN,
     contactId: SECURITY,
     relationship: RelationshipType.COLLEAGUE,
@@ -103,7 +97,6 @@ export const CONTACTS = [
     emergency: true,
   },
   {
-    id: 'contact-security-admin',
     userId: SECURITY,
     contactId: ADMIN,
     relationship: RelationshipType.COLLEAGUE,
@@ -119,7 +112,6 @@ export const CONTACTS = [
   const contactId = USERS[index + 1];
 
   return {
-    id: `contact-auto-${index}`,
     userId,
     contactId,
     relationship:

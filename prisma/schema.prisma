@@ -12,7 +12,7 @@ datasource db {
 /// USER SERVICE SCHEMA
 /// ------------------------------------------------------------
 model User {
-  id       String @id @default(cuid()) @map("id")
+  id       String @id @default(uuid()) @map("id") @db.Uuid
   username String @unique @map("username")
 
   userType     UserType      @map("user_type")
@@ -38,7 +38,7 @@ model User {
 /// PERSON SERVICE SCHEMA
 /// ------------------------------------------------------------
 model PersonalInfo {
-  id    String @id @map("id")
+  id    String @id @map("id") @db.Uuid
   email String @unique @map("email")
 
   firstName     String             @map("first_name")
@@ -65,7 +65,7 @@ model PersonalInfo {
 /// ------------------------------------------------------------
 
 model Customer {
-  id String @id @map("id")
+  id String @id @map("id") @db.Uuid
 
   subscribed Boolean    @default(false)
   state      StatusType @map("customer_state")
@@ -89,7 +89,7 @@ model Customer {
 /// ------------------------------------------------------------
 
 model Employee {
-  id String @id @map("id")
+  id String @id @map("id") @db.Uuid
 
   department String?   @map("department")
   position   String?   @map("position")
@@ -111,8 +111,8 @@ model Employee {
 }
 
 model PhoneNumber {
-  id     String @id @default(cuid()) @map("id")
-  infoId String @map("info_id")
+  id     String @id @default(uuid()) @map("id") @db.Uuid
+  infoId String @map("info_id") @db.Uuid
 
   number      String          @map("number")
   type        PhoneNumberType @map("type")
@@ -137,9 +137,9 @@ model PhoneNumber {
 /// ------------------------------------------------------------
 
 model Contact {
-  id        String @id @default(cuid()) @map("id")
-  userId    String @map("user_id")
-  contactId String @map("contact_id")
+  id        String @id @default(uuid()) @map("id") @db.Uuid
+  userId    String @map("user_id") @db.Uuid
+  contactId String @map("contact_id") @db.Uuid
 
   relationship    RelationshipType @map("relationship")
   withdrawalLimit Int              @default(0)
@@ -161,7 +161,7 @@ model Contact {
 }
 
 model InterestCategory {
-  id   String              @id @default(cuid())
+  id   String              @id @default(uuid()) @db.Uuid
   key  InterestCategoryKey @unique // e.g. FINANCE, LIFESTYLE
   name String
   icon String?
@@ -177,10 +177,10 @@ model InterestCategory {
 }
 
 model Interest {
-  id         String      @id @default(cuid())
+  id         String      @id @default(uuid()) @db.Uuid
   key        InterestKey @unique
   name       String
-  categoryId String
+  categoryId String @db.Uuid
   icon       String?
 
   category InterestCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
@@ -196,9 +196,9 @@ model Interest {
 }
 
 model CustomerInterest {
-  id         String @id @default(cuid())
-  customerId String
-  interestId String
+  id         String @id @default(uuid())
+  customerId String @db.Uuid
+  interestId String @db.Uuid
 
   // Optional future attributes:
   level     Int? // e.g. intensity 1–5
