@@ -1,4 +1,3 @@
-import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CustomerFieldsResolver } from './resolvers/customer-field.resolver.js';
 import { CustomerInterestFieldsResolver } from './resolvers/customer-interest-field.resolver.js';
 import { InteresCategoryFieldsResolver } from './resolvers/interest-category-field.resolver.js';
@@ -11,6 +10,7 @@ import { RegisterService } from './services/register.service.js';
 import { UserReadService } from './services/user-read.service.js';
 import { UserWriteService } from './services/user-write.service.js';
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ContextInterceptor } from '@omnixys/context';
 
 @Module({

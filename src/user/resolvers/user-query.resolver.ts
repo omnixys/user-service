@@ -46,7 +46,7 @@ export class UserQueryResolver {
    * ------------------------------------------------------------------ */
   @UseGuards(CookieAuthGuard, RoleGuard)
   @Roles(RealmRoleType.ADMIN, RealmRoleType.USER)
-  @Query(() => UserPayload, { name: 'user' })
+  @Query(() => UserPayload, { name: 'pnpm' })
   async getById(
     @Args('id', { type: () => ID }) id: string,
   ): Promise<UserPayload> {

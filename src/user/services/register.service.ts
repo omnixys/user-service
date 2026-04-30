@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { type User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
@@ -35,7 +33,7 @@ export class RegisterService {
   async create(input: CreateUserInput, id: string): Promise<User> {
     return TraceRunner.run('Create User', async () => {
       this.log.debug('Creating full user aggregate: %o', input);
-      return await this.prisma.$transaction(async (tx) => {
+      return this.prisma.$transaction(async (tx) => {
         /* ------------------------------------------------------------
          * 1. User (technical root)
          * ------------------------------------------------------------ */
@@ -207,11 +205,11 @@ export class RegisterService {
       this.log.debug('Creating guest user aggregate: %o', input);
       const { userId, username, email, firstName, lastName, phoneNumbers } = input;
 
-      return await this.prisma.$transaction(async (tx) => {
+      return this.prisma.$transaction(async (tx) => {
         await tx.user.create({
           data: {
             id: userId,
-            username: username,
+            username,
             userType: UserType.GUEST,
             status: StatusType.ACTIVE,
           },
@@ -220,9 +218,9 @@ export class RegisterService {
         await tx.personalInfo.create({
           data: {
             id: userId,
-            email: email,
-            firstName: firstName,
-            lastName: lastName,
+            email,
+            firstName,
+            lastName,
 
             phoneNumbers: {
               create:

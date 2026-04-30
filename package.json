@@ -100,6 +100,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^20.5.0",
+    "@eslint/js": "^10.0.1",
     "@nestjs/cli": "^11.0.21",
     "@prisma/extension-accelerate": "^3.0.1",
     "@semantic-release/changelog": "^6.0.3",

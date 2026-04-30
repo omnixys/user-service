@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import type { User } from '../../../prisma/generated/client.js';
 import type { UserPayload } from '../payload/user.payload.js';
-import {
-  RealmRoleType,
-  type PersonStatusType,
-  type UserType,
-} from '@omnixys/shared';
+import type { RealmRoleType } from '@omnixys/shared';
+import { type PersonStatusType, type UserType } from '@omnixys/shared';
 
 export class userMapper {
   /**
@@ -70,7 +67,7 @@ export class userMapper {
       status: user.status as PersonStatusType,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-      role: role,
+      role,
     };
   }
 

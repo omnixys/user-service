@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
  * @license GPL-3.0-or-later
  * Copyright (C) 2025 Caleb Gyamfi - Omnixys Technologies
@@ -43,6 +41,10 @@ import {
   UserActionDTO,
   UserTokenDTO,
 } from '@omnixys/shared';
+
+interface SignupVerificationUserCache {
+  userData: CreateUserInput;
+}
 
 /**
  * Kafka event handler responsible for useristrative commands such as
@@ -88,7 +90,9 @@ export class AuthenticationHandler {
         ValkeyKey.guestVerificationUser,
         userKey,
       );
-      if (!raw) throw new Error('Token invalid or expired');
+      if (!raw) {
+        throw new Error('Token invalid or expired');
+      }
 
       const parsed = JSON.parse(raw) as GuestUserKey;
 
@@ -112,7 +116,6 @@ export class AuthenticationHandler {
       };
 
       await this.registerService.createGuest(finalInput);
-
     });
   }
 
@@ -154,8 +157,8 @@ export class AuthenticationHandler {
         throw new Error('Token invalid or expired');
       }
 
-      const parsed = JSON.parse(raw);
-      const input = parsed.userData as CreateUserInput;
+      const parsed = JSON.parse(raw) as SignupVerificationUserCache;
+      const input = parsed.userData;
 
       await this.registerService.create(input, userId);
     });

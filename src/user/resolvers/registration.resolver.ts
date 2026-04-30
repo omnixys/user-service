@@ -23,7 +23,7 @@ export class RegisterResolver {
     return this.service.isUsernameAvailable(username);
   }
 
-  //@UseGuards(CookieAuthGuard)
+  // @UseGuards(CookieAuthGuard)
   @Query(() => Boolean)
   async checkEmail(
     @Args('email') email: string,
