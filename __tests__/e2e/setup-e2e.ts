@@ -19,10 +19,8 @@
  */
 
 /* eslint-disable no-console */
-import { AppModule } from '../../src/app.module.js';
 import { env } from '../env.js';
 import { type INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
 import axios, { type AxiosError } from 'axios';
 
 // =====================================================
@@ -57,6 +55,8 @@ async function verifyKeycloak(): Promise<void> {
 
 export async function createTestApp(): Promise<{ app: INestApplication }> {
   await verifyKeycloak();
+  const { AppModule } = await import('../../src/app.module.js');
+  const { Test } = await import('@nestjs/testing');
 
   const moduleRef = await Test.createTestingModule({
     imports: [AppModule],
