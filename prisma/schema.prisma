@@ -5,7 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["user"]
 }
 
 /// ------------------------------------------------------------
@@ -24,14 +23,13 @@ model User {
   contacts Contact[]
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@index([status])
   @@index([userType])
   @@index([status, userType])
   @@index([createdAt])
   @@map("user")
-  @@schema("user")
 }
 
 /// ------------------------------------------------------------
@@ -52,12 +50,11 @@ model PersonalInfo {
   user User @relation(fields: [id], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@index([lastName])
   @@index([firstName, lastName])
   @@map("personal_info")
-  @@schema("user")
 }
 
 /// ------------------------------------------------------------
@@ -75,13 +72,12 @@ model Customer {
   user User @relation(fields: [id], references: [id], onDelete: Cascade)
 
   createdAt         DateTime           @default(now()) @map("created_at")
-  updatedAt         DateTime           @updatedAt @map("updated_at")
+  updatedAt         DateTime           @default(now()) @updatedAt @map("updated_at")
   customerInterests CustomerInterest[]
 
   @@index([state])
   @@index([subscribed])
   @@map("customer")
-  @@schema("user")
 }
 
 /// ------------------------------------------------------------
@@ -101,13 +97,12 @@ model Employee {
   user User @relation(fields: [id], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@index([department])
   @@index([role])
   @@index([isExternal])
   @@map("employee")
-  @@schema("user")
 }
 
 model PhoneNumber {
@@ -123,13 +118,12 @@ model PhoneNumber {
   user PersonalInfo @relation(fields: [infoId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@index([countryCode, number])
   @@index([infoId])
   @@index([infoId, isPrimary])
   @@map("phone_number")
-  @@schema("user")
 }
 
 /// ------------------------------------------------------------
@@ -142,8 +136,8 @@ model Contact {
   contactId String @map("contact_id") @db.Uuid
 
   relationship    RelationshipType @map("relationship")
-  withdrawalLimit Int              @default(0)
-  emergency       Boolean          @default(false)
+  withdrawalLimit Int              @default(0) @map("withdrawal_limit")
+  emergency       Boolean          @default(false) @map("emergency")
 
   startDate DateTime? @map("start_date")
   endDate   DateTime? @map("end_date")
@@ -151,13 +145,12 @@ model Contact {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@unique([userId, contactId])
   @@index([userId])
   @@index([emergency])
   @@map("contact")
-  @@schema("user")
 }
 
 model InterestCategory {
@@ -169,50 +162,47 @@ model InterestCategory {
   description String?
   interests   Interest[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("interest_category")
-  @@schema("user")
 }
 
 model Interest {
   id         String      @id @default(uuid()) @db.Uuid
   key        InterestKey @unique
   name       String
-  categoryId String @db.Uuid
+  categoryId String      @map("category_id") @db.Uuid
   icon       String?
 
   category InterestCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
 
   customers CustomerInterest[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@index([categoryId])
   @@map("interest")
-  @@schema("user")
 }
 
 model CustomerInterest {
-  id         String @id @default(uuid())
-  customerId String @db.Uuid
-  interestId String @db.Uuid
+  id         String @id @default(uuid()) @db.Uuid
+  customerId String @map("customer_id") @db.Uuid
+  interestId String @map("interest_id") @db.Uuid
 
   // Optional future attributes:
   level     Int? // e.g. intensity 1–5
-  isPrimary Boolean @default(false)
+  isPrimary Boolean @default(false) @map("is_primary")
 
   customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
   interest Interest @relation(fields: [interestId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 
-  @@unique([customerId, interestId], name: "customerId_interestId")
+  @@unique([customerId, interestId], name: "customer_id_interest_id")
   @@index([interestId])
   @@map("customer_interest")
-  @@schema("user")
 }
 
 /// ------------------------------------------------------------
@@ -223,7 +213,7 @@ enum UserType {
   EMPLOYEE
   GUEST
 
-  @@schema("user")
+  @@map("user_type")
 }
 
 enum PhoneNumberType {
@@ -234,7 +224,7 @@ enum PhoneNumberType {
   HOME
   OTHER
 
-  @@schema("user")
+  @@map("phone_number_type")
 }
 
 enum PersonStatus {
@@ -245,7 +235,7 @@ enum PersonStatus {
   BLOCKED
   CLOSED
 
-  @@schema("user")
+  @@map("person_status")
 }
 
 enum GenderType {
@@ -254,7 +244,7 @@ enum GenderType {
   DIVERSE
   UNKNOWN
 
-  @@schema("user")
+  @@map("gender_type")
 }
 
 enum RelationshipType {
@@ -270,7 +260,7 @@ enum RelationshipType {
   CHILD
   COUSIN
 
-  @@schema("user")
+  @@map("relationship_type")
 }
 
 enum MaritalStatusType {
@@ -279,7 +269,7 @@ enum MaritalStatusType {
   DIVORCED
   WIDOWED
 
-  @@schema("user")
+  @@map("marital_status_type")
 }
 
 enum StatusType {
@@ -290,7 +280,7 @@ enum StatusType {
   SUSPENDED
   CLOSED
 
-  @@schema("user")
+  @@map("status_type")
 }
 
 enum InterestKey {
@@ -320,7 +310,6 @@ enum InterestKey {
   BASKETBALL
 
   @@map("interest_key")
-  @@schema("user")
 }
 
 enum InterestCategoryKey {
@@ -331,7 +320,7 @@ enum InterestCategoryKey {
   TECHNOLOGY
   LIFESTYLE
 
-  @@schema("user")
+  @@map("interest_category_key")
 }
 
 enum ContactOptionsType {
@@ -341,5 +330,5 @@ enum ContactOptionsType {
   WHATSAPP
   LETTER
 
-  @@schema("user")
+  @@map("contact_options_type")
 }
