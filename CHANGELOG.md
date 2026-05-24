@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [1.0.2](https://github.com/omnixys/user-service/compare/v1.0.1...v1.0.2) (2026-05-24)
+
+### Docker
+
+* **Docker:** update pnpm version ([](https://github.com/omnixys/user-service/commit/5e35ecfe0955c78d7cb9db06d393c04f4a18b4c7))
+
 ## [1.0.1](https://github.com/omnixys/user-service/compare/v1.0.0...v1.0.1) (2026-05-24)
 
 ### Docker
