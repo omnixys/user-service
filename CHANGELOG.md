@@ -3,6 +3,20 @@
 All notable changes in this project will be documented in this file.
 
 
+## [1.0.1](https://github.com/omnixys/user-service/compare/v1.0.0...v1.0.1) (2026-05-24)
+
+### Docker
+
+* **Docker:** build ([](https://github.com/omnixys/user-service/commit/723ec6ff2773026bddbabf478dfeb7262f74c50f))
+
+### Other
+
+* **Other:** Merge branch 'main' of https://github.com/omnixys/user-service ([](https://github.com/omnixys/user-service/commit/101226c0a6155c15373cc4c59b2c7b3031fed6cf))
+
+### Prisma
+
+* **Prisma:** update prisma schema ([](https://github.com/omnixys/user-service/commit/7b432040dc65e3be5deaccb89f491f4789448bac))
+
 ## 1.0.0 (2026-05-01)
 
 ### ⚠ Breaking change
