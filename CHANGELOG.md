@@ -3,6 +3,16 @@
 All notable changes in this project will be documented in this file.
 
 
+## [1.0.3](https://github.com/omnixys/user-service/compare/v1.0.2...v1.0.3) (2026-05-25)
+
+### Docker
+
+* **Docker:** Dockerfile ([](https://github.com/omnixys/user-service/commit/7f52acd506d25165d0e7a09a50b6fc659a8a5aae))
+
+### Other
+
+* **Other:** Merge branch 'main' of https://github.com/omnixys/user-service ([](https://github.com/omnixys/user-service/commit/b3349c3ea74b56a112a19bd12350dbcd4c78c95f))
+
 ## [1.0.2](https://github.com/omnixys/user-service/compare/v1.0.1...v1.0.2) (2026-05-24)
 
 ### Docker
