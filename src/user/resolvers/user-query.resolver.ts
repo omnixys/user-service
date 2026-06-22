@@ -12,7 +12,6 @@ import {
   CookieAuthGuard,
   CurrentUser,
   CurrentUserData,
-  Public,
   RoleGuard,
   Roles,
 } from '@omnixys/security';
@@ -36,6 +35,7 @@ export class UserQueryResolver {
   @Roles(RealmRoleType.ADMIN)
   @Query(() => [UserPayload], { name: 'users' })
   async getAll(): Promise<UserPayload[]> {
+    this.log.debug('getAll: request received');
     const users = await this.service.findAll();
     this.log.debug('getAll: found %d users', users.length);
     return userMapper.toPayloadList(users);
@@ -55,18 +55,30 @@ export class UserQueryResolver {
     return userMapper.toPayload(user);
   }
 
+  @UseGuards(CookieAuthGuard, RoleGuard)
+  @Roles(RealmRoleType.ADMIN, RealmRoleType.USER)
+  @Query(() => UserPayload, { name: 'userById' })
+  async getUserById(
+    @Args('id', { type: () => ID }) id: string,
+  ): Promise<UserPayload> {
+    return this.getById(id);
+  }
+
   /* ------------------------------------------------------------------
    * Current authenticated user
    * ------------------------------------------------------------------ */
   @UseGuards(CookieAuthGuard, RoleGuard)
-  @Public()
   @Query(() => UserPayload, { name: 'me' })
   async getMe(
     @CurrentUser() currentUser: CurrentUserData,
   ): Promise<UserPayload> {
     if (!currentUser?.id) {
+      this.log.warn(
+        'getMe: request rejected because user is not authenticated',
+      );
       throw new UnauthorizedException('Not authenticated');
     }
+    this.log.debug('getMe: id=%s', currentUser.id);
     const user = await this.service.findById(currentUser.id);
     return userMapper.toPayload(user, currentUser.role);
   }
@@ -80,7 +92,9 @@ export class UserQueryResolver {
   async getUserList(
     @Args('userIds', { type: () => [ID] }) userIds: string[],
   ): Promise<UserPayload[]> {
+    this.log.debug('getUserList: request received count=%d', userIds.length);
     const users = await this.service.findByIds(userIds);
+    this.log.debug('getUserList: found %d users', users.length);
     return userMapper.toPayloadList(users);
   }
 
@@ -88,13 +102,20 @@ export class UserQueryResolver {
     name: 'getAllInterestCategories',
   })
   async getAllInterestCategories(): Promise<InterestCategoryPayload[]> {
+    this.log.debug('getAllInterestCategories: request received');
     const entities = await this.service.getAllCategoriesWithInterests();
+    this.log.debug(
+      'getAllInterestCategories: found %d categories',
+      entities.length,
+    );
     return InterestCategoryMapper.toPayloadList(entities);
   }
 
   @Query(() => [InterestPayload])
   async getAllInterests(): Promise<InterestPayload[]> {
+    this.log.debug('getAllInterests: request received');
     const interests = await this.service.getAllInterests();
+    this.log.debug('getAllInterests: found %d interests', interests.length);
     return InterestMapper.toPayloadList(interests);
   }
 }

@@ -32,8 +32,10 @@ export class RegisterService {
 
   async create(input: CreateUserInput, id: string): Promise<User> {
     return TraceRunner.run('Create User', async () => {
-      this.log.debug('Creating full user aggregate: %o', input);
-      return this.prisma.$transaction(async (tx) => {
+      this.log.info('User creation started: userId=%s', id);
+      this.log.debug('Creating user in database: userId=%s', id);
+
+      const createdUser = await this.prisma.$transaction(async (tx) => {
         /* ------------------------------------------------------------
          * 1. User (technical root)
          * ------------------------------------------------------------ */
@@ -85,7 +87,7 @@ export class RegisterService {
 
               customerInterests: {
                 createMany: {
-                  data: input.customer.interestIds.map((interestId) => ({
+                  data: (input.customer.interestIds ?? []).map((interestId) => ({
                     interestId,
                   })),
                 },
@@ -144,6 +146,10 @@ export class RegisterService {
 
         return user;
       });
+
+      this.log.debug('Database user creation completed: userId=%s', id);
+      this.log.info('User creation completed: userId=%s', id);
+      return createdUser;
     });
   }
 
@@ -152,6 +158,9 @@ export class RegisterService {
     email?: string;
     username?: string;
   }): Promise<void> {
+    this.log.info('Provider user creation started: userId=%s', input.userId);
+    this.log.debug('Creating provider user in database: userId=%s', input.userId);
+
     await this.prisma.$transaction(async (tx) => {
       /* ------------------------------------------------------------
        * 1. User (technical root)
@@ -165,6 +174,9 @@ export class RegisterService {
         },
       });
     });
+
+    this.log.debug('Database provider user creation completed: userId=%s', input.userId);
+    this.log.info('Provider user creation completed: userId=%s', input.userId);
   }
 
   async isUsernameAvailable(username: string): Promise<boolean> {
@@ -181,12 +193,13 @@ export class RegisterService {
         return false;
       }
 
+      this.log.debug('Username availability check completed: available=true');
       return true;
     });
   }
 
   async checkEmail(email: string): Promise<boolean> {
-    this.log.debug('check for Email: %s', email);
+    this.log.debug('Checking email availability');
 
     const user = await this.prisma.user.findFirst({
       where: {
@@ -197,15 +210,18 @@ export class RegisterService {
       select: { id: true },
     });
 
+    this.log.debug('Email availability check completed: available=%s', !user);
     return !user;
   }
 
   async createGuest(input: CreateGuestUserDTO) {
     return TraceRunner.run('[SERVICE] createGuest', async () => {
-      this.log.debug('Creating guest user aggregate: %o', input);
       const { userId, username, email, firstName, lastName, phoneNumbers } = input;
 
-      return this.prisma.$transaction(async (tx) => {
+      this.log.info('Guest user creation started: userId=%s', userId);
+      this.log.debug('Creating guest user in database: userId=%s', userId);
+
+      const createdGuest = await this.prisma.$transaction(async (tx) => {
         await tx.user.create({
           data: {
             id: userId,
@@ -235,6 +251,10 @@ export class RegisterService {
           },
         });
       });
+
+      this.log.debug('Database guest user creation completed: userId=%s', userId);
+      this.log.info('Guest user creation completed: userId=%s', userId);
+      return createdGuest;
     });
   }
 }

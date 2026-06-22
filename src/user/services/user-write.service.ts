@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { UserNotFoundException } from '../errors/user.error.js';
+import { Injectable } from '@nestjs/common';
 import { AddContactInput, PhoneNumberInput, UpdateUserInput } from '@omnixys/graphql';
 import { OmnixysLogger } from '@omnixys/logger';
 import { GenderType, MaritalStatusType, StatusType } from '@omnixys/shared';
@@ -35,32 +36,41 @@ export class UserWriteService {
   async update(input: UpdateUserInput): Promise<User> {
     const { id, ...patch } = input;
 
+    this.log.info('User update started: userId=%s', id);
+    this.log.debug('Looking up user before update: userId=%s', id);
     const exists = await this.prisma.user.findUnique({ where: { id } });
     if (!exists) {
-      throw new NotFoundException('User nicht gefunden');
+      this.log.warn('User update failed: userId=%s | reason=user not found', id);
+      throw new UserNotFoundException(id);
     }
 
-    return this.prisma.user.update({
+    const user = await this.prisma.user.update({
       where: { id },
       data: {
         status: patch.status,
         userType: patch.userType ?? undefined,
       },
     });
+
+    this.log.debug('Database user update completed: userId=%s', id);
+    this.log.info('User update completed: userId=%s | status=%s', id, user.status);
+    return user;
   }
 
   /* ------------------------------------------------------------------
    * Delete user
    * ------------------------------------------------------------------ */
   async delete(id: string): Promise<boolean> {
-    this.log.debug('deleting User');
+    this.log.info('User deletion started: userId=%s', id);
+    this.log.debug('Looking up user before deletion: userId=%s', id);
     const exists = await this.prisma.user.findUnique({ where: { id } });
     if (!exists) {
-      this.log.debug('User nicht gefunden');
+      this.log.warn('User deletion ignored: userId=%s | reason=user not found', id);
       return false;
     }
 
     await this.prisma.user.delete({ where: { id } });
+    this.log.debug('Database user deletion completed: userId=%s', id);
 
     // void this.kafkaProducerService.deleteInvitations(
     //   { guestId: id },
@@ -80,6 +90,7 @@ export class UserWriteService {
     //   },
     // );
 
+    this.log.info('User deletion completed: userId=%s', id);
     return true;
   }
 
@@ -89,6 +100,11 @@ export class UserWriteService {
   async addPhoneNumber(input: AddPhoneNumbersDTO): Promise<void> {
     const { userId, phoneNumbers } = input;
 
+    this.log.debug(
+      'Adding phone numbers in database: userId=%s | count=%d',
+      userId,
+      phoneNumbers.length,
+    );
     await this.prisma.personalInfo.update({
       where: { id: userId },
       data: {
@@ -103,20 +119,36 @@ export class UserWriteService {
         },
       },
     });
+    this.log.info(
+      'Phone number addition completed: userId=%s | count=%d',
+      userId,
+      phoneNumbers.length,
+    );
   }
 
   async removePhoneNumber(input: RemovePhoneNumbersDTO): Promise<void> {
     const { userId, ids } = input;
 
+    this.log.debug(
+      'Removing phone numbers from database: userId=%s | count=%d',
+      userId,
+      ids.length,
+    );
     await this.prisma.phoneNumber.deleteMany({
       where: {
         id: { in: ids },
         infoId: userId,
       },
     });
+    this.log.info('Phone number removal completed: userId=%s | count=%d', userId, ids.length);
   }
 
   async addContact(input: AddContactInput): Promise<void> {
+    this.log.debug(
+      'Adding contact in database: userId=%s | contactId=%s',
+      input.userId,
+      input.Contact.contactId,
+    );
     await this.prisma.contact.create({
       data: {
         userId: input.userId,
@@ -128,9 +160,15 @@ export class UserWriteService {
         endDate: input.Contact.endDate,
       },
     });
+    this.log.info(
+      'Contact addition completed: userId=%s | contactId=%s',
+      input.userId,
+      input.Contact.contactId,
+    );
   }
 
   async removeContact(userId: string, contactId: string): Promise<void> {
+    this.log.debug('Removing contact from database: userId=%s | contactId=%s', userId, contactId);
     await this.prisma.contact.delete({
       where: {
         userId_contactId: {
@@ -139,6 +177,7 @@ export class UserWriteService {
         },
       },
     });
+    this.log.info('Contact removal completed: userId=%s | contactId=%s', userId, contactId);
   }
 
   async updatePersonalInfo(
@@ -152,6 +191,7 @@ export class UserWriteService {
       maritalStatus?: MaritalStatusType;
     },
   ): Promise<void> {
+    this.log.debug('Updating personal info in database: userId=%s', userId);
     await this.prisma.personalInfo.update({
       where: { id: userId },
       data: {
@@ -163,6 +203,7 @@ export class UserWriteService {
         maritalStatus: patch.maritalStatus ?? undefined,
       },
     });
+    this.log.info('Personal info update completed: userId=%s', userId);
   }
 
   async updateCustomer(
@@ -175,6 +216,7 @@ export class UserWriteService {
       contactOptions?: any[];
     },
   ): Promise<void> {
+    this.log.debug('Updating customer profile in database: userId=%s', userId);
     await this.prisma.customer.update({
       where: { id: userId },
       data: {
@@ -183,6 +225,7 @@ export class UserWriteService {
         contactOptions: patch.contactOptions ?? undefined,
       },
     });
+    this.log.info('Customer profile update completed: userId=%s', userId);
   }
 
   async updateEmployee(
@@ -196,6 +239,7 @@ export class UserWriteService {
       isExternal?: boolean;
     },
   ): Promise<void> {
+    this.log.debug('Updating employee profile in database: userId=%s', userId);
     await this.prisma.employee.update({
       where: { id: userId },
       data: {
@@ -207,5 +251,6 @@ export class UserWriteService {
         isExternal: patch.isExternal ?? undefined,
       },
     });
+    this.log.info('Employee profile update completed: userId=%s', userId);
   }
 }

@@ -10,7 +10,8 @@ import {
   User,
 } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { UserNotFoundException } from '../errors/user.error.js';
+import { Injectable } from '@nestjs/common';
 import { OmnixysLogger } from '@omnixys/logger';
 
 /**
@@ -33,9 +34,12 @@ export class UserReadService {
   async findAll(): Promise<User[]> {
     this.log.debug('findAll: loading all users');
 
-    return this.prisma.user.findMany({
+    const users = await this.prisma.user.findMany({
       orderBy: { createdAt: 'asc' },
     });
+
+    this.log.debug('findAll: database lookup completed count=%d', users.length);
+    return users;
   }
 
   // Returns a single user by its ID or throws if not found
@@ -47,19 +51,22 @@ export class UserReadService {
     });
 
     if (!user) {
-      throw new NotFoundException(`User with ID "${id}" not found`);
+      this.log.warn('findById: user not found id=%s', id);
+      throw new UserNotFoundException(id);
     }
 
+    this.log.debug('findById: database lookup completed id=%s', id);
     return user;
   }
 
   async findByIds(userIds: string[]): Promise<User[]> {
     if (userIds.length === 0) {
+      this.log.debug('findByIds: lookup ignored because userIds is empty');
       return [];
     }
-    this.log.debug('findByIds: userIds=%o', userIds);
+    this.log.debug('findByIds: looking up users count=%d', userIds.length);
 
-    return this.prisma.user.findMany({
+    const users = await this.prisma.user.findMany({
       where: {
         id: { in: userIds },
       },
@@ -67,6 +74,13 @@ export class UserReadService {
         username: 'asc',
       },
     });
+
+    this.log.debug(
+      'findByIds: database lookup completed requested=%d found=%d',
+      userIds.length,
+      users.length,
+    );
+    return users;
   }
 
   /* ------------------------------------------------------------------

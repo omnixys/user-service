@@ -10,8 +10,6 @@ import { RegisterService } from './services/register.service.js';
 import { UserReadService } from './services/user-read.service.js';
 import { UserWriteService } from './services/user-write.service.js';
 import { Module } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { ContextInterceptor } from '@omnixys/context';
 
 @Module({
   imports: [],
@@ -29,11 +27,6 @@ import { ContextInterceptor } from '@omnixys/context';
     UserWriteService,
     UserReadService,
     RegisterService,
-
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: ContextInterceptor,
-    },
   ],
   exports: [UserWriteService, UserReadService, RegisterService],
 })

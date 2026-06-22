@@ -15,7 +15,10 @@ import {
   CookieAuthGuard,
   CurrentUser,
   CurrentUserData,
+  RoleGuard,
+  Roles,
 } from '@omnixys/security';
+import { RealmRoleType } from '@omnixys/shared';
 
 @Resolver(() => UserPayload)
 export class UserMutationResolver {
@@ -26,6 +29,8 @@ export class UserMutationResolver {
    * ------------------------------------------------------------------ */
 
   @Mutation(() => UserPayload, { name: 'updateUser' })
+  @UseGuards(CookieAuthGuard, RoleGuard)
+  @Roles(RealmRoleType.ADMIN)
   async update(@Args('input') input: UpdateUserInput): Promise<UserPayload> {
     const user = await this.service.update(input);
     return userMapper.toPayload(user);
@@ -56,6 +61,8 @@ export class UserMutationResolver {
    * ------------------------------------------------------------------ */
 
   @Mutation(() => Boolean, { name: 'deleteUser' })
+  @UseGuards(CookieAuthGuard, RoleGuard)
+  @Roles(RealmRoleType.ADMIN)
   async delete(@Args('id', { type: () => ID }) id: string): Promise<boolean> {
     return this.service.delete(id);
   }
@@ -117,7 +124,7 @@ export class UserMutationResolver {
       throw new UnauthorizedException('Not authenticated');
     }
 
-    await this.service.addContact(input);
+    await this.service.addContact({ ...input, userId: currentUser.id });
     return true;
   }
 

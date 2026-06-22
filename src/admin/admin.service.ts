@@ -1,4 +1,3 @@
-/* eslint-disable no-process-exit */
 /**
  * @license GPL-3.0-or-later
  * Copyright (C) 2025 Caleb Gyamfi - Omnixys Technologies
@@ -48,7 +47,7 @@ export class AdminService {
    */
   shutdown(): void {
     this.log.warn('Shutdown signal received — initiating graceful exit...');
-    setTimeout(() => process.exit(0), 1000);
+    process.kill(process.pid, 'SIGTERM');
   }
 
   /**
@@ -82,7 +81,7 @@ export class AdminService {
    */
   restart(): void {
     this.log.warn('Restart requested — exiting process so container supervisor restarts it...');
-    setTimeout(() => process.exit(1), 1000);
+    process.kill(process.pid, 'SIGTERM');
   }
 
   /**

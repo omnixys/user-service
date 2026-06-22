@@ -58,6 +58,7 @@ export const env = {
 
   /** Port on which the Node/NestJS server runs */
   PORT: Number(process.env.PORT ?? 4000),
+  COOKIE_SECRET: process.env.COOKIE_SECRET ?? 'omnixys-development-secret',
 
   /** Keycloak / OAuth client configuration */
   KC_CLIENT_SECRET: process.env.KC_CLIENT_SECRET ?? '',

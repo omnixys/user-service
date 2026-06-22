@@ -218,7 +218,7 @@ export type CustomerInterestWhereInput = {
   AND?: Prisma.CustomerInterestWhereInput | Prisma.CustomerInterestWhereInput[]
   OR?: Prisma.CustomerInterestWhereInput[]
   NOT?: Prisma.CustomerInterestWhereInput | Prisma.CustomerInterestWhereInput[]
-  id?: Prisma.StringFilter<"CustomerInterest"> | string
+  id?: Prisma.UuidFilter<"CustomerInterest"> | string
   customerId?: Prisma.UuidFilter<"CustomerInterest"> | string
   interestId?: Prisma.UuidFilter<"CustomerInterest"> | string
   level?: Prisma.IntNullableFilter<"CustomerInterest"> | number | null
@@ -241,7 +241,7 @@ export type CustomerInterestOrderByWithRelationInput = {
 
 export type CustomerInterestWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  customerId_interestId?: Prisma.CustomerInterestCustomerId_interestIdCompoundUniqueInput
+  customer_id_interest_id?: Prisma.CustomerInterestCustomer_id_interest_idCompoundUniqueInput
   AND?: Prisma.CustomerInterestWhereInput | Prisma.CustomerInterestWhereInput[]
   OR?: Prisma.CustomerInterestWhereInput[]
   NOT?: Prisma.CustomerInterestWhereInput | Prisma.CustomerInterestWhereInput[]
@@ -252,7 +252,7 @@ export type CustomerInterestWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"CustomerInterest"> | Date | string
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   interest?: Prisma.XOR<Prisma.InterestScalarRelationFilter, Prisma.InterestWhereInput>
-}, "id" | "customerId_interestId">
+}, "id" | "customer_id_interest_id">
 
 export type CustomerInterestOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -272,7 +272,7 @@ export type CustomerInterestScalarWhereWithAggregatesInput = {
   AND?: Prisma.CustomerInterestScalarWhereWithAggregatesInput | Prisma.CustomerInterestScalarWhereWithAggregatesInput[]
   OR?: Prisma.CustomerInterestScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CustomerInterestScalarWhereWithAggregatesInput | Prisma.CustomerInterestScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"CustomerInterest"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"CustomerInterest"> | string
   customerId?: Prisma.UuidWithAggregatesFilter<"CustomerInterest"> | string
   interestId?: Prisma.UuidWithAggregatesFilter<"CustomerInterest"> | string
   level?: Prisma.IntNullableWithAggregatesFilter<"CustomerInterest"> | number | null
@@ -351,7 +351,7 @@ export type CustomerInterestOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type CustomerInterestCustomerId_interestIdCompoundUniqueInput = {
+export type CustomerInterestCustomer_id_interest_idCompoundUniqueInput = {
   customerId: string
   interestId: string
 }
@@ -529,7 +529,7 @@ export type CustomerInterestScalarWhereInput = {
   AND?: Prisma.CustomerInterestScalarWhereInput | Prisma.CustomerInterestScalarWhereInput[]
   OR?: Prisma.CustomerInterestScalarWhereInput[]
   NOT?: Prisma.CustomerInterestScalarWhereInput | Prisma.CustomerInterestScalarWhereInput[]
-  id?: Prisma.StringFilter<"CustomerInterest"> | string
+  id?: Prisma.UuidFilter<"CustomerInterest"> | string
   customerId?: Prisma.UuidFilter<"CustomerInterest"> | string
   interestId?: Prisma.UuidFilter<"CustomerInterest"> | string
   level?: Prisma.IntNullableFilter<"CustomerInterest"> | number | null

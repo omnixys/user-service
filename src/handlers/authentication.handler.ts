@@ -15,6 +15,7 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
+import { UserStateException } from '../user/errors/user.error.js';
 import {
   CreateGuestUserDTO,
   RegisterService,
@@ -80,42 +81,76 @@ export class AuthenticationHandler {
     payload: CreateGuestDTO,
     _context: IKafkaEventContext,
   ): Promise<void> {
+    this.log.debug(
+      'Kafka message received: topic=%s | userId=%s | invitationId=%s',
+      KafkaTopics.user.createGuest,
+      payload.userId,
+      payload.invitationId,
+    );
+
     return TraceRunner.run('[HANDLER] createGuest', async () => {
       const { token, userId, username, email, invitationId } = payload;
 
-      const decrypted = this.encryptionService.decrypt(token, true);
-      const { userKey } = JSON.parse(decrypted) as GuestSignUpTokenPayload;
-
-      const raw = await this.cache.get(
-        ValkeyKey.guestVerificationUser,
-        userKey,
-      );
-      if (!raw) {
-        throw new Error('Token invalid or expired');
-      }
-
-      const parsed = JSON.parse(raw) as GuestUserKey;
-
-      /**
-       * 🔥 IMPORTANT: find correct invitee
-       */
-      const invitee = parsed.users.find((u) => u.invitationId === invitationId);
-
-      if (!invitee) {
-        throw new Error('Invitee not found for invitationId');
-      }
-
-      const finalInput: CreateGuestUserDTO = {
+      this.log.debug(
+        'Kafka processing started: topic=%s | userId=%s | invitationId=%s',
+        KafkaTopics.user.createGuest,
         userId,
-        username,
-        email,
-        firstName: invitee.firstName,
-        lastName: invitee.lastName,
-        phoneNumbers: invitee.phoneNumbers,
-        actorId: parsed.actorId,
-      };
+        invitationId,
+      );
 
-      await this.registerService.createGuest(finalInput);
+      try {
+        const decrypted = this.encryptionService.decrypt(token, true);
+        const { userKey } = JSON.parse(decrypted) as GuestSignUpTokenPayload;
+
+        const raw = await this.cache.get(
+          ValkeyKey.guestVerificationUser,
+          userKey,
+        );
+        if (!raw) {
+          throw new UserStateException('guest-token-expired');
+        }
+
+        const parsed = JSON.parse(raw) as GuestUserKey;
+
+        /**
+         * 🔥 IMPORTANT: find correct invitee
+         */
+        const invitee = parsed.users.find(
+          (u) => u.invitationId === invitationId,
+        );
+
+        if (!invitee) {
+          throw new UserStateException('guest-invitee-not-found');
+        }
+
+        const finalInput: CreateGuestUserDTO = {
+          userId,
+          username,
+          email,
+          firstName: invitee.firstName,
+          lastName: invitee.lastName,
+          phoneNumbers: invitee.phoneNumbers,
+          actorId: parsed.actorId,
+        };
+
+        await this.registerService.createGuest(finalInput);
+
+        this.log.debug(
+          'Kafka processing completed: topic=%s | userId=%s | invitationId=%s',
+          KafkaTopics.user.createGuest,
+          userId,
+          invitationId,
+        );
+      } catch (error) {
+        this.log.error(
+          'Kafka processing failed: topic=%s | userId=%s | invitationId=%s | error=%o',
+          KafkaTopics.user.createGuest,
+          userId,
+          invitationId,
+          error,
+        );
+        throw error;
+      }
     });
   }
 
@@ -124,10 +159,42 @@ export class AuthenticationHandler {
     payload: UserActionDTO,
     _context: IKafkaEventContext,
   ): Promise<void> {
-    this.log.warn('DeleteUser event received');
-    this.log.debug('Payload: %o', payload);
+    this.log.debug(
+      'Kafka message received: topic=%s | userId=%s',
+      KafkaTopics.user.deleteUser,
+      payload.userId,
+    );
+    this.log.debug(
+      'Kafka processing started: topic=%s | userId=%s',
+      KafkaTopics.user.deleteUser,
+      payload.userId,
+    );
 
-    await this.userWriteService.delete(payload.userId);
+    try {
+      const deleted = await this.userWriteService.delete(payload.userId);
+
+      if (!deleted) {
+        this.log.warn(
+          'Kafka message ignored: topic=%s | userId=%s | reason=user not found',
+          KafkaTopics.user.deleteUser,
+          payload.userId,
+        );
+      }
+
+      this.log.debug(
+        'Kafka processing completed: topic=%s | userId=%s',
+        KafkaTopics.user.deleteUser,
+        payload.userId,
+      );
+    } catch (error) {
+      this.log.error(
+        'Kafka processing failed: topic=%s | userId=%s | error=%o',
+        KafkaTopics.user.deleteUser,
+        payload.userId,
+        error,
+      );
+      throw error;
+    }
   }
 
   @KafkaEvent(KafkaTopics.user.createUser)
@@ -135,32 +202,57 @@ export class AuthenticationHandler {
     payload: UserTokenDTO,
     _context: IKafkaEventContext,
   ): Promise<void> {
-    this.log.warn('CreateUser event received');
-    this.log.debug('Payload: %o', payload);
+    this.log.debug(
+      'Kafka message received: topic=%s | userId=%s',
+      KafkaTopics.user.createUser,
+      payload.userId,
+    );
 
     return TraceRunner.run('[HANDLER] createUser', async () => {
       const { token, userId } = payload;
 
-      if (!token) {
-        throw new Error('TOKEN FEHLT!');
-      }
-
-      const decryptedToken = this.encryptionService.decrypt(token, true);
-      const { userKey } = JSON.parse(decryptedToken) as SignUpTokenPayload;
-
-      const raw = await this.cache.get(
-        ValkeyKey.signupVerificationUser,
-        userKey,
+      this.log.debug(
+        'Kafka processing started: topic=%s | userId=%s',
+        KafkaTopics.user.createUser,
+        userId,
       );
 
-      if (!raw) {
-        throw new Error('Token invalid or expired');
+      try {
+        if (!token) {
+          throw new UserStateException('signup-token-missing');
+        }
+
+        const decryptedToken = this.encryptionService.decrypt(token, true);
+        const { userKey } = JSON.parse(decryptedToken) as SignUpTokenPayload;
+
+        const raw = await this.cache.get(
+          ValkeyKey.signupVerificationUser,
+          userKey,
+        );
+
+        if (!raw) {
+          throw new UserStateException('signup-token-expired');
+        }
+
+        const parsed = JSON.parse(raw) as SignupVerificationUserCache;
+        const input = parsed.userData;
+
+        await this.registerService.create(input, userId);
+
+        this.log.debug(
+          'Kafka processing completed: topic=%s | userId=%s',
+          KafkaTopics.user.createUser,
+          userId,
+        );
+      } catch (error) {
+        this.log.error(
+          'Kafka processing failed: topic=%s | userId=%s | error=%o',
+          KafkaTopics.user.createUser,
+          userId,
+          error,
+        );
+        throw error;
       }
-
-      const parsed = JSON.parse(raw) as SignupVerificationUserCache;
-      const input = parsed.userData;
-
-      await this.registerService.create(input, userId);
     });
   }
 
@@ -169,9 +261,33 @@ export class AuthenticationHandler {
     payload: CreateUserProviderDTO,
     _context: IKafkaEventContext,
   ): Promise<void> {
-    this.log.warn('CreateProviderUser event received');
-    this.log.debug('Payload: %o', payload);
+    this.log.debug(
+      'Kafka message received: topic=%s | userId=%s',
+      KafkaTopics.user.createProviderUser,
+      payload.userId,
+    );
+    this.log.debug(
+      'Kafka processing started: topic=%s | userId=%s',
+      KafkaTopics.user.createProviderUser,
+      payload.userId,
+    );
 
-    await this.registerService.createProviderUser(payload);
+    try {
+      await this.registerService.createProviderUser(payload);
+
+      this.log.debug(
+        'Kafka processing completed: topic=%s | userId=%s',
+        KafkaTopics.user.createProviderUser,
+        payload.userId,
+      );
+    } catch (error) {
+      this.log.error(
+        'Kafka processing failed: topic=%s | userId=%s | error=%o',
+        KafkaTopics.user.createProviderUser,
+        payload.userId,
+        error,
+      );
+      throw error;
+    }
   }
 }
