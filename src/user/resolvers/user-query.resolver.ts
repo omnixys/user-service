@@ -5,10 +5,11 @@ import { InterestCategoryPayload } from '../models/payload/interest-category.pay
 import { InterestPayload } from '../models/payload/interest.payload.js';
 import { UserPayload } from '../models/payload/user.payload.js';
 import { UserReadService } from '../services/user-read.service.js';
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { Args, ID, Query, Resolver } from '@nestjs/graphql';
 import { OmnixysLogger } from '@omnixys/logger';
 import {
+  AuthenticationRequiredException,
   CookieAuthGuard,
   CurrentUser,
   CurrentUserData,
@@ -76,7 +77,7 @@ export class UserQueryResolver {
       this.log.warn(
         'getMe: request rejected because user is not authenticated',
       );
-      throw new UnauthorizedException('Not authenticated');
+      throw new AuthenticationRequiredException();
     }
     this.log.debug('getMe: id=%s', currentUser.id);
     const user = await this.service.findById(currentUser.id);

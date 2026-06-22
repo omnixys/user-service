@@ -9,9 +9,10 @@ import {
 import { UserPayload } from '../models/payload/user.payload.js';
 import { UserWriteService } from '../services/user-write.service.js';
 
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
 import {
+  AuthenticationRequiredException,
   CookieAuthGuard,
   CurrentUser,
   CurrentUserData,
@@ -46,7 +47,7 @@ export class UserMutationResolver {
     @Args('input') input: UpdateMeInput,
   ): Promise<UserPayload> {
     if (!currentUser?.id) {
-      throw new UnauthorizedException('Not authenticated');
+      throw new AuthenticationRequiredException();
     }
 
     const user = await this.service.update({
@@ -79,7 +80,7 @@ export class UserMutationResolver {
     phoneNumbers: PhoneNumberInput[],
   ): Promise<boolean> {
     if (!currentUser?.id) {
-      throw new UnauthorizedException('Not authenticated');
+      throw new AuthenticationRequiredException();
     }
 
     await this.service.addPhoneNumber({
@@ -98,7 +99,7 @@ export class UserMutationResolver {
     phoneNumberIds: string[],
   ): Promise<boolean> {
     if (!currentUser?.id) {
-      throw new UnauthorizedException('Not authenticated');
+      throw new AuthenticationRequiredException();
     }
 
     await this.service.removePhoneNumber({
@@ -121,7 +122,7 @@ export class UserMutationResolver {
     input: AddContactInput,
   ): Promise<boolean> {
     if (!currentUser?.id) {
-      throw new UnauthorizedException('Not authenticated');
+      throw new AuthenticationRequiredException();
     }
 
     await this.service.addContact({ ...input, userId: currentUser.id });
@@ -135,7 +136,7 @@ export class UserMutationResolver {
     @Args('contactId', { type: () => ID }) contactId: string,
   ): Promise<boolean> {
     if (!currentUser?.id) {
-      throw new UnauthorizedException('Not authenticated');
+      throw new AuthenticationRequiredException();
     }
 
     await this.service.removeContact(currentUser.id, contactId);
