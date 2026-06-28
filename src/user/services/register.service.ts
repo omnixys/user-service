@@ -3,10 +3,10 @@
 import { type User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { Injectable } from '@nestjs/common';
+import { PhoneNumberDTO, StatusType, UserType } from '@omnixys/contracts';
 import { CreateUserInput } from '@omnixys/graphql';
 import { OmnixysLogger } from '@omnixys/logger';
 import { TraceRunner } from '@omnixys/observability';
-import { PhoneNumberDTO, StatusType, UserType } from '@omnixys/shared';
 
 export interface CreateGuestUserDTO {
   email: string;

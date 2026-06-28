@@ -1,6 +1,10 @@
 import type { PersonalInfo } from '../../../prisma/generated/client.js';
 import type { PersonalInfoPayload } from '../payload/personal-info.payload.js';
-import { n2u, type GenderType, type MaritalStatusType } from '@omnixys/shared';
+import {
+  n2u,
+  type GenderType,
+  type MaritalStatusType,
+} from '@omnixys/contracts';
 
 export class PersonalInfoMapper {
   static toPayload(info: PersonalInfo): PersonalInfoPayload {

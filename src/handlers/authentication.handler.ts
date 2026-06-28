@@ -23,6 +23,15 @@ import {
 import { UserWriteService } from '../user/services/user-write.service.js';
 import { Injectable } from '@nestjs/common';
 import { ValkeyKey, ValkeyService } from '@omnixys/cache';
+import {
+  CreateGuestDTO,
+  CreateUserProviderDTO,
+  GuestSignUpTokenPayload,
+  GuestUserKey,
+  SignUpTokenPayload,
+  UserActionDTO,
+  UserTokenDTO,
+} from '@omnixys/contracts';
 import { CreateUserInput } from '@omnixys/graphql';
 import {
   IKafkaEventContext,
@@ -33,15 +42,6 @@ import {
 import { OmnixysLogger } from '@omnixys/logger';
 import { TraceRunner } from '@omnixys/observability';
 import { EncryptionService } from '@omnixys/security';
-import {
-  CreateGuestDTO,
-  CreateUserProviderDTO,
-  GuestSignUpTokenPayload,
-  GuestUserKey,
-  SignUpTokenPayload,
-  UserActionDTO,
-  UserTokenDTO,
-} from '@omnixys/shared';
 
 interface SignupVerificationUserCache {
   userData: CreateUserInput;

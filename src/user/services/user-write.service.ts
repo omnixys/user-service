@@ -3,9 +3,9 @@ import { User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { UserNotFoundException } from '../errors/user.error.js';
 import { Injectable } from '@nestjs/common';
+import { GenderType, MaritalStatusType, StatusType } from '@omnixys/contracts';
 import { AddContactInput, PhoneNumberInput, UpdateUserInput } from '@omnixys/graphql';
 import { OmnixysLogger } from '@omnixys/logger';
-import { GenderType, MaritalStatusType, StatusType } from '@omnixys/shared';
 // import { KafkaProducerService } from '@omnixys/kafka';
 
 export interface AddPhoneNumbersDTO {

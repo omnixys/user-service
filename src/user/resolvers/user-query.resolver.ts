@@ -7,6 +7,7 @@ import { UserPayload } from '../models/payload/user.payload.js';
 import { UserReadService } from '../services/user-read.service.js';
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Query, Resolver } from '@nestjs/graphql';
+import { RealmRoleType } from '@omnixys/contracts';
 import { OmnixysLogger } from '@omnixys/logger';
 import {
   AuthenticationRequiredException,
@@ -16,7 +17,6 @@ import {
   RoleGuard,
   Roles,
 } from '@omnixys/security';
-import { RealmRoleType } from '@omnixys/shared';
 
 @Resolver(() => UserPayload)
 export class UserQueryResolver {

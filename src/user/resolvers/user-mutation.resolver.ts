@@ -11,6 +11,7 @@ import { UserWriteService } from '../services/user-write.service.js';
 
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
+import { RealmRoleType } from '@omnixys/contracts';
 import {
   AuthenticationRequiredException,
   CookieAuthGuard,
@@ -19,7 +20,6 @@ import {
   RoleGuard,
   Roles,
 } from '@omnixys/security';
-import { RealmRoleType } from '@omnixys/shared';
 
 @Resolver(() => UserPayload)
 export class UserMutationResolver {
