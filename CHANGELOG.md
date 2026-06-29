@@ -3,6 +3,16 @@
 All notable changes in this project will be documented in this file.
 
 
+## [2.0.1](https://github.com/omnixys/user-service/compare/v2.0.0...v2.0.1) (2026-06-29)
+
+### Kafka
+
+* **Kafka:** update kafka dependency ([](https://github.com/omnixys/user-service/commit/477b2551203480646955a676a3af871ce526a63e))
+
+### Other
+
+* **Other:** Merge branch 'main' of https://github.com/omnixys/user-service ([](https://github.com/omnixys/user-service/commit/17ae1845fb93033c33e9aea02050f2fc8f9347e9))
+
 ## [2.0.0](https://github.com/omnixys/user-service/compare/v1.0.3...v2.0.0) (2026-06-28)
 
 ### Dependencies
