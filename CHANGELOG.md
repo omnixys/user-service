@@ -3,6 +3,21 @@
 All notable changes in this project will be documented in this file.
 
 
+## [2.0.0](https://github.com/omnixys/user-service/compare/v1.0.3...v2.0.0) (2026-06-28)
+
+### Dependencies
+
+* **Dependencies:** update Dependecies ([](https://github.com/omnixys/user-service/commit/681cde3f091676c22e62a5bdb0e2e4d12eb5460d))
+
+### Other
+
+* **Other:** Merge branch 'main' of https://github.com/omnixys/user-service ([](https://github.com/omnixys/user-service/commit/848b31f5a98aa9b46db83f8c9101251d211465fe))
+
+### User
+
+* **User:** emit canonical authentication errors ([](https://github.com/omnixys/user-service/commit/773b04a9684a14532597af7294fcd22bd846602e))
+* **User:** secure profile context and lifecycle ([](https://github.com/omnixys/user-service/commit/259c24c2b6c257fdc203122f7b6947a3ee1d5205))
+
 ## [1.0.3](https://github.com/omnixys/user-service/compare/v1.0.2...v1.0.3) (2026-05-25)
 
 ### Docker
