@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [2.1.0](https://github.com/omnixys/user-service/compare/v2.0.1...v2.1.0) (2026-07-02)
+
+### Deps
+
+* **Deps:** update dependencys ([](https://github.com/omnixys/user-service/commit/d0cd3306c70fb1301ef2f7231baf9aba1c3c1f3f))
+
 ## [2.0.1](https://github.com/omnixys/user-service/compare/v2.0.0...v2.0.1) (2026-06-29)
 
 ### Kafka
