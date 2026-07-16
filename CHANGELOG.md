@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [3.0.0](https://github.com/omnixys/user-service/compare/v2.1.0...v3.0.0) (2026-07-16)
+
+### New
+
+* **New:** new service ([](https://github.com/omnixys/user-service/commit/f562c2ad7f7b61675d6e130380f7e0989ec5de7b))
+
 ## [2.1.0](https://github.com/omnixys/user-service/compare/v2.0.1...v2.1.0) (2026-07-02)
 
 ### Deps
