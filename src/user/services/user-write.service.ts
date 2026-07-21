@@ -3,10 +3,10 @@ import { User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { UserNotFoundException } from '../errors/user.error.js';
 import { Injectable } from '@nestjs/common';
-import { GenderType, MaritalStatusType, StatusType } from '@omnixys/contracts';
+import { GenderType, MaritalStatusType, StatusType, UserProjectionChangedDTO } from '@omnixys/contracts';
 import { AddContactInput, PhoneNumberInput, UpdateUserInput } from '@omnixys/graphql';
 import { OmnixysLogger } from '@omnixys/logger';
-// import { KafkaProducerService } from '@omnixys/kafka';
+import { KafkaProducerService, KafkaTopics } from '@omnixys/kafka';
 
 export interface AddPhoneNumbersDTO {
   userId: string;
@@ -24,7 +24,7 @@ export class UserWriteService {
 
   constructor(
     private readonly prisma: PrismaService,
-    // private readonly kafkaProducerService: KafkaProducerService,
+    private readonly kafkaProducerService: KafkaProducerService,
     private readonly logger: OmnixysLogger,
   ) {
     this.log = this.logger.log(this.constructor.name);
@@ -204,6 +204,42 @@ export class UserWriteService {
       },
     });
     this.log.info('Personal info update completed: userId=%s', userId);
+
+    void this.emitProjectionChanged(userId);
+  }
+
+  private async emitProjectionChanged(userId: string): Promise<void> {
+    try {
+      const personalInfo = await this.prisma.personalInfo.findUnique({ where: { id: userId } });
+      if (!personalInfo) return;
+      const phoneNumbers = await this.prisma.phoneNumber.findMany({
+        where: { infoId: userId },
+      });
+      const primaryPhone = phoneNumbers.find((p) => p.isPrimary)?.number ?? phoneNumbers[0]?.number ?? null;
+
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (!user) return;
+
+      const payload: UserProjectionChangedDTO = {
+        id: userId,
+        username: user.username,
+        displayName: [personalInfo.firstName, personalInfo.lastName].filter(Boolean).join(' ') || null,
+        firstName: personalInfo.firstName,
+        lastName: personalInfo.lastName,
+        email: personalInfo.email,
+        primaryPhone,
+        avatarUrl: null,
+        locale: null,
+      };
+
+      await this.kafkaProducerService.send(
+        KafkaTopics.user.changedProjection,
+        payload,
+        'user-service',
+      );
+    } catch (error) {
+      this.log.error('Failed to emit projection changed event', { userId, error });
+    }
   }
 
   async updateCustomer(

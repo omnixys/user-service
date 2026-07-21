@@ -1,6 +1,6 @@
 {
   "name": "user-service",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Omnixys User Service",
   "author": {
     "name": "Caleb Gyamfi",
@@ -20,7 +20,7 @@
   "private": false,
   "packageManager": "pnpm@10.33.0",
   "engines": {
-    "node": ">=25.8.2",
+    "node": ">=24.10.0",
     "pnpm": ">=10.33.0"
   },
   "prisma": {
@@ -81,14 +81,15 @@
     "@nestjs/graphql": "^13.4.2",
     "@nestjs/platform-fastify": "^11.1.27",
     "@nestjs/terminus": "^11.1.1",
-    "@omnixys/cache": "^2.0.2",
-    "@omnixys/context": "^2.0.0",
-    "@omnixys/contracts": "^2.0.0",
-    "@omnixys/graphql": "^2.0.1",
-    "@omnixys/kafka": "^2.1.1",
-    "@omnixys/logger": "^2.0.1",
-    "@omnixys/observability": "^2.0.0",
-    "@omnixys/security": "^2.1.0",
+    "@omnixys/cache": "^3.0.0",
+    "@omnixys/context": "^3.0.0",
+     "@omnixys/grpc": "1.0.0",
+    "@omnixys/contracts": "^3.0.0",
+    "@omnixys/graphql": "^3.0.0",
+    "@omnixys/kafka": "^3.0.0",
+    "@omnixys/logger": "^3.0.0",
+    "@omnixys/observability": "^3.0.0",
+    "@omnixys/security": "^3.0.1",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "argon2": "^0.44.0",

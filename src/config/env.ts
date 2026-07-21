@@ -72,6 +72,9 @@ export const env = {
   KAFKA_BROKER: process.env.KAFKA_BROKER ?? 'localhost:9092',
   SERVICE: process.env.SERVICE ?? 'SERVICE',
 
+  /** gRPC server port for inter-service communication */
+  GRPC_PORT: Number(process.env.GRPC_PORT ?? 50051),
+
   /** Health endpoints */
   KEYCLOAK_HEALTH_URL: process.env.KEYCLOAK_HEALTH_URL ?? '',
   TEMPO_HEALTH_URL: process.env.TEMPO_HEALTH_URL ?? '',

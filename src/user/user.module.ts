@@ -9,6 +9,7 @@ import { UserQueryResolver } from './resolvers/user-query.resolver.js';
 import { RegisterService } from './services/register.service.js';
 import { UserReadService } from './services/user-read.service.js';
 import { UserWriteService } from './services/user-write.service.js';
+import { UserProjectionController } from './controllers/user-projection.controller.js';
 import { Module } from '@nestjs/common';
 
 @Module({
@@ -28,6 +29,7 @@ import { Module } from '@nestjs/common';
     UserReadService,
     RegisterService,
   ],
+  controllers: [UserProjectionController],
   exports: [UserWriteService, UserReadService, RegisterService],
 })
 export class UserModule {}

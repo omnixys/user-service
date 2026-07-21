@@ -33,6 +33,8 @@ import {
 import '@omnixys/graphql';
 import { OmnixysLogger } from '@omnixys/logger';
 import { registerFastifyTracing } from '@omnixys/observability';
+import { createGrpcServerOptions } from '@omnixys/grpc/servers';
+import { fileURLToPath } from 'node:url';
 import 'reflect-metadata';
 
 /**
@@ -191,6 +193,18 @@ async function bootstrap(): Promise<void> {
    * ordnungsgemäß Ressourcen freigibt (z. B. DB-Verbindungen).
    */
   app.enableShutdownHooks();
+
+  /**
+   * gRPC microservice for inter-service communication.
+   */
+  app.connectMicroservice(
+    createGrpcServerOptions({
+      package: 'omnixys.user',
+      protoPath: fileURLToPath(import.meta.resolve('@omnixys/grpc/proto')),
+      url: `0.0.0.0:${env.GRPC_PORT}`,
+    }),
+  );
+  await app.startAllMicroservices();
 
   /**
    * Startet den Fastify-Server.

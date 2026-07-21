@@ -3,10 +3,11 @@
 import { type User } from '../../prisma/generated/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { Injectable } from '@nestjs/common';
-import { PhoneNumberDTO, StatusType, UserType } from '@omnixys/contracts';
+import { PhoneNumberDTO, StatusType, UserType, UserProjectionChangedDTO } from '@omnixys/contracts';
 import { CreateUserInput } from '@omnixys/graphql';
 import { OmnixysLogger } from '@omnixys/logger';
 import { TraceRunner } from '@omnixys/observability';
+import { KafkaProducerService, KafkaTopics } from '@omnixys/kafka';
 
 export interface CreateGuestUserDTO {
   email: string;
@@ -24,7 +25,7 @@ export class RegisterService {
 
   constructor(
     private readonly prisma: PrismaService,
-    // private readonly kafkaProducerService: KafkaProducerService,
+    private readonly kafkaProducerService: KafkaProducerService,
     private readonly logger: OmnixysLogger,
   ) {
     this.log = this.logger.log(this.constructor.name);
@@ -149,6 +150,9 @@ export class RegisterService {
 
       this.log.debug('Database user creation completed: userId=%s', id);
       this.log.info('User creation completed: userId=%s', id);
+
+      void this.emitProjectionChanged(id);
+
       return createdUser;
     });
   }
@@ -177,6 +181,8 @@ export class RegisterService {
 
     this.log.debug('Database provider user creation completed: userId=%s', input.userId);
     this.log.info('Provider user creation completed: userId=%s', input.userId);
+
+    void this.emitProjectionChanged(input.userId);
   }
 
   async isUsernameAvailable(username: string): Promise<boolean> {
@@ -254,7 +260,44 @@ export class RegisterService {
 
       this.log.debug('Database guest user creation completed: userId=%s', userId);
       this.log.info('Guest user creation completed: userId=%s', userId);
+
+      void this.emitProjectionChanged(userId);
+
       return createdGuest;
     });
+  }
+
+  private async emitProjectionChanged(userId: string): Promise<void> {
+    try {
+      const personalInfo = await this.prisma.personalInfo.findUnique({ where: { id: userId } });
+      if (!personalInfo) return;
+      const phoneNumbers = await this.prisma.phoneNumber.findMany({
+        where: { infoId: userId },
+      });
+      const primaryPhone = phoneNumbers.find((p) => p.isPrimary)?.number ?? phoneNumbers[0]?.number ?? null;
+
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (!user) return;
+
+      const payload: UserProjectionChangedDTO = {
+        id: userId,
+        username: user.username,
+        displayName: [personalInfo.firstName, personalInfo.lastName].filter(Boolean).join(' ') || null,
+        firstName: personalInfo.firstName,
+        lastName: personalInfo.lastName,
+        email: personalInfo.email,
+        primaryPhone,
+        avatarUrl: null,
+        locale: null,
+      };
+
+      await this.kafkaProducerService.send(
+        KafkaTopics.user.changedProjection,
+        payload,
+        'user-service',
+      );
+    } catch (error) {
+      this.log.error('Failed to emit projection changed event', { userId, error });
+    }
   }
 }
