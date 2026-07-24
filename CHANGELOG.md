@@ -3,6 +3,20 @@
 All notable changes in this project will be documented in this file.
 
 
+## [3.1.0](https://github.com/omnixys/user-service/compare/v3.0.0...v3.1.0) (2026-07-24)
+
+### Deps
+
+* **Deps:** remove obsolete/redundant dependencies ([](https://github.com/omnixys/user-service/commit/a6409d63193c0813cafc3e892e4b47008d5fd972))
+
+### Log
+
+* **Log:** remove logstream dep ([](https://github.com/omnixys/user-service/commit/c8fbaa4617f351d6b6d6f5452f7063c1991ee23e))
+
+### Logger
+
+* **Logger:** remove Kafka log transport config ([](https://github.com/omnixys/user-service/commit/3891d21fbabd9b1589dad136c1f3da8479420eb9))
+
 ## [3.0.0](https://github.com/omnixys/user-service/compare/v2.1.0...v3.0.0) (2026-07-16)
 
 ### New
