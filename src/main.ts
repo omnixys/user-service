@@ -31,9 +31,9 @@ import {
   type NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import '@omnixys/graphql';
+import { createGrpcServerOptions } from '@omnixys/grpc/servers';
 import { OmnixysLogger } from '@omnixys/logger';
 import { registerFastifyTracing } from '@omnixys/observability';
-import { createGrpcServerOptions } from '@omnixys/grpc/servers';
 import { fileURLToPath } from 'node:url';
 import 'reflect-metadata';
 

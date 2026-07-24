@@ -1,6 +1,6 @@
 import { UserReadService } from '../services/user-read.service.js';
-import { GrpcMethod } from '@nestjs/microservices';
 import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
 
 interface GetUsersByIdsRequest {
   ids: string[];
@@ -38,7 +38,8 @@ export class UserProjectionController {
       users.map(async (u) => {
         const personalInfo = await this.userReadService.getPersonalInfo(u.id);
         const phoneNumbers = personalInfo ? await this.userReadService.getPhoneNumbers(u.id) : [];
-        const primaryPhone = phoneNumbers.find((p) => p.isPrimary)?.number ?? phoneNumbers[0]?.number ?? null;
+        const primaryPhone =
+          phoneNumbers.find((p) => p.isPrimary)?.number ?? phoneNumbers[0]?.number ?? null;
 
         return {
           id: u.id,

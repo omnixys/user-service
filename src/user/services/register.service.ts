@@ -5,9 +5,9 @@ import { PrismaService } from '../../prisma/prisma.service.js';
 import { Injectable } from '@nestjs/common';
 import { PhoneNumberDTO, StatusType, UserType, UserProjectionChangedDTO } from '@omnixys/contracts';
 import { CreateUserInput } from '@omnixys/graphql';
+import { KafkaProducerService, KafkaTopics } from '@omnixys/kafka';
 import { OmnixysLogger } from '@omnixys/logger';
 import { TraceRunner } from '@omnixys/observability';
-import { KafkaProducerService, KafkaTopics } from '@omnixys/kafka';
 
 export interface CreateGuestUserDTO {
   email: string;
@@ -270,19 +270,25 @@ export class RegisterService {
   private async emitProjectionChanged(userId: string): Promise<void> {
     try {
       const personalInfo = await this.prisma.personalInfo.findUnique({ where: { id: userId } });
-      if (!personalInfo) return;
+      if (!personalInfo) {
+        return;
+      }
       const phoneNumbers = await this.prisma.phoneNumber.findMany({
         where: { infoId: userId },
       });
-      const primaryPhone = phoneNumbers.find((p) => p.isPrimary)?.number ?? phoneNumbers[0]?.number ?? null;
+      const primaryPhone =
+        phoneNumbers.find((p) => p.isPrimary)?.number ?? phoneNumbers[0]?.number ?? null;
 
       const user = await this.prisma.user.findUnique({ where: { id: userId } });
-      if (!user) return;
+      if (!user) {
+        return;
+      }
 
       const payload: UserProjectionChangedDTO = {
         id: userId,
         username: user.username,
-        displayName: [personalInfo.firstName, personalInfo.lastName].filter(Boolean).join(' ') || null,
+        displayName:
+          [personalInfo.firstName, personalInfo.lastName].filter(Boolean).join(' ') || null,
         firstName: personalInfo.firstName,
         lastName: personalInfo.lastName,
         email: personalInfo.email,
