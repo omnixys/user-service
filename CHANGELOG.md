@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [4.0.1](https://github.com/omnixys/user-service/compare/v4.0.0...v4.0.1) (2026-09-10)
+
+### Deps
+
+* **Deps:** update graphql-ts ([](https://github.com/omnixys/user-service/commit/4cbf462e6c31b80861201a8bd01cfce31e85ee0c))
+
 ## [4.0.0](https://github.com/omnixys/user-service/compare/v3.4.5...v4.0.0) (2026-09-05)
 
 ### Deps
