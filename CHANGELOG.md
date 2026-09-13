@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [4.0.4](https://github.com/omnixys/user-service/compare/v4.0.3...v4.0.4) (2026-09-13)
+
+### Deps
+
+* **Deps:** update omnixys packages ([](https://github.com/omnixys/user-service/commit/9a1827dfdb282c956924dfb7d26d926d7a478203))
+
 ## [4.0.3](https://github.com/omnixys/user-service/compare/v4.0.2...v4.0.3) (2026-09-12)
 
 ### User
