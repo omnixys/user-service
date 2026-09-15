@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [4.0.5](https://github.com/omnixys/user-service/compare/v4.0.4...v4.0.5) (2026-09-15)
+
+### User
+
+* **User:** reject local-only deleteUser mutation ([](https://github.com/omnixys/user-service/commit/4da7de5395b61bf392b66796b96eded863b608e3))
+
 ## [4.0.4](https://github.com/omnixys/user-service/compare/v4.0.3...v4.0.4) (2026-09-13)
 
 ### Deps
