@@ -49,3 +49,12 @@ export class UserStateException extends UserDomainException {
     );
   }
 }
+
+export class UserDeletionUnsupportedException extends UserDomainException {
+  constructor() {
+    super(
+      'USER_DELETION_UNSUPPORTED',
+      'User deletion is handled by the authentication service. Use the deleteKcUser mutation instead of deleteUser.',
+    );
+  }
+}

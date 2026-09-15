@@ -207,8 +207,11 @@ describe('🛡️ Authentication E2E - Admin Operations (Full Flow)', () => {
       authHeaders,
       cookies,
     );
-    expect(errors).toBeUndefined();
-    expect(data?.deleteUser).toBe(true);
-    logger.log('🗑️ deleteUser successful');
+    // Full account deletion (Keycloak + fan-out) moved to the authentication service's
+    // `deleteKcUser`; the user-service `deleteUser` mutation now rejects by contract.
+    expect(errors ?? []).toHaveLength(1);
+    expect(data?.deleteUser).toBeUndefined();
+    expect(errors?.[0]?.message).toContain('deleteKcUser');
+    logger.log('🗑️ deleteUser rejected as expected (use deleteKcUser)');
   });
 });

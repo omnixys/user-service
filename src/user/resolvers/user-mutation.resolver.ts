@@ -1,3 +1,4 @@
+import { UserDeletionUnsupportedException } from '../errors/user.error.js';
 import { userMapper } from '../models/mapper/user.mapper.js';
 import {
   AddContactInput,
@@ -66,12 +67,18 @@ export class UserMutationResolver {
    * Delete user
    * ------------------------------------------------------------------ */
 
+  /**
+   * Deprecated: account deletion (incl. Keycloak user + cross-service fan-out) is
+   * owned by the authentication service via `deleteKcUser`. This local-only mutation
+   * would leave orphaned data (Keycloak identity, events, invitations, tickets, …) and
+   * therefore always rejects; the trigger path is the `user.deleteUser` Kafka event.
+   */
   @Mutation(() => Boolean, { name: 'deleteUser' })
   @UseGuards(CookieAuthGuard, RoleGuard)
   @Roles(RealmRoleType.ADMIN)
   async delete(@Args('id', { type: () => ID }) id: string): Promise<boolean> {
-    logger.info({ userId: id }, 'delete_user');
-    return this.service.delete(id);
+    logger.info({ userId: id }, 'delete_user_rejected_for_deprecation');
+    throw new UserDeletionUnsupportedException();
   }
 
   /* ------------------------------------------------------------------

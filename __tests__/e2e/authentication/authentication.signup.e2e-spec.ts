@@ -287,10 +287,13 @@ describe('👑 Authentication E2E - User SignUp Flow (Full Lifecycle)', () => {
         adminAuthHeaders,
       );
 
-    expect(deleteResult.errors).toBeUndefined();
-    expect(deleteResult.data?.deleteUser).toBe(true);
+    // Full account deletion (Keycloak + fan-out) moved to the authentication service's
+    // `deleteKcUser`; the user-service `deleteUser` mutation now rejects by contract.
+    expect(deleteResult.data?.deleteUser).toBeUndefined();
+    expect(deleteResult.errors ?? []).toHaveLength(1);
+    expect(deleteResult.errors?.[0]?.message).toContain('deleteKcUser');
 
-    logger.log(`🗑️ deleteUser successful (deleted ${createdUserId})`);
+    logger.log('🗑️ deleteUser rejected as expected (use deleteKcUser)');
     createdUserId = undefined;
   });
 });
