@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [4.0.6](https://github.com/omnixys/user-service/compare/v4.0.5...v4.0.6) (2026-09-16)
+
+### Deps
+
+* **Deps:** update omnixys logger-ts package ([](https://github.com/omnixys/user-service/commit/1f700ec8485e191aa124e3596f6a673ebfa05dad))
+
 ## [4.0.5](https://github.com/omnixys/user-service/compare/v4.0.4...v4.0.5) (2026-09-15)
 
 ### User
