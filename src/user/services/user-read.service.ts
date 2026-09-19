@@ -83,6 +83,28 @@ export class UserReadService {
     return users;
   }
 
+  async searchAssignableUsers(query: string, limit: number) {
+    const term = query.trim();
+    if (term.length < 2) {
+      return [];
+    }
+
+    return this.prisma.user.findMany({
+      where: {
+        status: 'ACTIVE',
+        OR: [
+          { username: { contains: term, mode: 'insensitive' } },
+          { personalInfo: { email: { contains: term, mode: 'insensitive' } } },
+          { personalInfo: { firstName: { contains: term, mode: 'insensitive' } } },
+          { personalInfo: { lastName: { contains: term, mode: 'insensitive' } } },
+        ],
+      },
+      include: { personalInfo: true },
+      orderBy: { username: 'asc' },
+      take: Math.min(Math.max(limit, 1), 20),
+    });
+  }
+
   /* ------------------------------------------------------------------
    * Personal Info (1:1)
    * ------------------------------------------------------------------ */

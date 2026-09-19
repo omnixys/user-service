@@ -22,6 +22,20 @@ interface GetUsersByIdsResponse {
   users: UserProjectionReply[];
 }
 
+interface SearchUsersRequest {
+  query: string;
+  limit?: number;
+}
+
+interface SearchUsersResponse {
+  users: Array<{
+    id: string;
+    username: string;
+    displayName?: string | null;
+    email?: string | null;
+  }>;
+}
+
 @Controller()
 export class UserProjectionController {
   constructor(private readonly userReadService: UserReadService) {}
@@ -58,5 +72,22 @@ export class UserProjectionController {
     );
 
     return { users: projections };
+  }
+
+  @GrpcMethod('UserService', 'SearchUsers')
+  async searchUsers(data: SearchUsersRequest): Promise<SearchUsersResponse> {
+    const users = await this.userReadService.searchAssignableUsers(data.query, data.limit ?? 20);
+
+    return {
+      users: users.map((user) => ({
+        id: user.id,
+        username: user.username,
+        displayName:
+          [user.personalInfo?.firstName, user.personalInfo?.lastName]
+            .filter(Boolean)
+            .join(' ') || null,
+        email: user.personalInfo?.email ?? null,
+      })),
+    };
   }
 }
