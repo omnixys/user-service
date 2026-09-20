@@ -55,7 +55,7 @@ const toBool = (value: string): boolean => value === 'true';
 const toNumber = (value: string): number => Number(value);
 
 export const env = {
-  NODE_ENV: getEnv('NODE_ENV', 'development'),
+  NODE_ENV: getEnv('NODE_ENV', 'development', { required: true }),
   PORT: getEnv('PORT', '4000', { transform: toNumber }),
   GRPC_PORT: getEnv('GRPC_PORT', '50051', {
     required: true,
@@ -82,18 +82,20 @@ export const env = {
   }),
 
   OTEL_LOGS_ENABLED: getEnv('OTEL_LOGS_ENABLED', 'true', { transform: toBool }),
-  OTEL_URI: getEnv('OTEL_EXPORTER_OTLP_ENDPOINT', 'http://localhost:4318'),
+  OTEL_URI: getEnv('OTEL_EXPORTER_OTLP_ENDPOINT', 'http://localhost:4318', {
+    required: true,
+  }),
   OTEL_TRANSPORT_MODE: getEnv('OTEL_TRANSPORT_MODE', 'http', {
     required: true,
   }),
   OTEL_SAMPLING_RATIO: getEnv('OTEL_SAMPLING_RATIO', '1', {
     transform: toNumber,
   }),
-  TEMPO_URI: getEnv('TEMPO_URI', 'http://localhost:4318'),
+  TEMPO_URI: getEnv('TEMPO_URI', 'http://localhost:4318', { required: true }),
   PROMETHEUS_ENABLE: getEnv('PROMETHEUS_ENABLE', 'true', { transform: toBool }),
   PROMETHEUS_PORT: getEnv('PROMETHEUS_PORT', '9464', { transform: toNumber }),
 
-  KAFKA_BROKER: getEnv('KAFKA_BROKER', 'localhost:9092'),
+  KAFKA_BROKER: getEnv('KAFKA_BROKER', 'localhost:9092', { required: true }),
   KAFKA_RETRY: getEnv('KAFKA_RETRY', '5', { transform: toNumber }),
   KAFKA_IDEMPOTENCY_ENABLE: getEnv('KAFKA_IDEMPOTENCY_ENABLE', 'true', {
     transform: toBool,
@@ -102,7 +104,9 @@ export const env = {
     transform: toNumber,
   }),
 
-  VALKEY_URL: getEnv('VALKEY_URL', 'valkey://localhost:6380'),
+  VALKEY_URL: getEnv('VALKEY_URL', 'valkey://localhost:6380', {
+    required: true,
+  }),
   VALKEY_PASSWORD: getEnv('VALKEY_PASSWORD', '', { required: true }),
 
   RATE_LIMIT_ENABLE: getEnv('RATE_LIMIT_ENABLE', 'true', { transform: toBool }),
@@ -114,9 +118,9 @@ export const env = {
   }),
 
   KC_CLIENT_SECRET: getEnv('KC_CLIENT_SECRET', '', { required: true }),
-  KC_URL: getEnv('KC_URL', 'http://localhost:18080/auth'),
-  KC_REALM: getEnv('KC_REALM', 'camunda-platform'),
-  KC_CLIENT_ID: getEnv('KC_CLIENT_ID', 'camunda-identity'),
+  KC_URL: getEnv('KC_URL', 'http://localhost:18080/auth', { required: true }),
+  KC_REALM: getEnv('KC_REALM', 'camunda-platform', { required: true }),
+  KC_CLIENT_ID: getEnv('KC_CLIENT_ID', 'camunda-identity', { required: true }),
   KC_ADMIN_USERNAME: getEnv('KC_ADMIN_USERNAME', 'admin', { required: true }),
   KC_ADMIN_PASSWORD: getEnv('KC_ADMIN_PASSWORD', '', { required: true }),
   KC_TLS_REJECT_UNAUTHORIZED: getEnv('KC_TLS_REJECT_UNAUTHORIZED', 'true', {
@@ -128,7 +132,7 @@ export const env = {
   }),
   ENCRYPTION_KEY: getEnv('ENCRYPTION_KEY', '', { required: true }),
 
-  DEFAULT_TENANT_ID: getEnv('DEFAULT_TENANT_ID', ''),
+  DEFAULT_TENANT_ID: getEnv('DEFAULT_TENANT_ID', '', { required: true }),
   TENANT_SERVICE_URL: getEnv('TENANT_SERVICE_URL', 'localhost:50052', {
     required: true,
   }),
@@ -138,9 +142,11 @@ export const env = {
     { required: true },
   ),
 
-  KEYCLOAK_HEALTH_URL: getEnv('KEYCLOAK_HEALTH_URL', ''),
-  TEMPO_HEALTH_URL: getEnv('TEMPO_HEALTH_URL', ''),
-  PROMETHEUS_HEALTH_URL: getEnv('PROMETHEUS_HEALTH_URL', ''),
+  KEYCLOAK_HEALTH_URL: getEnv('KEYCLOAK_HEALTH_URL', '', { required: true }),
+  TEMPO_HEALTH_URL: getEnv('TEMPO_HEALTH_URL', '', { required: true }),
+  PROMETHEUS_HEALTH_URL: getEnv('PROMETHEUS_HEALTH_URL', '', {
+    required: true,
+  }),
 
   DATABASE_URL: getEnv('DATABASE_URL', '', { required: true }),
 } as const;
