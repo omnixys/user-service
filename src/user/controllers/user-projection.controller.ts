@@ -83,9 +83,8 @@ export class UserProjectionController {
         id: user.id,
         username: user.username,
         displayName:
-          [user.personalInfo?.firstName, user.personalInfo?.lastName]
-            .filter(Boolean)
-            .join(' ') || null,
+          [user.personalInfo?.firstName, user.personalInfo?.lastName].filter(Boolean).join(' ') ||
+          null,
         email: user.personalInfo?.email ?? null,
       })),
     };
