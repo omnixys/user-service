@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [4.1.1](https://github.com/omnixys/user-service/compare/v4.1.0...v4.1.1) (2026-09-21)
+
+### User
+
+* **User:** resolve lint warnings ([](https://github.com/omnixys/user-service/commit/c2ab549ea51a92787121281538cd5c0d574614b7))
+
 ## [4.1.0](https://github.com/omnixys/user-service/compare/v4.0.6...v4.1.0) (2026-09-21)
 
 ### Config
