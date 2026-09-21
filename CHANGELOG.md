@@ -3,6 +3,21 @@
 All notable changes in this project will be documented in this file.
 
 
+## [4.1.0](https://github.com/omnixys/user-service/compare/v4.0.6...v4.1.0) (2026-09-21)
+
+### Config
+
+* **Config:** require critical env vars in development and staging ([](https://github.com/omnixys/user-service/commit/37f769366c5e04e5fc96426a9128a94c8e58dd0a))
+* **Config:** require critical env vars in production ([](https://github.com/omnixys/user-service/commit/164400b4191f069e62fe7d408593c55edd2c9912))
+
+### Deps
+
+* **Deps:** update omnixys packages ([](https://github.com/omnixys/user-service/commit/95216492fb5e6fe0dcd42d30b343b5786334526f))
+
+### Users
+
+* **Users:** search assignable users internally ([](https://github.com/omnixys/user-service/commit/f77508b56f5d70c9606b6b754faa5f52bba85f62))
+
 ## [4.0.6](https://github.com/omnixys/user-service/compare/v4.0.5...v4.0.6) (2026-09-16)
 
 ### Deps
