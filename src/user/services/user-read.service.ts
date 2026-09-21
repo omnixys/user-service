@@ -83,7 +83,10 @@ export class UserReadService {
     return users;
   }
 
-  async searchAssignableUsers(query: string, limit: number) {
+  async searchAssignableUsers(
+    query: string,
+    limit: number,
+  ): Promise<Array<User & { personalInfo: PersonalInfo | null }>> {
     const term = query.trim();
     if (term.length < 2) {
       return [];
