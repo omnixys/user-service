@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [4.1.2](https://github.com/omnixys/user-service/compare/v4.1.1...v4.1.2) (2026-09-22)
+
+### Deps
+
+* **Deps:** update omnixys package.json script add migrate deploy ([](https://github.com/omnixys/user-service/commit/e7eb671ef696a4788a5df171c30fe5a13b597c60))
+
 ## [4.1.1](https://github.com/omnixys/user-service/compare/v4.1.0...v4.1.1) (2026-09-21)
 
 ### User
